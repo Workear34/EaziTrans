@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EaziTrans 翻译</title>
+    <link rel="stylesheet" href="src/style.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">EaziTrans 翻译</h1></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar"
+                aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbar">
+                <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="#" data-bs-toggle="modal"
+                                data-bs-target="#settingsModal">
+                                <i class="bi bi-gear"></i> 设置
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="#" data-bs-toggle="modal"
+                                data-bs-target="#helpModal">
+                                <i class="bi bi-question-circle"></i> 帮助
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="#" data-bs-toggle="modal"
+                                data-bs-target="#aboutModal">
+                                <i class="bi bi-info-circle"></i> 关于
+                            </a>
+                        </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="mt-4">
+            <div class="card shadow">
+                <!-- 顶部语言选择 -->
+                <div class="card-header bg-light">
+                    <div class="row align-items-center g-2">
+                        <div class="col">
+                            <select class="form-select" id="sourceLang">
+                                <option value="auto">自动检测</option>
+                                <option value="zh-hans">简体中文</option>
+                                <option value="zh-hant">繁体中文</option>
+                                <option value="en">英语</option>
+                                <option value="ja">日语</option>
+                                <option value="ko">韩语</option>
+                                <option value="fr">法语</option>
+                                <option value="de">德语</option>
+                                <option value="es">西班牙语</option>
+                                <option value="ru">俄语</option>
+                            </select>
+                        </div>
+
+                        <div class="col-auto">
+                            <button class="btn btn-outline-secondary" id="swapBtn" title="交换语言">
+                                <i class="bi bi-arrow-left-right"></i>
+                            </button>
+                        </div>
+
+                        <div class="col">
+                            <select class="form-select" id="targetLang">
+                                <option value="zh-hans">简体中文</option>
+                                <option value="zh-hant">繁体中文</option>
+                                <option value="en">英语</option>
+                                <option value="ja">日语</option>
+                                <option value="ko">韩语</option>
+                                <option value="fr">法语</option>
+                                <option value="de">德语</option>
+                                <option value="es">西班牙语</option>
+                                <option value="ru">俄语</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 文本区域 -->
+                <div class="card-body position-relative">
+                    <div class="row g-2 align-items-stretch">
+                        <!-- 原文 -->
+                        <div class="col-md-6 d-flex flex-column">
+                            <label class="form-label mb-0 fw-semibold">原文</label>
+                            <textarea class="form-control mt-1" id="sourceText" rows="12" placeholder="请输入要翻译的文本…"></textarea>
+                            <button class="btn btn-primary btn-sm mt-2 w-100" id="translateBtn">翻译</button>
+                        </div>
+
+                        <!-- 译文 -->
+                        <div class="col-md-6 d-flex flex-column">
+                            <label class="form-label mb-0 fw-semibold">译文</label>
+                            <textarea class="form-control mt-1" id="targetText" rows="12" placeholder="翻译结果将显示在这里…" readonly=""></textarea>
+                            <button class="btn btn-outline-secondary btn-sm mt-2 w-100" id="copyBtn">复制译文</button>
+                        </div>
+                    </div>
+                    <div id="overlay" class="position-absolute top-0 start-0 w-100 h-100 d-none"
+                        style="background:rgba(255,255,255,.7); z-index:1050;">
+                        <div class="position-absolute top-50 start-50 translate-middle">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading…</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 帮助模态框 -->
+    <div class="modal fade" id="helpModal" tabindex="-1" aria-labelledby="helpModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="helpModalLabel">帮助</h1>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <h2>基本使用</h2>
+                        <p>将需要翻译的文本粘贴在文本框内，选择好对应的语言（或使用实验性的自动选择功能，不支持交换语言功能）之后即可自动开始翻译。</p>
+                        <p>可以复制译文，也可以交换两种语言选项。</p>
+                    </div>
+                    <div>
+                        <h2>设置说明</h2>
+                        <p><b>API 地址：</b>用来访问提供商 API 的 URL 地址。<b>此选项为必填项</b>，请到相应的 API
+                            服务提供商的文档查询地址。<b>随意更改此选项会导致无法正常翻译。</b></p>
+                        <p><b>API 密钥：</b>用来访问提供商 API 的密钥。<b>此选项为必填项</b>，如您没有 API
+                            密钥，请到相应的 API 服务提供商进行申请。<b>请注意：本网页使用的 LocalStorage 存储并不安全，因此请务必保管好您的 API 密钥。</b></p>
+                        <p><b>模型选择：</b>翻译时要使用的大模型。列表里的选项均为比较小巧且免费的大模型，未来将会支持自定义大模型功能。<b>请注意不要使用推理模型</b>，这会导致翻译速度非常慢，因为模型将会在每次翻译时都进行推理。
+                        </p>
+                        <p><b>System Prompt：</b>翻译时以 System 身份发给模型的 Prompt，用于指定模型扮演的角色。<b>随意更改此选项会导致无法正常翻译。</b></p>
+                        <p><b>User Prompt：</b>翻译时以 User 身份发给模型的 Prompt，用于指定模型完成的任务。<b>随意更改此选项会导致无法正常翻译。</b></p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 设置模态框 -->
+    <div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="settingsModalLabel">设置</h1>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label">API 地址（OpenAI 兼容）</label>
+                            <input class="form-control" type="text" id="apiUrl" placeholder="请输入 API 地址">
+                            <div class="form-text">支持任意兼容 OpenAI 接口的 API 地址，<b>此选项为必填项</b></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">API 密钥</label>
+                            <input class="form-control" type="password" id="apiKey" placeholder="请输入 API 密钥">
+                            <div class="form-text"><b>此选项为必填项；LocalStorage 存储并不安全，请务必保管好您的 API 密钥</b></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">模型选择</label>
+                            <select class="form-select" id="model" aria-label="选择一个模型">
+                                <option value="Qwen/Qwen3-8B">Qwen3-8B</option>
+                                <option value="THUDM/GLM-4-9B-0414">GLM-4-9B-0414</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">System Prompt</label>
+                            <textarea class="form-control" id="systemPrompt" rows="3"
+                                placeholder="设置系统提示词...">你是一个专业的翻译助手。请准确地将用户提供的文本从{source_lang}翻译成{target_lang}，保持原文的格式和含义。只返回翻译结果，不要添加任何解释。</textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">User Prompt</label>
+                            <textarea class="form-control" id="promptTemplate" rows="3" placeholder="设置翻译提示模板...">请将以下文本从{source_lang}翻译成{target_lang}：
+
+{text}
+
+请确保翻译准确、自然，保持原文的语境和风格。</textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button class="btn btn-primary" id="saveSettings" data-bs-dismiss="modal">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 关于模态框 -->
+    <div class="modal fade" id="aboutModal" tabindex="-1" aria-labelledby="aboutModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="aboutModalLabel">关于</h1>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <h2>EaziTrans 翻译</h2>
+                        <p>By Workear</p>
+                    </div>
+                    <div>
+                        <p>版本：0.21 Prototype</p>
+                        <p>使用 Kimi K2 辅助创作</p>
+                        <p>使用 Bootstrap + Bootstrap Icons</p>
+                    </div>
+                    <div>
+                        <p><b>请注意：本应用处在开发阶段，可能会存在问题。</b></p>
+                        <p><b>请保管好您的 API 密钥，因为 localStorage 存储并不安全。</b></p>
+                    </div>
+                    <div>
+                        <h3>更新记录：</h3>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">版本</th>
+                                    <th scope="col">更新时间</th>
+                                    <th scope="col">更新内容</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">0.1</th>
+                                    <td>2025-8-11</td>
+                                    <td>首个版本</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">0.2 Prototype</th>
+                                    <td>2025-8-12</td>
+                                    <td>使用 bootstrap + bootstrap-icons 重构，支持任意兼容 OpenAI 接口的 API 地址</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">0.21</th>
+                                    <td>2025-8-12</td>
+                                    <td>项目整体迁移至 Vite，优化逻辑，修复部分 BUG</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="src/main.js"></script>
+</body>
+
+</html>
