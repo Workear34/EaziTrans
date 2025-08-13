@@ -3,6 +3,9 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import * as bootstrap from 'bootstrap'
 import { auto } from '@popperjs/core';
 
+// 版本自动显示
+document.getElementById('version').textContent = `${__APP_VERSION__}`;
+
 // 默认设置
 let settings = {
   apiUrl: localStorage.getItem('apiUrl') || '',
@@ -69,7 +72,7 @@ function saveSettings() {
 function swapLanguages() {
   const sourceLang = document.getElementById('sourceLang');
   const targetLang = document.getElementById('targetLang');
-
+  if (src.value === 'auto') return; // （暂时）自动检测时不允许交换
   const temp = sourceLang.value;
   sourceLang.value = targetLang.value;
   targetLang.value = temp;
