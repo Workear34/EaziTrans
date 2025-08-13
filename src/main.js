@@ -9,7 +9,7 @@ document.getElementById('version').textContent = `${__APP_VERSION__}`;
 let settings = {
   apiUrl: localStorage.getItem('apiUrl') || '',
   apiKey: localStorage.getItem('apiKey') || '',
-  modelMode: localStorage.getItem('modelMode') || 'preset', // preset | custom
+  modelMode: localStorage.getItem('modelMode') || 'preset', // 预设和自定义，这里默认预设
   model: localStorage.getItem('model') || 'Qwen/Qwen3-8B',
   systemPrompt: localStorage.getItem('systemPrompt') || '你是一个专业的翻译助手。请准确地将用户提供的文本从{source_lang}翻译成{target_lang}，保持原文的格式和含义。只返回翻译结果，不要添加任何解释。',
   promptTemplate: localStorage.getItem('promptTemplate') || '请将以下文本从{source_lang}翻译成{target_lang}：\n\n{text}\n\n请确保翻译准确、自然，保持原文的语境和风格。',
@@ -35,6 +35,8 @@ const langMap = {
 function initSettings() {
   document.getElementById('apiUrl').value = settings.apiUrl;
   document.getElementById('apiKey').value = settings.apiKey;
+  document.getElementById('systemPrompt').value = settings.systemPrompt;   // 补上的 systemPrompt 读取
+  document.getElementById('promptTemplate').value = settings.promptTemplate; // 补上的 promptTemplate 读取
 
   const modelSelect = document.getElementById('model');
   const customInput = document.getElementById('customModel');
@@ -80,6 +82,7 @@ function saveSettings() {
   settings.modelMode = modelMode;
   settings.model = finalModel;
   settings.systemPrompt = document.getElementById('systemPrompt').value;
+  settings.systemPrompt  = document.getElementById('systemPrompt').value;
   settings.promptTemplate = document.getElementById('promptTemplate').value;
 
   localStorage.setItem('apiUrl', settings.apiUrl);
