@@ -1,7 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
-import * as bootstrap from 'bootstrap'
-import { auto } from '@popperjs/core';
+import * as bootstrap from 'bootstrap';
 
 // 版本自动显示
 document.getElementById('version').textContent = `${__APP_VERSION__}`;
@@ -10,6 +9,7 @@ document.getElementById('version').textContent = `${__APP_VERSION__}`;
 let settings = {
   apiUrl: localStorage.getItem('apiUrl') || '',
   apiKey: localStorage.getItem('apiKey') || '',
+  modelMode: localStorage.getItem('modelMode') || 'preset', // preset | custom
   model: localStorage.getItem('model') || 'Qwen/Qwen3-8B',
   systemPrompt: localStorage.getItem('systemPrompt') || '你是一个专业的翻译助手。请准确地将用户提供的文本从{source_lang}翻译成{target_lang}，保持原文的格式和含义。只返回翻译结果，不要添加任何解释。',
   promptTemplate: localStorage.getItem('promptTemplate') || '请将以下文本从{source_lang}翻译成{target_lang}：\n\n{text}\n\n请确保翻译准确、自然，保持原文的语境和风格。',
@@ -18,72 +18,98 @@ let settings = {
 
 // 语言映射
 const langMap = {
-  'auto': '文字本身的语言', // 让大模型自己识别
+  auto: '文字本身的语言',
   'zh-hans': '简体中文',
   'zh-hant': '繁体中文',
-  'en': '英语',
-  'ja': '日语',
-  'ko': '韩语',
-  'fr': '法语',
-  'de': '德语',
-  'pt': '葡萄牙语',
-  'es': '西班牙语',
-  'ru': '俄语'
+  en: '英语',
+  ja: '日语',
+  ko: '韩语',
+  fr: '法语',
+  de: '德语',
+  pt: '葡萄牙语',
+  es: '西班牙语',
+  ru: '俄语'
 };
 
 // 初始化设置
 function initSettings() {
   document.getElementById('apiUrl').value = settings.apiUrl;
   document.getElementById('apiKey').value = settings.apiKey;
-  document.getElementById('model').value = settings.model;
-  document.getElementById('systemPrompt').value = settings.systemPrompt;
-  document.getElementById('promptTemplate').value = settings.promptTemplate;
+
+  const modelSelect = document.getElementById('model');
+  const customInput = document.getElementById('customModel');
+
+  modelSelect.value = settings.modelMode === 'custom' ? 'custom' : settings.model;
+  customInput.value = settings.modelMode === 'custom' ? settings.model : '';
+  customInput.classList.toggle('d-none', settings.modelMode !== 'custom');
 }
 
 // 按钮和输入框事件
-const savebtn = document.getElementById('saveSettings');
-const swapbtn = document.getElementById('swapBtn');
-const translatebtn = document.getElementById('translateBtn');
-const copybtn = document.getElementById('copyBtn');
-const translatetext = document.getElementById('sourceText');
+document.getElementById('saveSettings').addEventListener('click', saveSettings);
+document.getElementById('swapBtn').addEventListener('click', swapLanguages);
+document.getElementById('translateBtn').addEventListener('click', translate);
+document.getElementById('copyBtn').addEventListener('click', copyResult);
+document.getElementById('sourceText').addEventListener('input', autoTranslate);
 
-savebtn.addEventListener('click', saveSettings); 
-swapbtn.addEventListener('click', swapLanguages);
-translatebtn.addEventListener('click', translate);
-copybtn.addEventListener('click', copyResult);
-translatetext.addEventListener('input', autoTranslate);
+// 监听下拉框变化
+document.getElementById('model').addEventListener('change', (e) => {
+  const isCustom = e.target.value === 'custom';
+  const customInput = document.getElementById('customModel');
+  customInput.classList.toggle('d-none', !isCustom);
+
+  // 切回 preset 时把下拉框当前值同步到 settings.model
+  if (!isCustom) {
+    settings.model = e.target.value;
+  }
+});
 
 // 保存设置
 function saveSettings() {
+  const modelSelect = document.getElementById('model');
+  const customInput = document.getElementById('customModel');
+
+  let modelMode = modelSelect.value === 'custom' ? 'custom' : 'preset';
+  let finalModel = modelMode === 'custom'
+    ? customInput.value.trim()
+    : modelSelect.value;
+
+  if (!finalModel) return alert('请填写或选择模型');
+
   settings.apiUrl = document.getElementById('apiUrl').value;
   settings.apiKey = document.getElementById('apiKey').value;
-  settings.model = document.getElementById('model').value;
+  settings.modelMode = modelMode;
+  settings.model = finalModel;
   settings.systemPrompt = document.getElementById('systemPrompt').value;
   settings.promptTemplate = document.getElementById('promptTemplate').value;
 
   localStorage.setItem('apiUrl', settings.apiUrl);
   localStorage.setItem('apiKey', settings.apiKey);
+  localStorage.setItem('modelMode', settings.modelMode);
   localStorage.setItem('model', settings.model);
   localStorage.setItem('systemPrompt', settings.systemPrompt);
   localStorage.setItem('promptTemplate', settings.promptTemplate);
+
+  alert('设置已保存');
 }
 
 // 交换语言
 function swapLanguages() {
   const sourceLang = document.getElementById('sourceLang');
   const targetLang = document.getElementById('targetLang');
-  if (src.value === 'auto') return; // （暂时）自动检测时不允许交换
+  if (sourceLang.value === 'auto') return; // 自动检测时不允许交换
+
   const temp = sourceLang.value;
   sourceLang.value = targetLang.value;
   targetLang.value = temp;
 
   // 交换文本
-  const sourceText = document.getElementById('sourceText').value;
-  const targetText = document.getElementById('targetText').value;
-
-  document.getElementById('sourceText').value = targetText;
-  document.getElementById('targetText').value = sourceText;
+  const sourceText = document.getElementById('sourceText');
+  const targetText = document.getElementById('targetText');
+  const tmpText = sourceText.value;
+  sourceText.value = targetText.value;
+  targetText.value = tmpText;
 }
+
 // 翻译时的加载动画
 function toggleLoading(show = true) {
   document.getElementById('overlay').classList.toggle('d-none', !show);
@@ -141,8 +167,11 @@ async function translate() {
               .replace('{text}', srcText)
           }
         ],
-        stream: true,   // 开启 SSE
-        enable_thinking: false // 关闭推理模型的思考（Qwen3）
+        stream: true,
+        ...(settings.model.toLowerCase().includes('qwen3') ||
+        settings.model.toLowerCase().includes('tencent/hunyuan-a13b-instruct')
+          ? { enable_thinking: false }
+          : {})
       })
     });
 
@@ -186,7 +215,8 @@ async function translate() {
 // 复制功能
 function copyResult() {
   const t = document.getElementById('targetText');
-  t.select(); document.execCommand('copy');
+  t.select();
+  document.execCommand('copy');
   alert('已复制译文');
 }
 
