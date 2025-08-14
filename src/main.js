@@ -2,14 +2,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import * as bootstrap from 'bootstrap';
 
-// 版本自动显示
+// 项目版本
 document.getElementById('version').textContent = `${__APP_VERSION__}`;
 
-// 默认设置
+// 加载设置和默认设置
 let settings = {
   apiUrl: localStorage.getItem('apiUrl') || '',
   apiKey: localStorage.getItem('apiKey') || '',
-  modelMode: localStorage.getItem('modelMode') || 'preset', // 预设和自定义，这里默认预设
+  modelMode: localStorage.getItem('modelMode') || 'preset', // 预设和自定义两种模式，这里默认预设
   model: localStorage.getItem('model') || 'Qwen/Qwen3-8B',
   systemPrompt: localStorage.getItem('systemPrompt') || '你是一个专业的翻译助手。请准确地将用户提供的文本从{source_lang}翻译成{target_lang}，保持原文的格式和含义。只返回翻译结果，不要添加任何解释。',
   promptTemplate: localStorage.getItem('promptTemplate') || '请将以下文本从{source_lang}翻译成{target_lang}：\n\n{text}\n\n请确保翻译准确、自然，保持原文的语境和风格。',
@@ -18,7 +18,7 @@ let settings = {
 
 // 语言映射
 const langMap = {
-  auto: '文字本身的语言',
+  auto: '文字本身的语言', // 让 AI 大模型自己识别语言
   'zh-hans': '简体中文',
   'zh-hant': '繁体中文',
   en: '英语',
@@ -99,13 +99,15 @@ function saveSettings() {
 function swapLanguages() {
   const sourceLang = document.getElementById('sourceLang');
   const targetLang = document.getElementById('targetLang');
-  if (sourceLang.value === 'auto') return; // 自动检测时不允许交换
+  if (sourceLang.value === 'auto') {
+    alert("")
+  }; // 自动检测时不允许交换
 
   const temp = sourceLang.value;
   sourceLang.value = targetLang.value;
   targetLang.value = temp;
 
-  // 交换文本
+  // 同时交换文本
   const sourceText = document.getElementById('sourceText');
   const targetText = document.getElementById('targetText');
   const tmpText = sourceText.value;
@@ -128,7 +130,7 @@ function autoTranslate() {
     if (document.getElementById('sourceText').value.trim()) {
       translate();
     }
-  }, 1000);
+  }, 1000); // 单位毫秒，这里默认 1s
 }
 
 // 翻译功能（流式翻译）
@@ -174,7 +176,7 @@ async function translate() {
         ...(settings.model.toLowerCase().includes('qwen3') ||
         settings.model.toLowerCase().includes('tencent/hunyuan-a13b-instruct')
           ? { enable_thinking: false }
-          : {})
+          : {}) // 只针对 qwen3 和 tencent/hunyuan-a13b-instruct 打开 enable_thinking: false，否则会报错 400
       })
     });
 
