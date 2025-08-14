@@ -217,11 +217,10 @@ async function translate() {
 
 // 复制功能
 function copyResult() {
-  const t = document.getElementById('targetText');
-  t.select();
-  document.execCommand('copy');
-  alert('已复制译文');
+  const text = document.getElementById('targetText').value;
+  navigator.clipboard.writeText(text)
+    .then(() => console.log('已复制译文'))
+    .catch(() => console.log('复制失败'));
 }
-
 // 初始化
 initSettings();
