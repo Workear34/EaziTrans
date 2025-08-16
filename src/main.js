@@ -52,6 +52,8 @@ document.getElementById('swapBtn').addEventListener('click', swapLanguages);
 document.getElementById('translateBtn').addEventListener('click', translate);
 document.getElementById('copyBtn').addEventListener('click', copyResult);
 document.getElementById('sourceText').addEventListener('input', autoTranslate);
+document.getElementById('targetLang').addEventListener('change', autoTranslate);
+document.getElementById('sourceLang').addEventListener('change', autoTranslate);
 
 // 监听下拉框变化
 document.getElementById('model').addEventListener('change', (e) => {
@@ -100,7 +102,8 @@ function swapLanguages() {
   const sourceLang = document.getElementById('sourceLang');
   const targetLang = document.getElementById('targetLang');
   if (sourceLang.value === 'auto') {
-    alert("")
+    alert("自动检测时不允许交换语言");
+    return;
   }; // 自动检测时不允许交换
 
   const temp = sourceLang.value;
