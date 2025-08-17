@@ -103,8 +103,7 @@
                             <button class="btn btn-outline-secondary btn-sm mt-2 w-100" id="copyBtn">复制译文</button>
                         </div>
                     </div>
-                    <div id="overlay" class="position-absolute top-0 start-0 w-100 h-100 d-none"
-                        style="background:rgba(255,255,255,.7); z-index:1050;">
+                    <div id="loadingOverlay" class="loading position-absolute top-0 start-0 w-100 h-100 d-none">
                         <div class="position-absolute top-50 start-50 translate-middle">
                             <div class="spinner-border text-primary" role="status">
                                 <span class="visually-hidden">Loading…</span>
@@ -126,16 +125,16 @@
                 <div class="modal-body">
                     <div>
                         <h2>基本使用</h2>
-                        <p>将需要翻译的文本粘贴在文本框内，选择好对应的语言（或使用实验性的自动选择功能，不支持交换语言功能）之后即可自动开始翻译。</p>
+                        <p>将需要翻译的文本粘贴在文本框内，选择好对应的语言（或使用自动检测语言功能），之后即可自动开始翻译。</p>
                         <p>可以复制译文，也可以交换两种语言选项。</p>
                     </div>
                     <div>
                         <h2>设置说明</h2>
-                        <p><b>API 地址：</b>用来访问提供商 API 的 URL 地址。<b>此选项为必填项</b>，请到相应的 API
-                            服务提供商的文档查询地址。<b>随意更改此选项会导致无法正常翻译。</b></p>
+                        <p><b>API 地址：</b>用来访问提供商 API 的 URL 地址。目前支持兼容 OpenAI 协议的地址。<b>此选项为必填项</b>，请到相应的 API
+                            服务提供商的文档查询地址。</p>
                         <p><b>API 密钥：</b>用来访问提供商 API 的密钥。<b>此选项为必填项</b>，如您没有 API
                             密钥，请到相应的 API 服务提供商进行申请。<b>请注意：本网页使用的 LocalStorage 存储并不安全，因此请务必保管好您的 API 密钥。</b></p>
-                        <p><b>模型选择：</b>翻译时要使用的大模型。列表里的选项均为比较小巧且免费的大模型，未来将会支持自定义大模型功能。<b>请注意不要使用推理模型</b>，这会导致翻译速度非常慢，因为模型将会在每次翻译时都进行推理。
+                        <p><b>模型选择：</b>翻译时要使用的大模型。列表里的选项均为免费的大模型。该选项支持自定义。<b>请注意不要使用推理模型</b>，这会导致翻译速度非常慢，因为模型将会在每次翻译时都进行推理。
                         </p>
                         <p><b>System Prompt：</b>翻译时以 System 身份发给模型的 Prompt，用于指定模型扮演的角色。<b>随意更改此选项会导致无法正常翻译。</b></p>
                         <p><b>User Prompt：</b>翻译时以 User 身份发给模型的 Prompt，用于指定模型完成的任务。<b>随意更改此选项会导致无法正常翻译。</b></p>
@@ -219,7 +218,12 @@
                     <div>
                         <p>版本：<span id="version"></span></p>
                         <p>使用 Kimi K2 辅助创作</p>
-                        <p>使用 Bootstrap + Bootstrap Icons</p>
+                        <p>使用的框架：</p>
+                        <ul>
+                            <li>Bootstrap</li>
+                            <li>Bootstrap Icons</li>
+                            <li>Vite</li>
+                        </ul>
                     </div>
                     <div>
                         <p><b>请注意：本应用处在开发阶段，可能会存在问题。</b></p>

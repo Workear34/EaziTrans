@@ -130,7 +130,7 @@ function swapLanguages() {
 
 // 翻译时的加载动画
 function toggleLoading(show = true) {
-  document.getElementById('overlay').classList.toggle('d-none', !show);
+  document.getElementById('loadingOverlay').classList.toggle('d-none', !show);
 }
 
 // 自动翻译
