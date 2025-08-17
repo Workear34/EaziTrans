@@ -18,24 +18,24 @@
             </button>
             <div class="collapse navbar-collapse" id="navbar">
                 <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="#" data-bs-toggle="modal"
-                                data-bs-target="#settingsModal">
-                                <i class="bi bi-gear"></i> 设置
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="#" data-bs-toggle="modal"
-                                data-bs-target="#helpModal">
-                                <i class="bi bi-question-circle"></i> 帮助
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="#" data-bs-toggle="modal"
-                                data-bs-target="#aboutModal">
-                                <i class="bi bi-info-circle"></i> 关于
-                            </a>
-                        </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="#" data-bs-toggle="modal"
+                            data-bs-target="#settingsModal">
+                            <i class="bi bi-gear"></i> 设置
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="#" data-bs-toggle="modal"
+                            data-bs-target="#helpModal">
+                            <i class="bi bi-question-circle"></i> 帮助
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="#" data-bs-toggle="modal"
+                            data-bs-target="#aboutModal">
+                            <i class="bi bi-info-circle"></i> 关于
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -92,14 +92,16 @@
                         <!-- 原文 -->
                         <div class="col-md-6 d-flex flex-column">
                             <label class="form-label mb-0 fw-semibold">原文</label>
-                            <textarea class="form-control mt-1" id="sourceText" rows="12" placeholder="请输入要翻译的文本…"></textarea>
+                            <textarea class="form-control mt-1" id="sourceText" rows="12"
+                                placeholder="请输入要翻译的文本…"></textarea>
                             <button class="btn btn-primary btn-sm mt-2 w-100" id="translateBtn">翻译</button>
                         </div>
 
                         <!-- 译文 -->
                         <div class="col-md-6 d-flex flex-column">
                             <label class="form-label mb-0 fw-semibold">译文</label>
-                            <textarea class="form-control mt-1" id="targetText" rows="12" placeholder="翻译结果将显示在这里…" readonly=""></textarea>
+                            <textarea class="form-control mt-1" id="targetText" rows="12" placeholder="翻译结果将显示在这里…"
+                                readonly=""></textarea>
                             <button class="btn btn-outline-secondary btn-sm mt-2 w-100" id="copyBtn">复制译文</button>
                         </div>
                     </div>
@@ -176,7 +178,8 @@
                                 <option value="THUDM/GLM-4-9B-0414">GLM-4-9B-0414</option>
                                 <option value="custom">自定义</option>
                             </select>
-                            <input class="form-control mt-2 d-none" type="text" id="customModel" placeholder="输入自定义模型名称">
+                            <input class="form-control mt-2 d-none" type="text" id="customModel"
+                                placeholder="输入自定义模型名称">
                         </div>
 
                         <div class="mb-3">
@@ -228,6 +231,17 @@
                 <div class="modal-footer">
                     <button class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
                 </div>
+            </div>
+        </div>
+    </div>
+    <!-- Toast 预留位 -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto" id="toastTitle">提示</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body" id="toastMessage">
             </div>
         </div>
     </div>

@@ -5,6 +5,14 @@ import * as bootstrap from 'bootstrap';
 // 项目版本
 document.getElementById('version').textContent = `${__APP_VERSION__}`;
 
+// Toast 代码
+const toastBody = document.getElementById('toastMessage');
+const toast     = new bootstrap.Toast(document.getElementById('toast'));
+function showToast(msg, type = 'info') {
+  toastBody.textContent = msg;
+  toast.show();
+}
+
 // 加载设置和默认设置
 let settings = {
   apiUrl: localStorage.getItem('apiUrl') || '',
@@ -77,7 +85,7 @@ function saveSettings() {
     ? customInput.value.trim()
     : modelSelect.value;
 
-  if (!finalModel) return alert('请填写或选择模型');
+  if (!finalModel) return showToast('请填写或选择模型');
 
   settings.apiUrl = document.getElementById('apiUrl').value;
   settings.apiKey = document.getElementById('apiKey').value;
@@ -94,17 +102,19 @@ function saveSettings() {
   localStorage.setItem('systemPrompt', settings.systemPrompt);
   localStorage.setItem('promptTemplate', settings.promptTemplate);
 
-  alert('设置已保存');
+  showToast('设置已保存');
 }
 
 // 交换语言
 function swapLanguages() {
   const sourceLang = document.getElementById('sourceLang');
   const targetLang = document.getElementById('targetLang');
+
+  // 自动检测时不支持交换
   if (sourceLang.value === 'auto') {
-    alert("自动检测时不允许交换语言");
+    showToast("自动检测时不支持交换语言");
     return;
-  }; // 自动检测时不允许交换
+  }; 
 
   const temp = sourceLang.value;
   sourceLang.value = targetLang.value;
@@ -139,9 +149,9 @@ function autoTranslate() {
 // 翻译功能（流式翻译）
 async function translate() {
   const srcText = document.getElementById('sourceText').value.trim();
-  if (!srcText) return alert('请输入文本');
-  if (!settings.apiUrl) return alert('请先设置 API 地址');
-  if (!settings.apiKey) return alert('请先设置 API 密钥');
+  if (!srcText) return showToast('请输入文本');
+  if (!settings.apiUrl) return showToast('请先设置 API 地址');
+  if (!settings.apiKey) return showToast('请先设置 API 密钥');
 
   const srcLang = document.getElementById('sourceLang').value;
   const tgtLang = document.getElementById('targetLang').value;
@@ -213,7 +223,7 @@ async function translate() {
     }
   } catch (e) {
     console.error(e);
-    alert('翻译失败，请查看控制台日志');
+    showToast("翻译失败，请检查控制台日志");
   } finally {
     document.getElementById('translateBtn').disabled = false;
     toggleLoading(false);
@@ -224,8 +234,8 @@ async function translate() {
 function copyResult() {
   const text = document.getElementById('targetText').value;
   navigator.clipboard.writeText(text)
-    .then(() => console.log('已复制译文'))
-    .catch(() => console.log('复制失败'));
+    .then(() => showToast('已复制译文'))
+    .catch(() => showToast('复制失败'));
 }
 // 初始化
 initSettings();
