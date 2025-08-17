@@ -45,7 +45,7 @@
         <div class="mt-4">
             <div class="card shadow">
                 <!-- 顶部语言选择 -->
-                <div class="card-header bg-light">
+                <div class="card-header">
                     <div class="row align-items-center g-2">
                         <div class="col">
                             <select class="form-select" id="sourceLang">
@@ -91,7 +91,6 @@
                     <div class="row g-2 align-items-stretch">
                         <!-- 原文 -->
                         <div class="col-md-6 d-flex flex-column">
-                            <label class="form-label mb-0 fw-semibold">原文</label>
                             <textarea class="form-control mt-1" id="sourceText" rows="12"
                                 placeholder="请输入要翻译的文本…"></textarea>
                             <button class="btn btn-primary btn-sm mt-2 w-100" id="translateBtn">翻译</button>
@@ -99,7 +98,6 @@
 
                         <!-- 译文 -->
                         <div class="col-md-6 d-flex flex-column">
-                            <label class="form-label mb-0 fw-semibold">译文</label>
                             <textarea class="form-control mt-1" id="targetText" rows="12" placeholder="翻译结果将显示在这里…"
                                 readonly=""></textarea>
                             <button class="btn btn-outline-secondary btn-sm mt-2 w-100" id="copyBtn">复制译文</button>
