@@ -21,7 +21,8 @@ let settings = {
   model: localStorage.getItem('model') || 'Qwen/Qwen3-8B',
   systemPrompt: localStorage.getItem('systemPrompt') || '你是一个专业的翻译助手。请准确地将用户提供的文本从{source_lang}翻译成{target_lang}，保持原文的格式和含义。只返回翻译结果，不要添加任何解释。',
   promptTemplate: localStorage.getItem('promptTemplate') || '请将以下文本从{source_lang}翻译成{target_lang}：\n\n{text}\n\n请确保翻译准确、自然，保持原文的语境和风格。',
-  autoTranslate: localStorage.getItem('autoTranslate') !== 'false'
+  autoTranslate: localStorage.getItem('autoTranslate') !== 'false',
+  theme: localStorage.getItem('theme') || 'light-theme'
 };
 
 // 语言映射
@@ -53,6 +54,7 @@ function initSettings() {
   document.getElementById('apiKey').value = settings.apiKey;
   document.getElementById('systemPrompt').value = settings.systemPrompt;   // 补上的 systemPrompt 读取
   document.getElementById('promptTemplate').value = settings.promptTemplate; // 补上的 promptTemplate 读取
+  document.getElementById('theme').value = settings.theme;
 
   const modelSelect = document.getElementById('model');
   const customInput = document.getElementById('customModel');
@@ -60,6 +62,9 @@ function initSettings() {
   modelSelect.value = settings.modelMode === 'custom' ? 'custom' : settings.model;
   customInput.value = settings.modelMode === 'custom' ? settings.model : '';
   customInput.classList.toggle('d-none', settings.modelMode !== 'custom');
+
+  // 加载保存的主题设置
+  document.documentElement.setAttribute('data-bs-theme', settings.theme);
 }
 
 // 按钮和输入框事件
@@ -83,6 +88,16 @@ document.getElementById('model').addEventListener('change', (e) => {
   }
 });
 
+// 主题切换
+function changeTheme() {
+  if (theme.value === 'dark') {
+    document.documentElement.setAttribute('data-bs-theme', 'dark');
+  } else {
+    document.documentElement.setAttribute('data-bs-theme', 'light');
+  }
+}
+document.getElementById('theme').addEventListener('change', changeTheme);
+
 // 保存设置
 function saveSettings() {
   const modelSelect = document.getElementById('model');
@@ -102,6 +117,7 @@ function saveSettings() {
   settings.systemPrompt = document.getElementById('systemPrompt').value;
   settings.systemPrompt = document.getElementById('systemPrompt').value;
   settings.promptTemplate = document.getElementById('promptTemplate').value;
+  settings.theme = document.getElementById('theme').value;
 
   localStorage.setItem('apiUrl', settings.apiUrl);
   localStorage.setItem('apiKey', settings.apiKey);
@@ -109,6 +125,7 @@ function saveSettings() {
   localStorage.setItem('model', settings.model);
   localStorage.setItem('systemPrompt', settings.systemPrompt);
   localStorage.setItem('promptTemplate', settings.promptTemplate);
+  localStorage.setItem('theme', settings.theme);
 
   showToast('设置已保存');
 }

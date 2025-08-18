@@ -209,11 +209,18 @@
 
 请确保翻译准确、自然，保持原文的语境和风格。</textarea>
                         </div>
+                        <div class="mb-3">
+                            <label class="form-label">主题设置</label>
+                            <select class="form-select" id="theme" aria-label="选择一个主题">
+                                <option value="light">浅色</option>
+                                <option value="dark">深色</option>
+                            </select>
+                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-                    <button class="btn btn-primary" id="saveSettings" data-bs-dismiss="modal">保存</button>
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+                    <button class="btn btn-primary" id="saveSettings">保存</button>
                 </div>
             </div>
         </div>
