@@ -7,7 +7,7 @@ document.getElementById('version').textContent = `${__APP_VERSION__}`;
 
 // Toast 代码
 const toastBody = document.getElementById('toastMessage');
-const toast     = new bootstrap.Toast(document.getElementById('toast'));
+const toast = new bootstrap.Toast(document.getElementById('toast'));
 function showToast(msg, type = 'info') {
   toastBody.textContent = msg;
   toast.show();
@@ -36,7 +36,15 @@ const langMap = {
   de: '德语',
   pt: '葡萄牙语',
   es: '西班牙语',
-  ru: '俄语'
+  ru: '俄语',
+  ar: '阿拉伯语',
+  hi: '印地语',
+  it: '意大利语',
+  nl: '荷兰语',
+  th: '泰语',
+  tr: '土耳其语',
+  vi: '越南语',
+  id: '印尼语'
 };
 
 // 初始化设置
@@ -92,7 +100,7 @@ function saveSettings() {
   settings.modelMode = modelMode;
   settings.model = finalModel;
   settings.systemPrompt = document.getElementById('systemPrompt').value;
-  settings.systemPrompt  = document.getElementById('systemPrompt').value;
+  settings.systemPrompt = document.getElementById('systemPrompt').value;
   settings.promptTemplate = document.getElementById('promptTemplate').value;
 
   localStorage.setItem('apiUrl', settings.apiUrl);
@@ -114,7 +122,7 @@ function swapLanguages() {
   if (sourceLang.value === 'auto') {
     showToast("自动检测时不支持交换语言");
     return;
-  }; 
+  };
 
   const temp = sourceLang.value;
   sourceLang.value = targetLang.value;
@@ -187,7 +195,7 @@ async function translate() {
         ],
         stream: true,
         ...(settings.model.toLowerCase().includes('qwen3') ||
-        settings.model.toLowerCase().includes('tencent/hunyuan-a13b-instruct')
+          settings.model.toLowerCase().includes('tencent/hunyuan-a13b-instruct')
           ? { enable_thinking: false }
           : {}) // 只针对 qwen3 和 tencent/hunyuan-a13b-instruct 打开 enable_thinking: false，否则会报错 400
       })
