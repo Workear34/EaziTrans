@@ -8,16 +8,17 @@
 - 支持自动识别语言和多种语言互译
 - 支持任意 OpenAI 协议的 API
 - Bootstrap 带来的简洁美观的响应式界面
-- 大模型 Prompt 自定义功能
-- 永久免费和开源
+- System Prompt 自定义功能
+- 界面交互万全本地实现，无冗余功能和广告
+- 源代码开放
 ## 使用技术
 - ~~Kimi K2~~ OpenCode 辅助创作
-- Bootstrap 
+- Bootstrap
 - Bootstrap Icons
 - Vite
 ## 运行 & 编译方法
-1. clone 项目到本地
-2. 运行 `npm run dev` 查看网页
-3. 运行 `npm run build` 构建网页
+1. git clone 项目到本地
+2. 运行 `npm run dev` 查看
+3. 运行 `npm run build` 构建
 ## 许可协议
 GPLv3
