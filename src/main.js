@@ -69,6 +69,7 @@ function initSettings() {
   document.getElementById('systemPrompt').value = settings.systemPrompt;   // 补上的 systemPrompt 读取
   document.getElementById('promptTemplate').value = settings.promptTemplate; // 补上的 promptTemplate 读取
   document.getElementById('theme').value = settings.theme;
+  document.getElementById('autoTranslate').checked = settings.autoTranslate;
 
   const modelSelect = document.getElementById('model');
   const customInput = document.getElementById('customModel');
@@ -133,9 +134,9 @@ function saveSettings() {
   settings.modelMode = modelMode;
   settings.model = finalModel;
   settings.systemPrompt = document.getElementById('systemPrompt').value;
-  settings.systemPrompt = document.getElementById('systemPrompt').value;
   settings.promptTemplate = document.getElementById('promptTemplate').value;
   settings.theme = document.getElementById('theme').value;
+  settings.autoTranslate = document.getElementById('autoTranslate').checked;
 
   localStorage.setItem('apiUrl', settings.apiUrl);
   localStorage.setItem('apiKey', settings.apiKey);
@@ -144,6 +145,7 @@ function saveSettings() {
   localStorage.setItem('systemPrompt', settings.systemPrompt);
   localStorage.setItem('promptTemplate', settings.promptTemplate);
   localStorage.setItem('theme', settings.theme);
+  localStorage.setItem('autoTranslate', settings.autoTranslate);
 
   showToast('设置已保存');
 }
