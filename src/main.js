@@ -22,7 +22,7 @@ let settings = {
   systemPrompt: localStorage.getItem('systemPrompt') || '你是一个专业的翻译助手。请准确地将用户提供的文本从{source_lang}翻译成{target_lang}，保持原文的格式和含义。只返回翻译结果，不要添加任何解释。',
   promptTemplate: localStorage.getItem('promptTemplate') || '请将以下文本从{source_lang}翻译成{target_lang}：\n\n{text}\n\n请确保翻译准确、自然，保持原文的语境和风格。',
   autoTranslate: localStorage.getItem('autoTranslate') !== 'false',
-  theme: localStorage.getItem('theme') || 'light-theme'
+  theme: localStorage.getItem('theme') || 'auto'
 };
 
 // 语言映射
@@ -48,6 +48,20 @@ const langMap = {
   id: '印尼语'
 };
 
+// 获取系统偏好主题
+function getPreferredTheme() {
+  if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    return 'dark';
+  }
+  return 'light';
+}
+
+// 应用主题（处理 auto 情况）
+function applyTheme(theme) {
+  const resolved = theme === 'auto' ? getPreferredTheme() : theme;
+  document.documentElement.setAttribute('data-bs-theme', resolved);
+}
+
 // 初始化设置
 function initSettings() {
   document.getElementById('apiUrl').value = settings.apiUrl;
@@ -64,7 +78,7 @@ function initSettings() {
   customInput.classList.toggle('d-none', settings.modelMode !== 'custom');
 
   // 加载保存的主题设置
-  document.documentElement.setAttribute('data-bs-theme', settings.theme);
+  applyTheme(settings.theme);
 }
 
 // 按钮和输入框事件
@@ -90,13 +104,17 @@ document.getElementById('model').addEventListener('change', (e) => {
 
 // 主题切换
 function changeTheme() {
-  if (theme.value === 'dark') {
-    document.documentElement.setAttribute('data-bs-theme', 'dark');
-  } else {
-    document.documentElement.setAttribute('data-bs-theme', 'light');
-  }
+  const theme = document.getElementById('theme').value;
+  applyTheme(theme);
 }
 document.getElementById('theme').addEventListener('change', changeTheme);
+
+// 监听系统主题变化（当设置为跟随系统时自动响应）
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+  if (settings.theme === 'auto') {
+    applyTheme('auto');
+  }
+});
 
 // 保存设置
 function saveSettings() {
