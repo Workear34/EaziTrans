@@ -1,7 +1,7 @@
 # EaziTrans
 一个基于大模型的 AI 翻译界面实现。
 
-**请注意：本项目为实验性项目，可能会存在问题，且随时可能停止开发。**
+**请注意：本项目为实验性项目，可能会存在问题，且随时可能暂停/停止开发。**
 
 **请保管好您的 API 密钥，因为 localStorage 存储并不安全。**
 ## 特点
@@ -9,16 +9,17 @@
 - 支持任意 OpenAI 协议的 API
 - Bootstrap 带来的简洁美观的响应式界面
 - System Prompt 自定义功能
-- 界面交互万全本地实现，无冗余功能和广告
+- 界面交互简单，无冗余功能和广告
 - 源代码开放
 ## 使用技术
 - ~~Kimi K2~~ OpenCode 辅助创作
 - Bootstrap
 - Bootstrap Icons
 - Vite
-## 运行 & 编译方法
-1. git clone 项目到本地
+## 运行 & 构建方法
+1. `git clone` 项目到本地
 2. 运行 `npm run dev` 查看
 3. 运行 `npm run build` 构建
+4. 将 `dist` 目录下的所有文件拷贝到服务器根目录中
 ## 许可协议
 GPLv3
