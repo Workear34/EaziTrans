@@ -17,7 +17,6 @@ function showToast(msg, type = 'info') {
 let settings = {
   apiUrl: localStorage.getItem('apiUrl') || '',
   apiKey: localStorage.getItem('apiKey') || '',
-  modelMode: localStorage.getItem('modelMode') || 'preset', // 预设和自定义两种模式，这里默认预设
   model: localStorage.getItem('model') || 'Qwen/Qwen3-8B',
   systemPrompt: localStorage.getItem('systemPrompt') || '你是一个专业的翻译助手。请准确地将用户提供的文本从{source_lang}翻译成{target_lang}，保持原文的格式和含义。只返回翻译结果，不要添加任何解释。',
   promptTemplate: localStorage.getItem('promptTemplate') || '请将以下文本从{source_lang}翻译成{target_lang}：\n\n{text}\n\n请确保翻译准确、自然，保持原文的语境和风格。',
@@ -70,13 +69,7 @@ function initSettings() {
   document.getElementById('promptTemplate').value = settings.promptTemplate; // 补上的 promptTemplate 读取
   document.getElementById('theme').value = settings.theme;
   document.getElementById('autoTranslate').checked = settings.autoTranslate;
-
-  const modelSelect = document.getElementById('model');
-  const customInput = document.getElementById('customModel');
-
-  modelSelect.value = settings.modelMode === 'custom' ? 'custom' : settings.model;
-  customInput.value = settings.modelMode === 'custom' ? settings.model : '';
-  customInput.classList.toggle('d-none', settings.modelMode !== 'custom');
+  document.getElementById('model').value = settings.model;
 
   // 加载保存的主题设置
   applyTheme(settings.theme);
@@ -90,18 +83,6 @@ document.getElementById('copyBtn').addEventListener('click', copyResult);
 document.getElementById('sourceText').addEventListener('input', autoTranslate);
 document.getElementById('targetLang').addEventListener('change', autoTranslate);
 document.getElementById('sourceLang').addEventListener('change', autoTranslate);
-
-// 监听下拉框变化
-document.getElementById('model').addEventListener('change', (e) => {
-  const isCustom = e.target.value === 'custom';
-  const customInput = document.getElementById('customModel');
-  customInput.classList.toggle('d-none', !isCustom);
-
-  // 切回 preset 时把下拉框当前值同步到 settings.model
-  if (!isCustom) {
-    settings.model = e.target.value;
-  }
-});
 
 // 主题切换
 function changeTheme() {
@@ -119,19 +100,12 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () 
 
 // 保存设置
 function saveSettings() {
-  const modelSelect = document.getElementById('model');
-  const customInput = document.getElementById('customModel');
-
-  let modelMode = modelSelect.value === 'custom' ? 'custom' : 'preset';
-  let finalModel = modelMode === 'custom'
-    ? customInput.value.trim()
-    : modelSelect.value;
+  const finalModel = document.getElementById('model').value.trim();
 
   if (!finalModel) return showToast('请填写或选择模型');
 
   settings.apiUrl = document.getElementById('apiUrl').value;
   settings.apiKey = document.getElementById('apiKey').value;
-  settings.modelMode = modelMode;
   settings.model = finalModel;
   settings.systemPrompt = document.getElementById('systemPrompt').value;
   settings.promptTemplate = document.getElementById('promptTemplate').value;
@@ -140,7 +114,6 @@ function saveSettings() {
 
   localStorage.setItem('apiUrl', settings.apiUrl);
   localStorage.setItem('apiKey', settings.apiKey);
-  localStorage.setItem('modelMode', settings.modelMode);
   localStorage.setItem('model', settings.model);
   localStorage.setItem('systemPrompt', settings.systemPrompt);
   localStorage.setItem('promptTemplate', settings.promptTemplate);

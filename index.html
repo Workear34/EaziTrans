@@ -186,13 +186,8 @@
 
                         <div class="mb-3">
                             <label class="form-label">模型选择</label>
-                            <select class="form-select" id="model" aria-label="选择一个模型">
-                                <option value="Qwen/Qwen3-8B">Qwen3-8B</option>
-                                <option value="THUDM/GLM-4-9B-0414">GLM-4-9B-0414</option>
-                                <option value="custom">自定义</option>
-                            </select>
-                            <input class="form-control mt-2 d-none" type="text" id="customModel"
-                                placeholder="输入自定义模型名称">
+                            <input class="form-control" type="text" id="model" placeholder="请输入模型名称，如 Qwen/Qwen3-8B">
+                            <div class="form-text">手动输入要使用的模型名称</div>
                         </div>
 
                         <div class="mb-3">
@@ -218,9 +213,11 @@
                             </select>
                         </div>
 
-                        <div class="mb-3 form-check">
-                            <input class="form-check-input" type="checkbox" id="autoTranslate" checked>
-                            <label class="form-check-label" for="autoTranslate">自动翻译</label>
+                        <div class="mb-3">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" id="autoTranslate" checked>
+                                <label class="form-check-label" for="autoTranslate">自动翻译</label>
+                            </div>
                             <div class="form-text">开启后，输入文本或切换语言时将自动触发翻译（1秒防抖）</div>
                         </div>
                     </form>
