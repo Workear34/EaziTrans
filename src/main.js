@@ -170,6 +170,8 @@ async function translate() {
   if (!srcText) return showToast('请输入文本');
   if (!settings.apiUrl) return showToast('请先设置 API 地址');
   if (!settings.apiKey) return showToast('请先设置 API 密钥');
+  if (!settings.model) return showToast('请先设置模型');
+if (!settings.systemPrompt) return showToast('请先设定 System Prompt');
 
   const srcLang = document.getElementById('sourceLang').value;
   const tgtLang = document.getElementById('targetLang').value;
@@ -253,7 +255,7 @@ function copyResult() {
   const text = document.getElementById('targetText').value;
   navigator.clipboard.writeText(text)
     .then(() => showToast('已复制译文'))
-    .catch(() => showToast('复制失败'));
+    .catch(() => showToast('复制失败，请手动复制。'));
 }
 // 初始化
 initSettings();
