@@ -31,8 +31,11 @@ export const settings = {
   theme: 'auto'
 };
 
+const VALID_PROVIDERS = ['openai', 'claude'];
+
 export function loadSettings() {
-  settings.provider = localStorage.getItem('provider') || settings.provider;
+  const savedProvider = localStorage.getItem('provider');
+  settings.provider = VALID_PROVIDERS.includes(savedProvider) ? savedProvider : 'openai';
   settings.apiUrl = localStorage.getItem('apiUrl') || settings.apiUrl;
   settings.apiKey = localStorage.getItem('apiKey') || settings.apiKey;
   settings.model = localStorage.getItem('model') || settings.model;

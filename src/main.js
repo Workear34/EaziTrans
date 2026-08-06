@@ -33,14 +33,23 @@ function initSettings() {
 
 function bindEvents() {
   document.getElementById('saveSettings').addEventListener('click', () => {
+    const apiUrl = document.getElementById('apiUrl').value.trim();
+    const apiKey = document.getElementById('apiKey').value.trim();
     const finalModel = document.getElementById('model').value.trim();
-	if (!settings.apiUrl) return showToast('请输入 API 地址');
-  	if (!settings.apiKey) return showToast('请输入 API 密钥');
-  	if (!finalModel) return showToast('请输入模型');
+
+    if (!apiUrl) return showToast('请输入 API 地址');
+    if (!apiKey) return showToast('请输入 API 密钥');
+    if (!finalModel) return showToast('请输入模型');
+
+    try {
+      new URL(apiUrl);
+    } catch {
+      return showToast('API 地址格式不正确');
+    }
 
     settings.provider = document.getElementById('provider').value;
-    settings.apiUrl = document.getElementById('apiUrl').value;
-    settings.apiKey = document.getElementById('apiKey').value;
+    settings.apiUrl = apiUrl;
+    settings.apiKey = apiKey;
     settings.model = finalModel;
     settings.systemPrompt = document.getElementById('systemPrompt').value;
     settings.promptTemplate = document.getElementById('promptTemplate').value;
@@ -100,7 +109,7 @@ async function translate() {
   if (!srcText) return showToast('请输入要翻译的文本');
   if (!settings.apiUrl) return showToast('请先设置 API 地址');
   if (!settings.apiKey) return showToast('请先设置 API 密钥');
-  if (!finalModel) return showToast('请先设置模型');
+  if (!settings.model) return showToast('请先设置模型');
 
   const srcLang = document.getElementById('sourceLang').value;
   const tgtLang = document.getElementById('targetLang').value;
@@ -117,14 +126,25 @@ async function translate() {
     const provider = createProvider(settings.provider);
     const res = await fetch(settings.apiUrl, provider.buildRequest(srcText, srcLang, tgtLang, settings));
 
+    if (!res.ok) {
+      let message = `请求失败（HTTP ${res.status}）`;
+      try {
+        const err = await res.json();
+        message = err?.error?.message || err?.message || message;
+      } catch {
+        // 非 JSON 错误体，保留默认提示
+      }
+      throw new Error(message);
+    }
+
     for await (const chunk of provider.stream(res)) {
       document.getElementById('targetText').value += chunk;
     }
   } catch (e) {
-	// 控制台输出错误
-	console.error(e); 
-	// Toast 显示错误信息
-	showToast(`翻译失败：${e.message || e}`); 
+    // 控制台输出错误
+    console.error(e);
+    // Toast 显示错误信息
+    showToast(`翻译失败：${e.message || e}`);
   } finally {
     document.getElementById('translateBtn').disabled = false;
     toggleLoading(false);
