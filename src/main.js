@@ -34,7 +34,9 @@ function initSettings() {
 function bindEvents() {
   document.getElementById('saveSettings').addEventListener('click', () => {
     const finalModel = document.getElementById('model').value.trim();
-    if (!finalModel) return showToast('请填写或选择模型');
+	if (!settings.apiUrl) return showToast('请输入 API 地址');
+  	if (!settings.apiKey) return showToast('请输入 API 密钥');
+  	if (!finalModel) return showToast('请输入模型');
 
     settings.provider = document.getElementById('provider').value;
     settings.apiUrl = document.getElementById('apiUrl').value;
@@ -95,9 +97,10 @@ function autoTranslate() {
 
 async function translate() {
   const srcText = document.getElementById('sourceText').value.trim();
-  if (!srcText) return showToast('请输入文本');
+  if (!srcText) return showToast('请输入要翻译的文本');
   if (!settings.apiUrl) return showToast('请先设置 API 地址');
   if (!settings.apiKey) return showToast('请先设置 API 密钥');
+  if (!finalModel) return showToast('请先设置模型');
 
   const srcLang = document.getElementById('sourceLang').value;
   const tgtLang = document.getElementById('targetLang').value;
@@ -118,8 +121,10 @@ async function translate() {
       document.getElementById('targetText').value += chunk;
     }
   } catch (e) {
-    console.error(e);
-    showToast("翻译失败，请检查控制台日志");
+	// 控制台输出错误
+	console.error(e); 
+	// Toast 显示错误信息
+	showToast(`翻译失败：${e.message || e}`); 
   } finally {
     document.getElementById('translateBtn').disabled = false;
     toggleLoading(false);

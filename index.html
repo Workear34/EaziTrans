@@ -172,29 +172,29 @@
                 <div class="modal-body">
                     <form>
                         <div class="mb-3">
-                            <label class="form-label">API 提供商</label>
+                            <label class="form-label">提供商（兼容）</label>
                             <select class="form-select" id="provider">
-                                <option value="openai">OpenAI 兼容</option>
+                                <option value="openai">OpenAI</option>
                                 <option value="claude">Anthropic Claude</option>
                             </select>
-                            <div class="form-text">选择要使用的 API 提供商</div>
+                            <div class="form-text">选择要使用的提供商</div>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">API 地址（OpenAI 兼容）</label>
+                            <label class="form-label">API 地址</label>
                             <input class="form-control" type="text" id="apiUrl" placeholder="请输入 API 地址">
-                            <div class="form-text">支持任意兼容 OpenAI 接口的 API 地址，<b>此选项为必填项</b></div>
+                            <div class="form-text">输入提供商的 API 地址，<b>此选项为必填项</b></div>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">API 密钥</label>
                             <input class="form-control" type="password" id="apiKey" placeholder="请输入 API 密钥">
-                            <div class="form-text"><b>此选项为必填项；LocalStorage 存储并不安全，请务必保管好您的 API 密钥</b></div>
+                            <div class="form-text">输入提供商提供给你的 API 密钥，<b>此选项为必填项；LocalStorage 存储并不安全，请务必保管好您的 API 密钥</b></div>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">模型选择</label>
                             <input class="form-control" type="text" id="model" placeholder="请输入模型名称，如 Qwen/Qwen3-8B">
-                            <div class="form-text">手动输入要使用的模型名称</div>
+                            <div class="form-text">输入要使用的模型名称</div>
                         </div>
 
                         <div class="mb-3">
@@ -214,9 +214,9 @@
                         <div class="mb-3">
                             <label class="form-label">主题设置</label>
                             <select class="form-select" id="theme" aria-label="选择一个主题">
+                                <option value="auto">跟随系统</option>
                                 <option value="light">浅色</option>
                                 <option value="dark">深色</option>
-                                <option value="auto">跟随系统</option>
                             </select>
                         </div>
 
@@ -225,12 +225,12 @@
                                 <input class="form-check-input" type="checkbox" role="switch" id="autoTranslate" checked>
                                 <label class="form-check-label" for="autoTranslate">自动翻译</label>
                             </div>
-                            <div class="form-text">开启后，输入文本或切换语言时将自动触发翻译（1秒防抖）</div>
+                            <div class="form-text">开启后，输入文本或切换语言 1 秒后将自动触发翻译</div>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary" id="saveSettings">保存</button>
+                    <button class="btn btn-primary" id="saveSettings">保存设置</button>
                 </div>
             </div>
         </div>
@@ -251,7 +251,7 @@
                     </div>
                     <div>
                         <p>版本：<span id="version"></span></p>
-                        <p>使用 Kimi K2 辅助创作</p>
+                        <p>使用 OpenCode 辅助创作</p>
                         <p>使用的框架：</p>
                         <ul>
                             <li>Bootstrap</li>
@@ -268,7 +268,7 @@
         </div>
     </div>
     <!-- Toast 预留位 -->
-    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3">
         <div id="toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-header">
                 <strong class="me-auto" id="toastTitle">提示</strong>
