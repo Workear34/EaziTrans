@@ -147,6 +147,11 @@ for await (const chunk of provider.stream(response)) {
 }
 ```
 
+## 工作流要求
+
+- 所有更改必须在新分支内进行，不在 main 分支直接修改
+- 实现完成后不立即合并，先运行验证，通过后询问用户是否合并
+
 ## 验证
 
 - `npm run dev` 启动正常
