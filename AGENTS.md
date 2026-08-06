@@ -1,8 +1,8 @@
 # AGENTS.md — EaziTrans
 
 ## 项目概览
-- **类型**：Vite 驱动的纯前端单页应用（SPA），无 UI 框架，所有 DOM 与逻辑集中在 `src/main.js`。
-- **用途**：基于大模型 API（OpenAI 兼容协议）的 AI 翻译界面。
+- **类型**：Vite 驱动的纯前端单页应用（SPA），无 UI 框架，采用模块化 JS 架构。
+- **用途**：基于大模型 API（OpenAI 兼容 + Anthropic Claude）的 AI 翻译界面。
 - **语言**：界面与注释均为中文。
 
 ## 开发命令
@@ -12,19 +12,35 @@ npm run build    # 构建生产包（输出到 dist/）
 npm run preview  # 预览生产构建
 ```
 
+## 文件结构
+```
+src/
+  main.js          — 入口：初始化、事件绑定、翻译调度
+  settings.js      — 设置管理（localStorage 读写、语言映射）
+  ui.js            — DOM 交互（Toast、主题切换、loading、复制）
+  api/
+    index.js       — Provider 基类 + 工厂函数
+    openai.js      — OpenAI 兼容提供商适配器
+    claude.js      — Anthropic Claude 提供商适配器
+  style.css        — 补充样式
+index.html         — 全部 UI 布局
+```
+
 ## 架构要点
 - **入口**：`index.html` → `<script type="module" src="src/main.js"></script>`
-- **无组件拆分**：全部 UI 写在 `index.html`，全部交互写在 `src/main.js`；`src/style.css` 仅作少量补充样式。
-- **构建配置**：`vite.config.js` 通过 `define` 注入全局常量 `__APP_VERSION__`（读取自 `package.json`），代码中直接使用该常量展示版本号。
-- **依赖**：`bootstrap`、`bootstrap-icons`、`@popperjs/core`；Vite 负责处理 CSS 与 JS 的 ESM 导入。
+- **模块化**：`main.js` 仅负责编排，具体逻辑委托给各模块。`api/index.js` 定义 `Provider` 基类（`buildRequest` + `async *stream`），各适配器继承后注册到工厂。
+- **构建配置**：`vite.config.js` 通过 `define` 注入全局常量 `__APP_VERSION__`（读取自 `package.json`）。
+- **依赖**：`bootstrap`、`bootstrap-icons`、`@popperjs/core`；Vite 处理 ESM 导入。
 
 ## 关键实现细节
-- **设置持久化**：所有用户配置（API 地址、密钥、模型、System Prompt、User Prompt、主题）均保存在 `localStorage`。
-- **流式翻译**：对 OpenAI 兼容接口发起 `stream: true` 的 POST 请求，使用 `ReadableStream` 逐段读取并实时填充译文文本框。
+- **设置持久化**：`settings.js` 管理所有配置（API 地址、密钥、模型、System Prompt、User Prompt、主题、提供商），通过 `localStorage` 读写，新增 `provider` key。
+- **提供商架构**：`createProvider(name)` 工厂函数返回对应实例，新增提供商只需新建 `api/xxx.js` 实现 `Provider` 接口并注册。当前支持 `openai` 和 `claude`。
+- **流式翻译**：`translate()` 函数调用 `provider.buildRequest()` 构建请求 → `fetch` → `provider.stream()` 流式读取并实时填充译文文本框。
+- **OpenAI 适配器**：构建 Chat Completions 请求体；检测 `qwen3`/`tencent/hunyuan-a13b-instruct` 时附加 `enable_thinking: false`；SSE 解析 `data:` 行 + `[DONE]` 结束。
+- **Claude 适配器**：构建 Messages API 请求体（`max_tokens: 4096`，顶层 `system` 字段）；认证使用 `x-api-key` + `anthropic-version`；SSE 解析 `event:` + `data:` 配对格式，提取 `content_block_delta` 中的 `delta.text`。
 - **自动翻译**：`sourceText` 输入与语言选择变化时触发防抖（1 秒），自动执行翻译。
-- **模型特殊逻辑**：若所选模型名包含 `qwen3` 或 `tencent/hunyuan-a13b-instruct`，请求体会额外附加 `enable_thinking: false`，否则这些模型会返回 400。
-- **语言交换**：当源语言为“自动检测”时，交换语言按钮会被阻止并弹出提示。
-- **主题切换**：提供浅色/深色/跟随系统三种选项。`auto` 模式下通过 `matchMedia('prefers-color-scheme: dark')` 实时响应系统主题变化；非 `auto` 模式下以用户手动选择为准。
+- **语言交换**：源语言为“自动检测”时阻止交换并弹出提示。
+- **主题切换**：`ui.js` 提供浅色/深色/跟随系统三种选项，`auto` 模式下通过 `matchMedia` 实时响应系统主题变化。
 
 ## 注意事项
 - **实验性项目**：代码注释与 README 均表明处于开发阶段，可能存在问题。
