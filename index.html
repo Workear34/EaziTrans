@@ -172,6 +172,14 @@
                 <div class="modal-body">
                     <form>
                         <div class="mb-3">
+                            <label class="form-label">API 提供商</label>
+                            <select class="form-select" id="provider">
+                                <option value="openai">OpenAI 兼容</option>
+                                <option value="claude">Anthropic Claude</option>
+                            </select>
+                            <div class="form-text">选择要使用的 API 提供商</div>
+                        </div>
+                        <div class="mb-3">
                             <label class="form-label">API 地址（OpenAI 兼容）</label>
                             <input class="form-control" type="text" id="apiUrl" placeholder="请输入 API 地址">
                             <div class="form-text">支持任意兼容 OpenAI 接口的 API 地址，<b>此选项为必填项</b></div>
