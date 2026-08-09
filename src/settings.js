@@ -31,7 +31,7 @@ export const settings = {
   theme: 'auto'
 };
 
-const VALID_PROVIDERS = ['openai', 'claude'];
+const VALID_PROVIDERS = ['openai', 'openai-responses', 'claude'];
 
 export function loadSettings() {
   const savedProvider = localStorage.getItem('provider');
