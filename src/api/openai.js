@@ -24,11 +24,6 @@ export class OpenAIProvider extends Provider {
       stream: true
     };
 
-    const model = config.model.toLowerCase();
-    if (model.includes('qwen3') || model.includes('tencent/hunyuan-a13b-instruct')) {
-      body.enable_thinking = false;
-    }
-
     return {
       method: 'POST',
       headers: {
