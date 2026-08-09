@@ -14,6 +14,7 @@ import {
 // 导入提供商适配器（触发注册）
 import './api/openai.js';
 import './api/claude.js';
+import './api/responses.js';
 
 // 项目版本
 document.getElementById('version').textContent = `${__APP_VERSION__}`;
