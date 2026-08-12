@@ -1,18 +1,19 @@
 # EaziTrans
 一个基于大模型的 AI 翻译界面实现。
 
-**请注意：本项目为实验性项目，可能会存在问题，且随时可能暂停/停止开发。**
+**请注意：**
+**1. 本项目为实验性项目，可能会存在问题，且随时可能暂停/停止开发。**
 
-**请保管好您的 API 密钥，因为 localStorage 存储并不安全。**
+**2. 请保管好您的 API 密钥，目前项目使用并不安全的 localStorage 存储密钥，后续会改进存储方式。。**
 ## 特点
 - 支持自动识别语言和多种语言互译
-- 支持任意 OpenAI 协议的 API
+- 兼容 Open AI Chat Completions API/Responses API + Anthropic API协议
 - Bootstrap 带来的简洁美观的响应式界面
-- System Prompt 自定义功能
+- Prompt 自定义功能
 - 界面交互简单，无冗余功能和广告
 - 源代码开放
 ## 使用技术
-- ~~Kimi K2~~ OpenCode 辅助创作
+- OpenCode 辅助创作
 - Bootstrap
 - Bootstrap Icons
 - Vite
