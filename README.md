@@ -5,7 +5,7 @@
 
 **1. 本项目为实验性项目，可能会存在问题，且随时可能暂停/停止开发。**
 
-**2. 请保管好您的 API 密钥，目前项目使用并不安全的 localStorage 存储密钥，后续会改进存储方式。。**
+**2. 请保管好您的 API 密钥，目前项目使用并不安全的 localStorage 存储密钥，后续会改进密钥存储方式。**
 ## 特点
 - 支持自动识别语言和多种语言互译
 - 兼容 Open AI Chat Completions API/Responses API + Anthropic API协议
