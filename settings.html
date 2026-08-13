@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EaziTrans 翻译</title>
+    <link rel="stylesheet" href="src/style.css">
+</head>
+
+<body>
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">EaziTrans 翻译</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar"
+                aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbar">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/index">
+                            <i class="bi bi-gear"></i> 翻译
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/settings">
+                            <i class="bi bi-info-circle"></i> 设置
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <form>
+                        <div class="mb-3">
+                            <label class="form-label">提供商（兼容）</label>
+                            <select class="form-select" id="provider">
+                                <option value="openai">OpenAI (Chat Completions API)</option>
+                                <option value="openai-responses">OpenAI (Responses API)</option>
+                                <option value="claude">Anthropic Claude</option>
+                            </select>
+                            <div class="form-text">选择要使用的提供商</div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">API 地址</label>
+                            <input class="form-control" type="text" id="apiUrl" placeholder="请输入 API 地址">
+                            <div class="form-text">输入提供商的 API 地址，<b>此选项为必填项</b></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">API 密钥</label>
+                            <input class="form-control" type="password" id="apiKey" placeholder="请输入 API 密钥">
+                            <div class="form-text">输入提供商提供给你的 API 密钥，<b>此选项为必填项；LocalStorage 存储并不安全，请务必保管好您的 API 密钥</b></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">模型选择</label>
+                            <input class="form-control" type="text" id="model" placeholder="请输入模型名称，如 Qwen/Qwen3-8B">
+                            <div class="form-text">输入要使用的模型名称</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">System Prompt</label>
+                            <textarea class="form-control" id="systemPrompt" rows="3"
+                                placeholder="设置系统提示词...">把用户提供的文本从{source_lang}翻译成{target_lang}。保留原文意思和格式，只输出译文。</textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">User Prompt</label>
+                            <textarea class="form-control" id="promptTemplate" rows="3" placeholder="设置翻译提示模板...">                            把下面的{source_lang}翻译成{target_lang}：
+
+{text}
+
+只输出译文。</textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">主题设置</label>
+                            <select class="form-select" id="theme" aria-label="选择一个主题">
+                                <option value="auto">跟随系统</option>
+                                <option value="light">浅色</option>
+                                <option value="dark">深色</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" id="autoTranslate" checked>
+                                <label class="form-check-label" for="autoTranslate">自动翻译</label>
+                            </div>
+                            <div class="form-text">开启后，输入文本或切换语言 1 秒后将自动触发翻译</div>
+                        </div>
+                        <div>
+                        <h2>EaziTrans 翻译</h2>
+                        <p>By Workear</p>
+                    </div>
+                    <div>
+                        <p>版本：<span id="version"></span></p>
+                        <p>使用 OpenCode 辅助创作</p>
+                        <p>使用的框架：</p>
+                        <ul>
+                            <li>Bootstrap</li>
+                            <li>Bootstrap Icons</li>
+                            <li>Vite</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <p><b>请注意：本应用处在开发阶段，可能会存在问题。</b></p>
+                        <p><b>请保管好您的 API 密钥，因为 localStorage 存储并不安全。</b></p>
+                    </div>
+                    </form>
+                    
+                    
+    </div>
+
+   
+    
+    <!-- Toast 预留位 -->
+    <div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3">
+        <div id="toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto" id="toastTitle">提示</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body" id="toastMessage">
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="src/main.js"></script>
+</body>
+
+</html>
