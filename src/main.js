@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
-import { settings, loadSettings, saveSettings } from './settings.js';
+import { settings, loadSettings } from './settings.js';
 import { createProvider } from './api/index.js';
 import {
   showToast,
@@ -16,61 +16,13 @@ import './api/openai.js';
 import './api/claude.js';
 import './api/responses.js';
 
-// 项目版本
-document.getElementById('version').textContent = `${__APP_VERSION__}`;
-
-function initSettings() {
-  document.getElementById('provider').value = settings.provider;
-  document.getElementById('apiUrl').value = settings.apiUrl;
-  document.getElementById('apiKey').value = settings.apiKey;
-  document.getElementById('systemPrompt').value = settings.systemPrompt;
-  document.getElementById('promptTemplate').value = settings.promptTemplate;
-  document.getElementById('theme').value = settings.theme;
-  document.getElementById('autoTranslate').checked = settings.autoTranslate;
-  document.getElementById('model').value = settings.model;
-
-  applyTheme(settings.theme);
-}
-
 function bindEvents() {
-  document.getElementById('saveSettings').addEventListener('click', () => {
-    const apiUrl = document.getElementById('apiUrl').value.trim();
-    const apiKey = document.getElementById('apiKey').value.trim();
-    const finalModel = document.getElementById('model').value.trim();
-
-    if (!apiUrl) return showToast('请输入 API 地址');
-    if (!apiKey) return showToast('请输入 API 密钥');
-    if (!finalModel) return showToast('请输入模型');
-
-    try {
-      new URL(apiUrl);
-    } catch {
-      return showToast('API 地址格式不正确');
-    }
-
-    settings.provider = document.getElementById('provider').value;
-    settings.apiUrl = apiUrl;
-    settings.apiKey = apiKey;
-    settings.model = finalModel;
-    settings.systemPrompt = document.getElementById('systemPrompt').value;
-    settings.promptTemplate = document.getElementById('promptTemplate').value;
-    settings.theme = document.getElementById('theme').value;
-    settings.autoTranslate = document.getElementById('autoTranslate').checked;
-
-    saveSettings();
-    showToast('设置已保存');
-  });
-
   document.getElementById('swapBtn').addEventListener('click', swapLanguages);
   document.getElementById('translateBtn').addEventListener('click', translate);
   document.getElementById('copyBtn').addEventListener('click', copyResult);
   document.getElementById('sourceText').addEventListener('input', autoTranslate);
   document.getElementById('targetLang').addEventListener('change', autoTranslate);
   document.getElementById('sourceLang').addEventListener('change', autoTranslate);
-
-  document.getElementById('theme').addEventListener('change', () => {
-    applyTheme(document.getElementById('theme').value);
-  });
 }
 
 function swapLanguages() {
@@ -154,6 +106,6 @@ async function translate() {
 
 // 初始化
 loadSettings();
-initSettings();
+applyTheme(settings.theme);
 initThemeListener(settings);
 bindEvents();
