@@ -25,8 +25,8 @@ export const settings = {
   apiUrl: '',
   apiKey: '',
   model: 'Qwen/Qwen3-8B',
-  systemPrompt: '你是一个专业的翻译助手。请准确地将用户提供的文本从{source_lang}翻译成{target_lang}，保持原文的格式和含义。只返回翻译结果，不要添加任何解释。',
-  promptTemplate: '请将以下文本从{source_lang}翻译成{target_lang}：\n\n{text}\n\n请确保翻译准确、自然，保持原文的语境和风格。',
+  systemPrompt: '把用户提供的文本从{source_lang}翻译成{target_lang}。保留原文意思和格式，只输出译文。',
+  promptTemplate: '把下面的{source_lang}翻译成{target_lang}：\n\n{text}\n\n只输出译文。',
   autoTranslate: true,
   theme: 'auto'
 };
