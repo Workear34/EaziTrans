@@ -12,6 +12,12 @@ npm run build    # 构建生产包（输出到 dist/）
 npm run preview  # 预览生产构建
 ```
 
+## 版本发布
+当用户要求发布版本时，按以下顺序执行：
+1. 更新 `package.json` 中的 `"version"` 字段。
+2. 更新 `CHANGELOG.md`，在顶部按 `## <版本号> <日期>` 格式新增条目。
+3. 打上对应版本号的 git tag（如 `v0.4.0`）。
+
 ## 文件结构
 ```
 src/
