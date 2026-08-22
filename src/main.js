@@ -1,5 +1,10 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
+
+// Import our custom CSS
+import './scss/styles.scss'
+
+// Import all of Bootstrap’s JS
+import * as bootstrap from 'bootstrap'
 
 import { settings, loadSettings } from './settings.js';
 import { createProvider } from './api/index.js';

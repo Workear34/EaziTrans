@@ -1,0 +1,7 @@
+// Import all of Bootstrap’s CSS
+@import "bootstrap/scss/bootstrap";
+
+.loading {
+  background: rgba(var(--bs-body-bg-rgb), .7);
+  z-index: 1050;
+}
