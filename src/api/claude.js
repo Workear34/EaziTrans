@@ -2,6 +2,8 @@ import { Provider, registerProvider } from './index.js';
 import { langMap } from '../settings.js';
 
 export class ClaudeProvider extends Provider {
+  static endpointPath = '/v1/messages';
+
   buildRequest(text, srcLang, tgtLang, config) {
     const sourceLang = langMap[srcLang] || srcLang;
     const targetLang = langMap[tgtLang] || tgtLang;

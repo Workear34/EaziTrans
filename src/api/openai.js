@@ -2,6 +2,8 @@ import { Provider, registerProvider } from './index.js';
 import { langMap } from '../settings.js';
 
 export class OpenAIProvider extends Provider {
+  static endpointPath = '/chat/completions';
+
   buildRequest(text, srcLang, tgtLang, config) {
     const sourceLang = langMap[srcLang] || srcLang;
     const targetLang = langMap[tgtLang] || tgtLang;
@@ -21,7 +23,8 @@ export class OpenAIProvider extends Provider {
         { role: 'system', content: systemPrompt },
         { role: 'user', content: userPrompt }
       ],
-      stream: true
+      stream: true,
+      thinking: { type: 'disabled' }
     };
 
     return {

@@ -3,6 +3,8 @@ import { Provider, registerProvider } from './index.js';
 import { langMap } from '../settings.js';
 
 export class ResponsesProvider extends Provider {
+  static endpointPath = '/responses';
+
   buildRequest(text, srcLang, tgtLang, config) {
     const sourceLang = langMap[srcLang] || srcLang;
     const targetLang = langMap[tgtLang] || tgtLang;
@@ -22,7 +24,8 @@ export class ResponsesProvider extends Provider {
       input: [
         { role: 'user', content: userPrompt }
       ],
-      stream: true
+      stream: true,
+      reasoning: { effort: 'none' }
     };
 
     return {

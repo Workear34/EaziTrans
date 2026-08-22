@@ -7,7 +7,7 @@ import './scss/styles.scss'
 import * as bootstrap from 'bootstrap'
 
 import { settings, loadSettings } from './settings.js';
-import { createProvider } from './api/index.js';
+import { createProvider, resolveEndpointUrl } from './api/index.js';
 import {
   showToast,
   toggleLoading,
@@ -82,7 +82,8 @@ async function translate() {
 
   try {
     const provider = createProvider(settings.provider);
-    const res = await fetch(settings.apiUrl, provider.buildRequest(srcText, srcLang, tgtLang, settings));
+    const endpointUrl = resolveEndpointUrl(settings.apiUrl, provider.constructor.endpointPath);
+    const res = await fetch(endpointUrl, provider.buildRequest(srcText, srcLang, tgtLang, settings));
 
     if (!res.ok) {
       let message = `请求失败（HTTP ${res.status}）`;
