@@ -97,17 +97,17 @@
                 <div class="card-body position-relative">
                     <div class="row g-2 align-items-stretch">
                         <!-- 原文 -->
-                        <div class="col-md-6 d-flex flex-column">
-                            <textarea class="form-control mt-1" id="sourceText" rows="12"
+                        <div class="col-md-6 d-flex flex-column translation-pane">
+                            <textarea class="form-control translation-area" id="sourceText" rows="12"
                                 placeholder="请输入要翻译的文本…"></textarea>
-                            <button class="btn btn-primary btn-sm mt-2 w-100" id="translateBtn">翻译</button>
+                            <button class="btn btn-primary mt-3 align-self-end" id="translateBtn">翻译</button>
                         </div>
 
                         <!-- 译文 -->
-                        <div class="col-md-6 d-flex flex-column">
-                            <textarea class="form-control mt-1" id="targetText" rows="12" placeholder="翻译结果将显示在这里…"
+                        <div class="col-md-6 d-flex flex-column text-divider">
+                            <textarea class="form-control translation-area" id="targetText" rows="12" placeholder="翻译结果将显示在这里…"
                                 readonly=""></textarea>
-                            <button class="btn btn-outline-secondary btn-sm mt-2 w-100" id="copyBtn">复制译文</button>
+                            <button class="btn btn-outline-secondary mt-3 align-self-end" id="copyBtn">复制译文</button>
                         </div>
                     </div>
                     <div id="loadingOverlay" class="loading position-absolute top-0 start-0 w-100 h-100 d-none">
