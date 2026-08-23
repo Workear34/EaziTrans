@@ -4,7 +4,7 @@ import './scss/styles.scss'
 // Import all of Bootstrap’s JS
 import * as bootstrap from 'bootstrap'
 
-import { settings, loadSettings, saveSettings } from './settings.js';
+import { settings, loadSettings, saveSettings, resetSettings } from './settings.js';
 import { showToast, applyTheme, initThemeListener } from './ui.js';
 
 // 项目版本
@@ -36,6 +36,19 @@ function collectAndSave() {
   settings.autoTranslate = document.getElementById('autoTranslate').checked;
 
   saveSettings();
+}
+
+// 重置确认对话框
+const resetModal = new bootstrap.Modal(document.getElementById('resetModal'));
+const resetBtn = document.getElementById('resetSettingsBtn');
+const confirmResetBtn = document.getElementById('confirmResetBtn');
+
+// 将所有设置恢复为默认并回填表单
+function resetForm() {
+  resetSettings();
+  initSettingsForm();
+  applyTheme(settings.theme);
+  showToast('已重置所有设置');
 }
 
 function bindEvents() {
@@ -72,6 +85,13 @@ function bindEvents() {
     } catch {
       showToast('API 地址格式不正确');
     }
+  });
+
+  // 重置所有设置
+  resetBtn.addEventListener('click', () => resetModal.show());
+  confirmResetBtn.addEventListener('click', () => {
+    resetModal.hide();
+    resetForm();
   });
 }
 
