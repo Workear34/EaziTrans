@@ -10,7 +10,7 @@
 <body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">EaziTrans 翻译</a>
+            <a class="navbar-brand" href="index.html">EaziTrans 翻译</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar"
                 aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -95,6 +95,13 @@
                 <div class="form-text">开启后，输入文本或切换语言 1 秒后将自动触发翻翻译</div>
                 </div>
 
+                <div class="mb-3">
+                    <button type="button" class="btn btn-outline-danger" id="resetSettingsBtn">
+                        <i class="bi bi-arrow-counterclockwise"></i> 重置所有设置
+                    </button>
+                    <div class="form-text">将所有设置恢复为默认值（包括 API 地址与 API 密钥），此操作无法撤销</div>
+                </div>
+
                 <div>
                     <h2>EaziTrans 翻译</h2>
                     <p>By Workear</p>
@@ -111,7 +118,7 @@
                 </div>
                 <div>
                     <p><b>请注意：本应用处在开发阶段，可能会存在问题。</b></p>
-                    <p><b>请保管好您的 API 密钥，因�?localStorage 存储并不安全。</b></p>
+                    <p><b>请保管好您的 API 密钥，因为 localStorage 存储并不安全。</b></p>
                 </div>
         </form>
 
@@ -120,7 +127,26 @@
 
 
 
-    <!-- Toast 预留�?-->
+    <!-- 重置确认对话框 -->
+    <div class="modal fade" id="resetModal" tabindex="-1" aria-labelledby="resetModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="resetModalLabel">确认重置所有设置？</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    此操作将清除全部设置（包括 API 地址与 API 密钥）并恢复为默认值，无法撤销。
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-danger" id="confirmResetBtn">确认重置</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast 预留 -->
     <div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3">
         <div id="toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-header">
