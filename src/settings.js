@@ -20,38 +20,48 @@ export const langMap = {
   id: '印尼语'
 };
 
-export const settings = {
+export const DEFAULT_SETTINGS = {
   provider: 'openai',
   apiUrl: '',
   apiKey: '',
-  model: 'Qwen/Qwen3-8B',
+  model: '',
   systemPrompt: '把用户提供的文本从{source_lang}翻译成{target_lang}。保留原文意思和格式，只输出译文。',
   promptTemplate: '把下面的{source_lang}翻译成{target_lang}：\n\n{text}\n\n只输出译文。',
   autoTranslate: true,
   theme: 'auto'
 };
 
+export const settings = { ...DEFAULT_SETTINGS };
+
 const VALID_PROVIDERS = ['openai', 'openai-responses', 'claude'];
+const VALID_THEMES = ['auto', 'light', 'dark'];
 
 export function loadSettings() {
-  const savedProvider = localStorage.getItem('provider');
-  settings.provider = VALID_PROVIDERS.includes(savedProvider) ? savedProvider : 'openai';
-  settings.apiUrl = localStorage.getItem('apiUrl') || settings.apiUrl;
-  settings.apiKey = localStorage.getItem('apiKey') || settings.apiKey;
-  settings.model = localStorage.getItem('model') || settings.model;
-  settings.systemPrompt = localStorage.getItem('systemPrompt') || settings.systemPrompt;
-  settings.promptTemplate = localStorage.getItem('promptTemplate') || settings.promptTemplate;
-  settings.autoTranslate = localStorage.getItem('autoTranslate') !== 'false';
-  settings.theme = localStorage.getItem('theme') || settings.theme;
+  for (const key of Object.keys(DEFAULT_SETTINGS)) {
+    const value = localStorage.getItem(key);
+    if (value === null) continue;
+
+    if (key === 'provider') {
+      settings.provider = VALID_PROVIDERS.includes(value) ? value : DEFAULT_SETTINGS.provider;
+    } else if (key === 'theme') {
+      settings.theme = VALID_THEMES.includes(value) ? value : DEFAULT_SETTINGS.theme;
+    } else if (key === 'autoTranslate') {
+      settings.autoTranslate = value !== 'false';
+    } else {
+      settings[key] = value;
+    }
+  }
 }
 
 export function saveSettings() {
-  localStorage.setItem('provider', settings.provider);
-  localStorage.setItem('apiUrl', settings.apiUrl);
-  localStorage.setItem('apiKey', settings.apiKey);
-  localStorage.setItem('model', settings.model);
-  localStorage.setItem('systemPrompt', settings.systemPrompt);
-  localStorage.setItem('promptTemplate', settings.promptTemplate);
-  localStorage.setItem('autoTranslate', settings.autoTranslate);
-  localStorage.setItem('theme', settings.theme);
+  for (const key of Object.keys(DEFAULT_SETTINGS)) {
+    localStorage.setItem(key, settings[key]);
+  }
+}
+
+export function resetSettings() {
+  for (const key of Object.keys(DEFAULT_SETTINGS)) {
+    settings[key] = DEFAULT_SETTINGS[key];
+    localStorage.removeItem(key);
+  }
 }
