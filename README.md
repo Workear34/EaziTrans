@@ -23,5 +23,13 @@
 2. 运行 `npm run dev` 查看
 3. 运行 `npm run build` 构建
 4. 将 `dist` 目录下的所有文件拷贝到服务器根目录中
+## 部署
+
+项目通过 GitHub Actions 自动发布到 GitHub Pages：推送 `v*` 格式的 tag
+（如 `v0.4.0`）即可触发构建与部署，站点地址为
+`https://workear34.github.io/EaziTrans/`。
+
+首次启用前需在仓库 **Settings → Pages → Build and deployment → Source**
+中选择 **GitHub Actions**，否则部署会失败。
 ## 许可协议
 GPLv3
