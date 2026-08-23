@@ -18,12 +18,12 @@
             <div class="collapse navbar-collapse" id="navbar">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/index.html">
+                        <a class="nav-link active" aria-current="page" href="index.html">
                             <i class="bi bi-translate"></i> 翻译
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/settings.html">
+                        <a class="nav-link" aria-current="page" href="settings.html">
                             <i class="bi bi-gear"></i> 设置
                         </a>
                     </li>
@@ -40,8 +40,8 @@
                     <div class="row align-items-center g-2">
                         <div class="col">
                             <select class="form-select" id="sourceLang">
-                                <option value="auto">自动检测</option>
-                                <option value="zh-hans">简体中文</option>
+                                <option value="auto">自动检�?/option>
+                                <option value="zh-hans">简体中�?/option>
                                 <option value="zh-hant">繁体中文</option>
                                 <option value="en">英语</option>
                                 <option value="ja">日语</option>
@@ -52,13 +52,13 @@
                                 <option value="es">西班牙语</option>
                                 <option value="ru">俄语</option>
                                 <option value="ar">阿拉伯语</option>
-                                <option value="hi">印地语</option>
+                                <option value="hi">印地�?/option>
                                 <option value="it">意大利语</option>
-                                <option value="nl">荷兰语</option>
+                                <option value="nl">荷兰�?/option>
                                 <option value="th">泰语</option>
-                                <option value="tr">土耳其语</option>
-                                <option value="vi">越南语</option>
-                                <option value="id">印尼语</option>
+                                <option value="tr">土耳其�?/option>
+                                <option value="vi">越南�?/option>
+                                <option value="id">印尼�?/option>
                             </select>
                         </div>
 
@@ -70,7 +70,7 @@
 
                         <div class="col">
                             <select class="form-select" id="targetLang">
-                                <option value="zh-hans">简体中文</option>
+                                <option value="zh-hans">简体中�?/option>
                                 <option value="zh-hant">繁体中文</option>
                                 <option value="en">英语</option>
                                 <option value="ja">日语</option>
@@ -81,13 +81,13 @@
                                 <option value="es">西班牙语</option>
                                 <option value="ru">俄语</option>
                                 <option value="ar">阿拉伯语</option>
-                                <option value="hi">印地语</option>
+                                <option value="hi">印地�?/option>
                                 <option value="it">意大利语</option>
-                                <option value="nl">荷兰语</option>
+                                <option value="nl">荷兰�?/option>
                                 <option value="th">泰语</option>
-                                <option value="tr">土耳其语</option>
-                                <option value="vi">越南语</option>
-                                <option value="id">印尼语</option>
+                                <option value="tr">土耳其�?/option>
+                                <option value="vi">越南�?/option>
+                                <option value="id">印尼�?/option>
                             </select>
                         </div>
                     </div>
@@ -99,21 +99,25 @@
                         <!-- 原文 -->
                         <div class="col-md-6 d-flex flex-column translation-pane">
                             <textarea class="form-control translation-area" id="sourceText" rows="12"
-                                placeholder="请输入要翻译的文本…"></textarea>
-                            <button class="btn btn-primary mt-3 align-self-end" id="translateBtn">翻译</button>
+                                placeholder="请输入要翻译的文本�?></textarea>
+                            <button class="btn btn-primary mt-3 align-self-end" id="translateBtn">
+                                <i class="bi bi-translate"></i>
+                            </button>
                         </div>
 
                         <!-- 译文 -->
                         <div class="col-md-6 d-flex flex-column text-divider">
-                            <textarea class="form-control translation-area" id="targetText" rows="12" placeholder="翻译结果将显示在这里…"
+                            <textarea class="form-control translation-area" id="targetText" rows="12" placeholder="翻译结果将显示在这里�?
                                 readonly=""></textarea>
-                            <button class="btn btn-outline-secondary mt-3 align-self-end" id="copyBtn">复制译文</button>
+                            <button class="btn btn-outline-secondary mt-3 align-self-end" id="copyBtn">
+                                <i class="bi bi-copy"></i>
+                            </button>
                         </div>
                     </div>
                     <div id="loadingOverlay" class="loading position-absolute top-0 start-0 w-100 h-100 d-none">
                         <div class="position-absolute top-50 start-50 translate-middle">
                             <div class="spinner-border text-primary" role="status">
-                                <span class="visually-hidden">Loading…</span>
+                                <span class="visually-hidden">Loading�?/span>
                             </div>
                         </div>
                     </div>
@@ -122,7 +126,7 @@
         </div>
     </div>
 
-    <!-- Toast 预留位 -->
+    <!-- Toast 预留�?-->
     <div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3">
         <div id="toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-header">
