@@ -15,6 +15,7 @@ $bootstrap-icons-font-dir: "bootstrap-icons/font/fonts";
 // 翻译输入/输出文本框：无边框、无 focus 光晕、固定大小
 .translation-area {
   --bs-border-width: 0;
+  --bs-border-radius: 0;
   padding: 0;
   resize: none;
 

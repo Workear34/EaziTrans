@@ -24,9 +24,17 @@ function bindEvents() {
   document.getElementById('swapBtn').addEventListener('click', swapLanguages);
   document.getElementById('translateBtn').addEventListener('click', translate);
   document.getElementById('copyBtn').addEventListener('click', copyResult);
-  document.getElementById('sourceText').addEventListener('input', autoTranslate);
+  document.getElementById('sourceText').addEventListener('input', () => {
+    autoTranslate();
+    updateTranslateBtnState();
+  });
   document.getElementById('targetLang').addEventListener('change', autoTranslate);
   document.getElementById('sourceLang').addEventListener('change', autoTranslate);
+}
+
+function updateTranslateBtnState() {
+  const hasText = !!document.getElementById('sourceText').value.trim();
+  document.getElementById('translateBtn').disabled = !hasText;
 }
 
 function swapLanguages() {
@@ -47,6 +55,7 @@ function swapLanguages() {
   const tmpText = sourceText.value;
   sourceText.value = targetText.value;
   targetText.value = tmpText;
+  updateTranslateBtnState();
 }
 
 let translateTimeout;
@@ -115,3 +124,4 @@ applyTheme(settings.theme);
 initThemeListener(settings);
 bindEvents();
 initCharCount();
+updateTranslateBtnState();
