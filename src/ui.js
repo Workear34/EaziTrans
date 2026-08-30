@@ -1,10 +1,12 @@
 import * as bootstrap from 'bootstrap';
 
 const toastBody = document.getElementById('toastMessage');
-const toast = new bootstrap.Toast(document.getElementById('toast'));
+const toast = new bootstrap.Toast(document.getElementById('toast'), { delay: 2000 });
 
 // 模态框函数
 export function showToast(msg, type = 'info') {
+  // 已显示时忽略新的提示指令，避免频繁弹出
+  if (toast.isShown()) return;
   toastBody.textContent = msg;
   toast.show();
 }

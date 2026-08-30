@@ -36,6 +36,7 @@ function collectAndSave() {
   settings.autoTranslate = document.getElementById('autoTranslate').checked;
 
   saveSettings();
+  showToast('设置已保存');
 }
 
 // 重置确认对话框
@@ -67,11 +68,21 @@ function bindEvents() {
     'autoTranslate'
   ];
 
+  // 文本编辑防抖计时器
+  const saveTimeout = {};
+
   for (const id of autoSaveFields) {
     const el = document.getElementById(id);
-    const eventType = el.tagName === 'TEXTAREA' || el.tagName === 'INPUT' && el.type === 'text' ? 'input' : 'change';
+    const isText = el.tagName === 'TEXTAREA' || (el.tagName === 'INPUT' && el.type === 'text');
+    const eventType = isText ? 'input' : 'change';
     el.addEventListener(eventType, () => {
-      collectAndSave();
+      // 文本输入防抖：停止编辑 1 秒后才保存
+      if (isText) {
+        clearTimeout(saveTimeout[id]);
+        saveTimeout[id] = setTimeout(() => collectAndSave(), 1000);
+      } else {
+        collectAndSave();
+      }
       if (id === 'theme') applyTheme(document.getElementById('theme').value);
     });
   }
