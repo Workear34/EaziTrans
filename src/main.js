@@ -11,7 +11,8 @@ import {
   toggleLoading,
   applyTheme,
   initThemeListener,
-  copyResult
+  copyResult,
+  initCharCount
 } from './ui.js';
 
 // 导入提供商适配器（触发注册）
@@ -113,3 +114,4 @@ loadSettings();
 applyTheme(settings.theme);
 initThemeListener(settings);
 bindEvents();
+initCharCount();

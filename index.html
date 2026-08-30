@@ -100,16 +100,21 @@
                         <div class="col-md-6 d-flex flex-column translation-pane">
                             <textarea class="form-control translation-area" id="sourceText" rows="12"
                                 placeholder="请输入要翻译的文本"></textarea>
-                            <button class="btn btn-primary mt-3 align-self-end" id="translateBtn">
-                                <i class="bi bi-translate"></i>
-                            </button>
+                            <div class="d-flex justify-content-between">
+                                <div class="text-body-secondary align-self-center">
+                                    共 <span id="textCount">0</span> 个字符
+                                </div>
+                                <button class="btn btn-primary align-self-end" id="translateBtn">
+                                    <i class="bi bi-translate"></i>
+                                </button>
+                            </div>
                         </div>
 
                         <!-- 译文 -->
                         <div class="col-md-6 d-flex flex-column text-divider">
-                            <textarea class="form-control translation-area" id="targetText" rows="12" placeholder="翻译结果将显示在这里"
-                                readonly=""></textarea>
-                            <button class="btn btn-outline-secondary mt-3 align-self-end" id="copyBtn">
+                            <textarea class="form-control translation-area" id="targetText" rows="12"
+                                placeholder="翻译结果将显示在这里" readonly=""></textarea>
+                            <button class="btn btn-outline-secondary align-self-end" id="copyBtn">
                                 <i class="bi bi-copy"></i>
                             </button>
                         </div>
