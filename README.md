@@ -38,7 +38,7 @@ https://workear34.github.io/EaziTrans/
 
 ## Todos
 
-- [ ] 翻译按钮前增加字数显示
+- [x] 翻译按钮前增加字数显示
 
 - [ ] 设置页面选项分类与自动保存提示
 
