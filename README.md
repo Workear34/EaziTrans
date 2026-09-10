@@ -3,6 +3,7 @@
 一个基于大模型的 AI 翻译界面实现。
 
 ## 在线体验
+
 https://workear34.github.io/EaziTrans/
 
 ## **声明：**
@@ -40,7 +41,7 @@ https://workear34.github.io/EaziTrans/
 
 - [x] 翻译按钮前增加字数显示
 
-- [ ] 设置页面选项分类与自动保存提示
+- [x] 设置页面选项分类与自动保存提示
 
 - [ ] 改进密钥存储方式
 
