@@ -11,6 +11,21 @@ export function showToast(msg, type = 'info') {
   toast.show();
 }
 
+// 通用模态框封装
+export class Modal {
+  constructor(element) {
+    this.modal = new bootstrap.Modal(element);
+  }
+
+  show() {
+    this.modal.show();
+  }
+
+  hide() {
+    this.modal.hide();
+  }
+}
+
 // 翻译加载动画
 export function toggleLoading(show = true) {
   document.getElementById('loadingOverlay').classList.toggle('d-none', !show);

@@ -21,22 +21,23 @@ npm run preview  # 预览生产构建
 ## 文件结构
 ```
 src/
-  main.js          — 翻译页入口：初始化、事件绑定、翻译调度
-  settings-page.js — 设置页入口：表单回填、改动即自动保存
-  settings.js      — 设置管理（localStorage 读写、语言映射）
-  ui.js            — DOM 交互（Toast、主题切换、loading、复制）
-  api/
-    index.js       — Provider 基类 + 工厂函数 + 端点地址解析
-    openai.js      — OpenAI 兼容提供商适配器
-    responses.js   — OpenAI Responses API 提供商适配器
-    claude.js      — Anthropic Claude 提供商适配器
-  scss/styles.scss — 全局样式（引入 bootstrap/scss 并合并自定义样式）
-index.html         — 翻译页 UI 布局
-settings.html      — 设置页 UI 布局
+  js/
+    main.js          — 翻译页入口：初始化、事件绑定、翻译调度
+    settings-page.js — 设置页入口：表单回填、改动即自动保存
+    settings.js      — 设置管理（localStorage 读写、语言映射）
+    ui.js            — DOM 交互（Toast、模态框、主题切换、loading、复制）
+    api/
+      index.js       — Provider 基类 + 工厂函数 + 端点地址解析
+      openai.js      — OpenAI 兼容提供商适配器
+      responses.js   — OpenAI Responses API 提供商适配器
+      claude.js      — Anthropic Claude 提供商适配器
+  scss/styles.scss   — 全局样式（引入 bootstrap/scss 并合并自定义样式）
+index.html           — 翻译页 UI 布局
+settings.html        — 设置页 UI 布局
 ```
 
 ## 架构要点
-- **双入口**：`index.html` → `src/main.js`（翻译页），`settings.html` → `src/settings-page.js`（设置页）。两页共用 `settings.js`、`ui.js` 与 `api/` 模块。
+- **双入口**：`index.html` → `src/js/main.js`（翻译页），`settings.html` → `src/js/settings-page.js`（设置页）。两页共用 `settings.js`、`ui.js` 与 `api/` 模块。
 - **模块化**：`main.js` 仅负责翻译页编排，具体逻辑委托给各模块。`api/index.js` 定义 `Provider` 基类（`buildRequest` + `async *stream` + `static endpointPath`），各适配器继承后注册到工厂。
 - **构建配置**：`vite.config.js` 通过 `define` 注入全局常量 `__APP_VERSION__`（读取自 `package.json`），并通过 `rollupOptions.input` 配置多页构建（`index.html` + `settings.html`）。
 - **依赖**：`bootstrap`、`bootstrap-icons`、`@popperjs/core`；Vite 处理 ESM 导入。
@@ -53,6 +54,7 @@ settings.html      — 设置页 UI 布局
 - **自动翻译**：`sourceText` 输入与语言选择变化时触发防抖（1 秒），自动执行翻译。
 - **语言交换**：源语言为“自动检测”时阻止交换并弹出提示。
 - **主题切换**：`ui.js` 提供浅色/深色/跟随系统三种选项，`auto` 模式下通过 `matchMedia` 实时响应系统主题变化。
+- **模态框**：`ui.js` 提供通用 `Modal` 类封装 Bootstrap 模态框的 `show()`/`hide()`；具体元素查找与事件绑定由页面（如 `settings-page.js` 的重置确认框）负责。
 
 ## 注意事项
 - **实验性项目**：代码注释与 README 均表明处于开发阶段，可能存在问题。

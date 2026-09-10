@@ -1,11 +1,8 @@
 // Import our custom CSS
-import './scss/styles.scss'
-
-// Import all of Bootstrap’s JS
-import * as bootstrap from 'bootstrap'
+import '../scss/styles.scss'
 
 import { settings, loadSettings, saveSettings, resetSettings } from './settings.js';
-import { showToast, applyTheme, initThemeListener } from './ui.js';
+import { showToast, applyTheme, initThemeListener, Modal } from './ui.js';
 
 // 项目版本
 document.getElementById('version').textContent = `${__APP_VERSION__}`;
@@ -40,7 +37,7 @@ function collectAndSave() {
 }
 
 // 重置确认对话框
-const resetModal = new bootstrap.Modal(document.getElementById('resetModal'));
+const resetModal = new Modal(document.getElementById('resetModal'));
 const resetBtn = document.getElementById('resetSettingsBtn');
 const confirmResetBtn = document.getElementById('confirmResetBtn');
 
