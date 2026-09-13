@@ -26,9 +26,23 @@ export class Modal {
   }
 }
 
-// 翻译加载动画
-export function toggleLoading(show = true) {
-  document.getElementById('loadingOverlay').classList.toggle('d-none', !show);
+// 按钮加载状态：显示时替换为 spinner 并禁用，隐藏时恢复原内容
+const SPINNER_HTML = '<span class="spinner-border spinner-border-sm" aria-hidden="true"></span><span class="visually-hidden" role="status">Loading...</span>';
+
+export function setButtonLoading(button, show = true) {
+  if (show) {
+    if (button.dataset.originalContent === undefined) {
+      button.dataset.originalContent = button.innerHTML;
+    }
+    button.innerHTML = SPINNER_HTML;
+    button.disabled = true;
+  } else {
+    if (button.dataset.originalContent !== undefined) {
+      button.innerHTML = button.dataset.originalContent;
+      delete button.dataset.originalContent;
+    }
+    button.disabled = false;
+  }
 }
 
 // 主题设定与保存

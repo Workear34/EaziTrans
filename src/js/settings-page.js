@@ -1,7 +1,7 @@
 // Import our custom CSS
 import '../scss/styles.scss'
 
-import { settings, loadSettings, saveSettings, resetSettings } from './settings.js';
+import { settings, loadSettings, saveSettings, resetSettings, DEFAULT_SETTINGS } from './settings.js';
 import { showToast, applyTheme, initThemeListener, Modal } from './ui.js';
 
 // 项目版本
@@ -100,6 +100,16 @@ function bindEvents() {
   confirmResetBtn.addEventListener('click', () => {
     resetModal.hide();
     resetForm();
+  });
+
+  // 单独恢复 System Prompt / User Prompt 为默认值
+  document.getElementById('resetSystemPromptBtn').addEventListener('click', () => {
+    document.getElementById('systemPrompt').value = DEFAULT_SETTINGS.systemPrompt;
+    collectAndSave();
+  });
+  document.getElementById('resetPromptTemplateBtn').addEventListener('click', () => {
+    document.getElementById('promptTemplate').value = DEFAULT_SETTINGS.promptTemplate;
+    collectAndSave();
   });
 }
 

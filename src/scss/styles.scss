@@ -7,11 +7,6 @@ $bootstrap-icons-font-dir: "bootstrap-icons/font/fonts";
 // Import the Sass files as usual
 @import "bootstrap-icons/font/bootstrap-icons";
 
-.loading {
-  background: rgba(var(--bs-body-bg-rgb), .7);
-  z-index: 1050;
-}
-
 // 翻译输入/输出文本框：无边框、无 focus 光晕、固定大小
 .translation-area {
   --bs-border-width: 0;

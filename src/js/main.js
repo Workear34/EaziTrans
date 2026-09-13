@@ -8,7 +8,7 @@ import { settings, loadSettings } from './settings.js';
 import { createProvider, resolveEndpointUrl } from './api/index.js';
 import {
   showToast,
-  toggleLoading,
+  setButtonLoading,
   applyTheme,
   initThemeListener,
   copyResult,
@@ -84,8 +84,8 @@ async function translate() {
     return;
   }
 
-  document.getElementById('translateBtn').disabled = true;
-  toggleLoading(true);
+  const translateBtn = document.getElementById('translateBtn');
+  setButtonLoading(translateBtn, true);
   document.getElementById('targetText').value = '';
 
   try {
@@ -113,8 +113,8 @@ async function translate() {
     // Toast 显示错误信息
     showToast(`翻译失败：${e.message || e}`);
   } finally {
-    document.getElementById('translateBtn').disabled = false;
-    toggleLoading(false);
+    setButtonLoading(translateBtn, false);
+    updateTranslateBtnState();
   }
 }
 

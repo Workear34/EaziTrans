@@ -81,14 +81,23 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">System Prompt</label>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <label class="form-label mb-0">System Prompt</label>
+                            <button type="button" class="btn btn-sm btn-outline-secondary"
+                                id="resetSystemPromptBtn">恢复默认</button>
+                        </div>
                         <textarea class="form-control" id="systemPrompt" rows="3" placeholder="设置系统提示词...">
                     把用户提供的文本从{source_lang}翻译成{target_lang}。保留原文意思和格式，只输出译文。
                 </textarea>
+                        <div class="form-text">系统提示词，用于设定 AI 的翻译角色与规则。<b>不了解其作用请勿修改</b>。占位符：{source_lang}、{target_lang}</div>
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">User Prompt</label>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <label class="form-label mb-0">User Prompt</label>
+                            <button type="button" class="btn btn-sm btn-outline-secondary"
+                                id="resetPromptTemplateBtn">恢复默认</button>
+                        </div>
                         <textarea class="form-control" id="promptTemplate" rows="3" placeholder="设置翻译提示模板...">
                 把下面的{source_lang}翻译成{target_lang}：
                 
@@ -96,6 +105,7 @@
                 
                 只输出译文。
                 </textarea>
+                        <div class="form-text">用户提示词，其中 {text} 会替换为待翻译文本。<b>不了解其作用请勿修改</b>。占位符：{source_lang}、{target_lang}、{text}</div>
                     </div>
                 </form>
             </div>
