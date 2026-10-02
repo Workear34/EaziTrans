@@ -66,9 +66,11 @@ export function initThemeListener(settings) {
   });
 }
 
-// 译文复制
-export function copyResult() {
-  const text = document.getElementById('targetText').value;
+// 译文复制：targetId 指定译文所在 textarea，默认文本翻译页的 targetText，
+// 文件翻译页可传 'fileResult'
+export function copyResult(targetId = 'targetText') {
+  const target = document.getElementById(targetId);
+  const text = target ? target.value : '';
   navigator.clipboard.writeText(text)
     .then(() => showToast('已复制译文'))
     .catch(() => showToast('复制失败'));

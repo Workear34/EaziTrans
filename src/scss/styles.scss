@@ -45,3 +45,38 @@ $bootstrap-icons-font-dir: "bootstrap-icons/font/fonts";
     padding-left: var(--divider-gap, 1.25rem);
   }
 }
+
+// Bootstrap 未提供该工具类：flex 子项需要它才能收缩到内容宽度以下，
+// 否则过长的文件名会把整行撑破
+.min-w-0 {
+  min-width: 0;
+}
+
+// 文件拖拽选择区：虚线框，悬停或拖入文件时高亮（is-dragging 由 JS 添加）
+.file-drop-zone {
+  border: 2px dashed var(--bs-border-color);
+  border-radius: var(--bs-border-radius-lg);
+  padding: 2.5rem 1rem;
+  // 移动端上下堆叠时仍要保证一个像样的拖拽目标
+  min-height: 12rem;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color .15s ease-in-out, background-color .15s ease-in-out;
+
+  > .bi {
+    display: block;
+    font-size: 2rem;
+    color: var(--bs-secondary-color);
+  }
+
+  &:hover,
+  &:focus-visible {
+    border-color: var(--bs-primary);
+    background-color: var(--bs-tertiary-bg);
+  }
+
+  &.is-dragging {
+    border-color: var(--bs-primary);
+    background-color: var(--bs-primary-bg-subtle);
+  }
+}
