@@ -1,7 +1,7 @@
 import { settings, loadSettings } from './settings.js';
 import { createProvider, resolveEndpointUrl } from './api/index.js';
 import { showToast, setButtonLoading, copyText } from './ui.js';
-import { decodeBuffer, ENCODINGS, encodingLabel } from './file/decode.js';
+import { decodeBuffer, ENCODINGS, DEFAULT_ENCODING } from './file/decode.js';
 import { parseByExtension, getExtension, SUPPORTED_EXTENSIONS } from './file/parsers.js';
 import { translateSegments, DEFAULT_BATCH_CHARS } from './file/translate.js';
 
@@ -14,10 +14,10 @@ const CANCELLED = 'CANCELLED';
 
 const el = {};
 const state = {
-  file: null,       // 原始 File 对象
-  parsed: null,     // parsers 的解析结果
+  file: null,       // 原始 File 对象（即使解码失败也保留，便于换编码重试）
+  buffer: null,     // 文件原始字节，换编码重试时复用，不必重复读取
+  parsed: null,     // parsers 的解析结果，解码成功前为 null
   output: '',       // 译文原文（权威副本）
-  encodingUsed: '', // 实际使用的编码
   controller: null  // 进行中的 AbortController
 };
 
@@ -44,7 +44,7 @@ function fillEncodingOptions() {
     opt.textContent = label;
     el.fileEncoding.append(opt);
   }
-  el.fileEncoding.value = 'auto';
+  el.fileEncoding.value = DEFAULT_ENCODING;
 }
 
 function bindEvents() {
@@ -108,40 +108,40 @@ async function loadFile(file) {
     return;
   }
 
-  let buffer;
-  try {
-    buffer = await file.arrayBuffer();
-  } catch (e) {
-    return showToast(`读取文件失败：${e.message || e}`);
+  // 先把文件和原始字节记下来。即使后面解码或解析失败，也要保留，
+  // 否则用户换个编码也重试不了、文件也清不掉，等于被卡死
+  if (state.file !== file) {
+    try {
+      state.buffer = await file.arrayBuffer();
+      state.file = file;
+      state.parsed = null;
+    } catch (e) {
+      return showToast(`读取文件失败：${e.message || e}`);
+    }
   }
 
   let text;
   try {
-    const decoded = decodeBuffer(buffer, el.fileEncoding.value);
-    text = decoded.text;
-    state.encodingUsed = decoded.used;
+    text = decodeBuffer(state.buffer, el.fileEncoding.value).text;
   } catch (e) {
-    return showToast(e.message || e);
+    return showLoadFailure(file, e.message || e);
   }
 
   let parsed;
   try {
     parsed = parseByExtension(file.name, text);
   } catch (e) {
-    return showToast(`解析文件失败：${e.message || e}`);
+    return showLoadFailure(file, `解析文件失败：${e.message || e}`);
   }
 
   if (parsed.segments.length === 0) {
-    return showToast('没有找到可翻译的内容，请确认文件格式与编码是否正确');
+    return showLoadFailure(file, '没有找到可翻译的内容，可试试换一个编码');
   }
 
-  state.file = file;
   state.parsed = parsed;
 
   el.fileName.textContent = file.name;
-  el.fileSize.textContent =
-    `${formatSize(file.size)} · ${parsed.segments.length} 段 · ${text.length} 字符`
-    + (el.fileEncoding.value === 'auto' ? ` · 识别为 ${encodingLabel(state.encodingUsed)}` : '');
+  el.fileSize.textContent = `${formatSize(file.size)} · ${parsed.segments.length} 段 · ${text.length} 字符`;
   el.fileCharCount.textContent = text.length.toLocaleString('en-US');
   el.fileResult.value = '';
   state.output = '';
@@ -153,25 +153,45 @@ async function loadFile(file) {
   updateIdleState();
 }
 
+/**
+ * 加载失败时的展示：仍然显示文件名与编码下拉框，
+ * 让用户能就地改编码重试，或者点清除把文件换掉。
+ */
+function showLoadFailure(file, message) {
+  el.fileName.textContent = file.name;
+  el.fileSize.textContent = message;
+  el.fileCharCount.textContent = '—';
+  el.fileResult.value = '';
+  state.output = '';
+  state.parsed = null;
+
+  show(el.fileDropZone, false);
+  show(el.fileSelectedInfo, true);
+  el.fileCopyBtn.disabled = true;
+  el.fileDownloadBtn.disabled = true;
+  showToast(message);
+  updateIdleState();
+}
+
 /** 未选文件 / 空闲 / 翻译中 三种状态下的按钮可用性 */
 function updateIdleState() {
   if (state.controller) return;                 // 翻译中不改按钮，避免状态打架
-  const ready = !!state.parsed;
-  el.fileTranslateBtn.disabled = !ready;
-  el.fileClearBtn.disabled = !ready;
+  el.fileTranslateBtn.disabled = !state.parsed;
+  // 只要还挂着文件就允许清除，哪怕解码失败也要给用户一条退路
+  el.fileClearBtn.disabled = !state.file;
 }
 
 function resetFile() {
   state.file = null;
+  state.buffer = null;
   state.parsed = null;
   state.output = '';
-  state.encodingUsed = '';
   el.fileInput.value = '';
   el.fileResult.value = '';
   el.fileName.textContent = '';
   el.fileSize.textContent = '';
   el.fileCharCount.textContent = '0';
-  el.fileEncoding.value = 'auto';
+  el.fileEncoding.value = DEFAULT_ENCODING;
   el.fileProgressBar.style.width = '0%';
   el.fileProgressBar.setAttribute('aria-valuenow', '0');
   el.fileStatus.textContent = '';
