@@ -52,13 +52,17 @@ $bootstrap-icons-font-dir: "bootstrap-icons/font/fonts";
   min-width: 0;
 }
 
+// 文件 tab 左右两栏的内容区共用固定高度，保证拖拽区与译文框上下严格对齐。
+// 18rem 与文本翻译 tab 中 rows=12 的 textarea 实际高度一致。
+.file-pane-content {
+  height: 18rem;
+}
+
 // 文件拖拽选择区：虚线框，悬停或拖入文件时高亮（is-dragging 由 JS 添加）
 .file-drop-zone {
   border: 2px dashed var(--bs-border-color);
   border-radius: var(--bs-border-radius-lg);
   padding: 2.5rem 1rem;
-  // 移动端上下堆叠时仍要保证一个像样的拖拽目标
-  min-height: 12rem;
   text-align: center;
   cursor: pointer;
   transition: border-color .15s ease-in-out, background-color .15s ease-in-out;
