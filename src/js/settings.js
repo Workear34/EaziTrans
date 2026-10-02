@@ -28,6 +28,8 @@ export const DEFAULT_SETTINGS = {
   systemPrompt: '把用户提供的文本从{source_lang}翻译成{target_lang}。保留原文意思和格式，只输出译文。',
   promptTemplate: '把下面的{source_lang}翻译成{target_lang}：\n\n{text}\n\n只输出译文。',
   autoTranslate: true,
+  fileChunkMode: 'auto',
+  fileChunkChars: 1500,
   theme: 'auto'
 };
 
@@ -35,6 +37,17 @@ export const settings = { ...DEFAULT_SETTINGS };
 
 const VALID_PROVIDERS = ['openai', 'openai-responses', 'claude'];
 const VALID_THEMES = ['auto', 'light', 'dark'];
+const VALID_CHUNK_MODES = ['auto', 'whole'];
+
+// 每块字数下限要能容纳一条常规字幕，上限避免一次塞太多导致超出模型上下文
+export const FILE_CHUNK_MIN = 200;
+export const FILE_CHUNK_MAX = 20000;
+
+export function clampFileChunkChars(value) {
+  const n = Math.round(Number(value));
+  if (!Number.isFinite(n)) return DEFAULT_SETTINGS.fileChunkChars;
+  return Math.min(FILE_CHUNK_MAX, Math.max(FILE_CHUNK_MIN, n));
+}
 
 export function loadSettings() {
   for (const key of Object.keys(DEFAULT_SETTINGS)) {
@@ -45,6 +58,10 @@ export function loadSettings() {
       settings.provider = VALID_PROVIDERS.includes(value) ? value : DEFAULT_SETTINGS.provider;
     } else if (key === 'theme') {
       settings.theme = VALID_THEMES.includes(value) ? value : DEFAULT_SETTINGS.theme;
+    } else if (key === 'fileChunkMode') {
+      settings.fileChunkMode = VALID_CHUNK_MODES.includes(value) ? value : DEFAULT_SETTINGS.fileChunkMode;
+    } else if (key === 'fileChunkChars') {
+      settings.fileChunkChars = clampFileChunkChars(value);
     } else if (key === 'autoTranslate') {
       settings.autoTranslate = value !== 'false';
     } else {

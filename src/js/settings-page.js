@@ -1,7 +1,7 @@
 // Import our custom CSS
 import '../scss/styles.scss'
 
-import { settings, loadSettings, saveSettings, resetSettings, DEFAULT_SETTINGS } from './settings.js';
+import { settings, loadSettings, saveSettings, resetSettings, DEFAULT_SETTINGS, clampFileChunkChars } from './settings.js';
 import { showToast, applyTheme, initThemeListener, Modal } from './ui.js';
 
 // 项目版本
@@ -16,9 +16,19 @@ function initSettingsForm() {
   document.getElementById('promptTemplate').value = settings.promptTemplate;
   document.getElementById('theme').value = settings.theme;
   document.getElementById('autoTranslate').checked = settings.autoTranslate;
+  document.getElementById('fileChunkMode').value = settings.fileChunkMode;
+  document.getElementById('fileChunkChars').value = settings.fileChunkChars;
   document.getElementById('model').value = settings.model;
 
+  syncChunkControls();
   applyTheme(settings.theme);
+}
+
+// 分块方式与字数互相影响：选「不分块」时字数输入框失效并给出警告
+function syncChunkControls() {
+  const whole = document.getElementById('fileChunkMode').value === 'whole';
+  document.getElementById('fileChunkChars').disabled = whole;
+  document.getElementById('fileChunkWarning').classList.toggle('d-none', !whole);
 }
 
 // 收集当前表单值并保存
@@ -31,6 +41,8 @@ function collectAndSave() {
   settings.promptTemplate = document.getElementById('promptTemplate').value;
   settings.theme = document.getElementById('theme').value;
   settings.autoTranslate = document.getElementById('autoTranslate').checked;
+  settings.fileChunkMode = document.getElementById('fileChunkMode').value;
+  settings.fileChunkChars = clampFileChunkChars(document.getElementById('fileChunkChars').value);
 
   saveSettings();
   showToast('设置已保存');
@@ -62,7 +74,9 @@ function bindEvents() {
     'systemPrompt',
     'promptTemplate',
     'theme',
-    'autoTranslate'
+    'autoTranslate',
+    'fileChunkMode',
+    'fileChunkChars'
   ];
 
   // 文本编辑防抖计时器
@@ -81,6 +95,7 @@ function bindEvents() {
         collectAndSave();
       }
       if (id === 'theme') applyTheme(document.getElementById('theme').value);
+      if (id === 'fileChunkMode') syncChunkControls();
     });
   }
 

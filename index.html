@@ -222,12 +222,15 @@
                                     <!-- 已选择文件：文件信息 -->
                                     <div id="fileSelectedInfo"
                                         class="d-none file-pane-content d-flex flex-column justify-content-center">
-                                        <div class="d-flex align-items-center gap-2">
+                                        <div class="d-flex flex-wrap align-items-center gap-2">
                                             <i class="bi bi-file-earmark-text fs-4 text-body-secondary"></i>
                                             <div class="flex-grow-1 min-w-0">
                                                 <div id="fileName" class="fw-semibold text-break"></div>
                                                 <div id="fileSize" class="small text-body-secondary"></div>
                                             </div>
+                                            <!-- 选项由 file/decode.js 的 ENCODINGS 生成，避免与解码逻辑脱节 -->
+                                            <select class="form-select form-select-sm w-auto" id="fileEncoding"
+                                                title="文件编码" aria-label="文件编码"></select>
                                             <button class="btn btn-outline-secondary btn-sm" id="fileClearBtn"
                                                 title="移除文件">
                                                 <i class="bi bi-x-lg"></i>
