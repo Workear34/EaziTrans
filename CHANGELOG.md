@@ -1,5 +1,13 @@
 # 更新日志
 
+## 0.4.0 2026-10-06
+
+- 新增文件翻译，支持 TXT、Markdown、SRT、LRC、VTT、ASS、SSA、LOG 等文本格式
+- 新增文件编码选择、分段翻译进度显示与取消操作
+- 文件翻译完成后可预览原文和译文，并复制或下载译文
+- 优化文件翻译布局，避免进度区域导致译文面板出现多余空白
+- 重写 System Prompt 与 User Prompt，并将项目介绍中的 OpenCode 描述改为 AI Agent
+
 ## 0.3.2 2026-9-13
 
 - 翻译加载提示由全屏遮罩改为按钮内 spinner（Bootstrap spinner）
