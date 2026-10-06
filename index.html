@@ -219,9 +219,12 @@
                                         </div>
                                     </div>
 
-                                    <!-- 已选择文件：文件信息 -->
-                                    <div id="fileSelectedInfo"
-                                        class="d-none file-pane-content d-flex flex-column justify-content-center">
+                                    <!-- 已选择文件：先预览原文，再显示文件信息 -->
+                                    <textarea class="form-control translation-area w-100 file-pane-content d-none"
+                                        id="fileSourcePreview" rows="12" placeholder="文件内容将显示在这里"
+                                        readonly></textarea>
+
+                                    <div id="fileSelectedInfo" class="d-none mt-2">
                                         <div class="d-flex flex-wrap align-items-center gap-2">
                                             <i class="bi bi-file-earmark-text fs-4 text-body-secondary"></i>
                                             <div class="flex-grow-1 min-w-0">
@@ -265,7 +268,7 @@
 
                                 <!-- 右：译文预览 -->
                                 <div class="col-md-6 d-flex flex-column text-divider">
-                                    <textarea class="form-control translation-area w-100 file-pane-content"
+                                    <textarea class="form-control translation-area w-100 file-result-area"
                                         id="fileResult" rows="12" placeholder="译文将显示在这里"
                                         readonly=""></textarea>
                                     <div class="d-flex justify-content-end gap-2 mt-2">

@@ -24,7 +24,7 @@ const state = {
 export function initFileTab() {
   for (const id of [
     'fileSourceLang', 'fileTargetLang', 'fileSwapBtn', 'fileInput', 'fileDropZone',
-    'fileSelectedInfo', 'fileName', 'fileSize', 'fileEncoding', 'fileCharCount',
+    'fileSelectedInfo', 'fileSourcePreview', 'fileName', 'fileSize', 'fileEncoding', 'fileCharCount',
     'fileClearBtn', 'fileTranslateBtn', 'fileCancelBtn', 'fileProgressWrap',
     'fileProgressBar', 'fileStatus', 'fileResult', 'fileCopyBtn', 'fileDownloadBtn'
   ]) {
@@ -143,10 +143,12 @@ async function loadFile(file) {
   el.fileName.textContent = file.name;
   el.fileSize.textContent = `${formatSize(file.size)} · ${parsed.segments.length} 段 · ${text.length} 字符`;
   el.fileCharCount.textContent = text.length.toLocaleString('en-US');
+  el.fileSourcePreview.value = text;
   el.fileResult.value = '';
   state.output = '';
 
   show(el.fileDropZone, false);
+  show(el.fileSourcePreview, true);
   show(el.fileSelectedInfo, true);
   el.fileCopyBtn.disabled = true;
   el.fileDownloadBtn.disabled = true;
@@ -161,11 +163,13 @@ function showLoadFailure(file, message) {
   el.fileName.textContent = file.name;
   el.fileSize.textContent = message;
   el.fileCharCount.textContent = '—';
+  el.fileSourcePreview.value = '';
   el.fileResult.value = '';
   state.output = '';
   state.parsed = null;
 
   show(el.fileDropZone, false);
+  show(el.fileSourcePreview, false);
   show(el.fileSelectedInfo, true);
   el.fileCopyBtn.disabled = true;
   el.fileDownloadBtn.disabled = true;
@@ -188,6 +192,7 @@ function resetFile() {
   state.output = '';
   el.fileInput.value = '';
   el.fileResult.value = '';
+  el.fileSourcePreview.value = '';
   el.fileName.textContent = '';
   el.fileSize.textContent = '';
   el.fileCharCount.textContent = '0';
@@ -197,6 +202,7 @@ function resetFile() {
   el.fileStatus.textContent = '';
 
   show(el.fileSelectedInfo, false);
+  show(el.fileSourcePreview, false);
   show(el.fileProgressWrap, false);
   show(el.fileDropZone, true);
   show(el.fileCancelBtn, false);
