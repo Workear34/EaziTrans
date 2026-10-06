@@ -33,95 +33,260 @@
     </nav>
 
     <div class="container">
-        <div class="mt-4">
-            <div class="card shadow">
-                <!-- 顶部语言选择 -->
-                <div class="card-header">
-                    <div class="row align-items-center g-2">
-                        <div class="col">
-                            <select class="form-select" id="sourceLang">
-                                <option value="auto">自动检测</option>
-                                <option value="zh-hans">简体中文</option>
-                                <option value="zh-hant">繁体中文</option>
-                                <option value="en">英语</option>
-                                <option value="ja">日语</option>
-                                <option value="ko">韩语</option>
-                                <option value="fr">法语</option>
-                                <option value="de">德语</option>
-                                <option value="pt">葡萄牙语</option>
-                                <option value="es">西班牙语</option>
-                                <option value="ru">俄语</option>
-                                <option value="ar">阿拉伯语</option>
-                                <option value="hi">印地语</option>
-                                <option value="it">意大利语</option>
-                                <option value="nl">荷兰语</option>
-                                <option value="th">泰语</option>
-                                <option value="tr">土耳其语</option>
-                                <option value="vi">越南语</option>
-                                <option value="id">印尼语</option>
-                            </select>
-                        </div>
-
-                        <div class="col-auto">
-                            <button class="btn btn-primary" id="swapBtn" title="交换语言">
-                                <i class="bi bi-arrow-left-right"></i>
-                            </button>
-                        </div>
-
-                        <div class="col">
-                            <select class="form-select" id="targetLang">
-                                <option value="zh-hans">简体中文</option>
-                                <option value="zh-hant">繁体中文</option>
-                                <option value="en">英语</option>
-                                <option value="ja">日语</option>
-                                <option value="ko">韩语</option>
-                                <option value="fr">法语</option>
-                                <option value="de">德语</option>
-                                <option value="pt">葡萄牙语</option>
-                                <option value="es">西班牙语</option>
-                                <option value="ru">俄语</option>
-                                <option value="ar">阿拉伯语</option>
-                                <option value="hi">印地语</option>
-                                <option value="it">意大利语</option>
-                                <option value="nl">荷兰语</option>
-                                <option value="th">泰语</option>
-                                <option value="tr">土耳其语</option>
-                                <option value="vi">越南语</option>
-                                <option value="id">印尼语</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 文本区域 -->
-                <div class="card-body position-relative">
-                    <div class="row g-2 align-items-stretch">
-                        <!-- 原文 -->
-                        <div class="col-md-6 d-flex flex-column translation-pane">
-                            <textarea class="form-control translation-area" id="sourceText" rows="12"
-                                placeholder="请输入要翻译的文本"></textarea>
-                            <div class="d-flex justify-content-between">
-                                <div class="text-body-secondary align-self-center">
-                                    共 <span id="textCount">0</span> 个字符
+        <ul class="nav nav-pills mt-4" id="pills-tab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="pills-text-translation-tab" data-bs-toggle="pill"
+                    data-bs-target="#pills-text-translation" type="button" role="tab"
+                    aria-controls="pills-text-translation" aria-selected="true">文本翻译</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="pills-file-translation-tab" data-bs-toggle="pill"
+                    data-bs-target="#pills-file-translation" type="button" role="tab"
+                    aria-controls="pills-file-translation" aria-selected="false">文件翻译</button>
+            </li>
+        </ul>
+        <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show active" id="pills-text-translation" role="tabpanel"
+                aria-labelledby="pills-text-translation-tab" tabindex="0">
+                <div class="mt-2">
+                    <div class="card shadow">
+                        <!-- 顶部语言选择 -->
+                        <div class="card-header">
+                            <div class="row align-items-center g-2">
+                                <div class="col">
+                                    <select class="form-select" id="sourceLang">
+                                        <option value="auto">自动检测</option>
+                                        <option value="zh-hans">简体中文</option>
+                                        <option value="zh-hant">繁体中文</option>
+                                        <option value="en">英语</option>
+                                        <option value="ja">日语</option>
+                                        <option value="ko">韩语</option>
+                                        <option value="fr">法语</option>
+                                        <option value="de">德语</option>
+                                        <option value="pt">葡萄牙语</option>
+                                        <option value="es">西班牙语</option>
+                                        <option value="ru">俄语</option>
+                                        <option value="ar">阿拉伯语</option>
+                                        <option value="hi">印地语</option>
+                                        <option value="it">意大利语</option>
+                                        <option value="nl">荷兰语</option>
+                                        <option value="th">泰语</option>
+                                        <option value="tr">土耳其语</option>
+                                        <option value="vi">越南语</option>
+                                        <option value="id">印尼语</option>
+                                    </select>
                                 </div>
-                                <button class="btn btn-primary align-self-end" id="translateBtn">
-                                    <i class="bi bi-translate"></i>
-                                </button>
+
+                                <div class="col-auto">
+                                    <button class="btn btn-primary" id="swapBtn" title="交换语言">
+                                        <i class="bi bi-arrow-left-right"></i>
+                                    </button>
+                                </div>
+
+                                <div class="col">
+                                    <select class="form-select" id="targetLang">
+                                        <option value="zh-hans">简体中文</option>
+                                        <option value="zh-hant">繁体中文</option>
+                                        <option value="en">英语</option>
+                                        <option value="ja">日语</option>
+                                        <option value="ko">韩语</option>
+                                        <option value="fr">法语</option>
+                                        <option value="de">德语</option>
+                                        <option value="pt">葡萄牙语</option>
+                                        <option value="es">西班牙语</option>
+                                        <option value="ru">俄语</option>
+                                        <option value="ar">阿拉伯语</option>
+                                        <option value="hi">印地语</option>
+                                        <option value="it">意大利语</option>
+                                        <option value="nl">荷兰语</option>
+                                        <option value="th">泰语</option>
+                                        <option value="tr">土耳其语</option>
+                                        <option value="vi">越南语</option>
+                                        <option value="id">印尼语</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
 
-                        <!-- 译文 -->
-                        <div class="col-md-6 d-flex flex-column text-divider">
-                            <textarea class="form-control translation-area" id="targetText" rows="12"
-                                placeholder="翻译结果将显示在这里" readonly=""></textarea>
-                            <button class="btn btn-outline-secondary align-self-end" id="copyBtn">
-                                <i class="bi bi-copy"></i>
-                            </button>
+                        <!-- 文本区域 -->
+                        <div class="card-body position-relative">
+                            <div class="row g-2 align-items-stretch">
+                                <!-- 原文 -->
+                                <div class="col-md-6 d-flex flex-column translation-pane">
+                                    <textarea class="form-control translation-area" id="sourceText" rows="12"
+                                        placeholder="请输入要翻译的文本"></textarea>
+                                    <div class="d-flex justify-content-between">
+                                        <div class="text-body-secondary align-self-center">
+                                            共 <span id="textCount">0</span> 个字符
+                                        </div>
+                                        <button class="btn btn-primary align-self-end" id="translateBtn">
+                                            <i class="bi bi-translate"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- 译文 -->
+                                <div class="col-md-6 d-flex flex-column text-divider">
+                                    <textarea class="form-control translation-area" id="targetText" rows="12"
+                                        placeholder="翻译结果将显示在这里" readonly=""></textarea>
+                                    <button class="btn btn-outline-secondary align-self-end" id="copyBtn">
+                                        <i class="bi bi-copy"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="pills-file-translation" role="tabpanel"
+                aria-labelledby="pills-file-translation-tab" tabindex="0">
+                <div class="mt-2">
+                    <div class="card shadow">
+                        <!-- 顶部语言选择 -->
+                        <div class="card-header">
+                            <div class="row align-items-center g-2">
+                                <div class="col">
+                                    <select class="form-select" id="fileSourceLang">
+                                        <option value="auto">自动检测</option>
+                                        <option value="zh-hans">简体中文</option>
+                                        <option value="zh-hant">繁体中文</option>
+                                        <option value="en">英语</option>
+                                        <option value="ja">日语</option>
+                                        <option value="ko">韩语</option>
+                                        <option value="fr">法语</option>
+                                        <option value="de">德语</option>
+                                        <option value="pt">葡萄牙语</option>
+                                        <option value="es">西班牙语</option>
+                                        <option value="ru">俄语</option>
+                                        <option value="ar">阿拉伯语</option>
+                                        <option value="hi">印地语</option>
+                                        <option value="it">意大利语</option>
+                                        <option value="nl">荷兰语</option>
+                                        <option value="th">泰语</option>
+                                        <option value="tr">土耳其语</option>
+                                        <option value="vi">越南语</option>
+                                        <option value="id">印尼语</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-auto">
+                                    <button class="btn btn-primary" id="fileSwapBtn" title="交换语言">
+                                        <i class="bi bi-arrow-left-right"></i>
+                                    </button>
+                                </div>
+
+                                <div class="col">
+                                    <select class="form-select" id="fileTargetLang">
+                                        <option value="zh-hans">简体中文</option>
+                                        <option value="zh-hant">繁体中文</option>
+                                        <option value="en">英语</option>
+                                        <option value="ja">日语</option>
+                                        <option value="ko">韩语</option>
+                                        <option value="fr">法语</option>
+                                        <option value="de">德语</option>
+                                        <option value="pt">葡萄牙语</option>
+                                        <option value="es">西班牙语</option>
+                                        <option value="ru">俄语</option>
+                                        <option value="ar">阿拉伯语</option>
+                                        <option value="hi">印地语</option>
+                                        <option value="it">意大利语</option>
+                                        <option value="nl">荷兰语</option>
+                                        <option value="th">泰语</option>
+                                        <option value="tr">土耳其语</option>
+                                        <option value="vi">越南语</option>
+                                        <option value="id">印尼语</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-body position-relative">
+                            <div class="row g-2 align-items-stretch">
+                                <!-- 左：文件选择 -->
+                                <div class="col-md-6 d-flex flex-column translation-pane">
+                                    <!-- 隐藏的文件选择 input，由拖拽区点击触发 -->
+                                    <input type="file" id="fileInput" class="d-none"
+                                        accept=".txt,.text,.md,.markdown,.srt,.lrc,.vtt,.ass,.ssa,.log">
+
+                                    <!-- 未选择文件：拖拽选择区 -->
+                                    <div id="fileDropZone"
+                                        class="file-drop-zone file-pane-content d-flex flex-column justify-content-center"
+                                        role="button" tabindex="0" aria-describedby="fileFormatHint">
+                                        <i class="bi bi-cloud-arrow-up"></i>
+                                        <div class="fw-semibold">点击选择文件，或将文件拖拽到此处</div>
+                                        <div id="fileFormatHint" class="small text-body-secondary">
+                                            支持纯文本格式：TXT、MD、SRT、LRC、VTT、ASS、SSA、LOG
+                                        </div>
+                                    </div>
+
+                                    <!-- 已选择文件：先预览原文，再显示文件信息 -->
+                                    <textarea class="form-control translation-area w-100 file-pane-content d-none"
+                                        id="fileSourcePreview" rows="12" placeholder="文件内容将显示在这里"
+                                        readonly></textarea>
+
+                                    <div id="fileSelectedInfo" class="d-none mt-2">
+                                        <div class="d-flex flex-wrap align-items-center gap-2">
+                                            <i class="bi bi-file-earmark-text fs-4 text-body-secondary"></i>
+                                            <div class="flex-grow-1 min-w-0">
+                                                <div id="fileName" class="fw-semibold text-break"></div>
+                                                <div id="fileSize" class="small text-body-secondary"></div>
+                                            </div>
+                                            <!-- 选项由 file/decode.js 的 ENCODINGS 生成，避免与解码逻辑脱节 -->
+                                            <select class="form-select form-select-sm w-auto" id="fileEncoding"
+                                                title="文件编码" aria-label="文件编码"></select>
+                                            <button class="btn btn-outline-secondary btn-sm" id="fileClearBtn"
+                                                title="移除文件">
+                                                <i class="bi bi-x-lg"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <!-- 字数统计与操作按钮 -->
+                                    <div class="d-flex justify-content-between align-items-center mt-auto">
+                                        <div class="text-body-secondary">
+                                            共 <span id="fileCharCount">0</span> 个字符
+                                        </div>
+                                        <div class="d-flex gap-2">
+                                            <button class="btn btn-outline-secondary d-none" id="fileCancelBtn">取消
+                                            </button>
+                                            <button class="btn btn-primary" id="fileTranslateBtn" disabled>
+                                                <i class="bi bi-translate"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <!-- 翻译进度 -->
+                                    <div id="fileProgressWrap" class="mt-3 d-none">
+                                        <div class="progress">
+                                            <div id="fileProgressBar" class="progress-bar" role="progressbar"
+                                                style="width: 0%" aria-valuenow="0" aria-valuemin="0"
+                                                aria-valuemax="100"></div>
+                                        </div>
+                                        <div id="fileStatus" class="small text-body-secondary mt-1"></div>
+                                    </div>
+                                </div>
+
+                                <!-- 右：译文预览 -->
+                                <div class="col-md-6 d-flex flex-column text-divider">
+                                    <textarea class="form-control translation-area w-100 file-result-area"
+                                        id="fileResult" rows="12" placeholder="译文将显示在这里"
+                                        readonly=""></textarea>
+                                    <div class="d-flex justify-content-end gap-2 mt-2">
+                                        <button class="btn btn-outline-secondary" id="fileCopyBtn" disabled>
+                                            <i class="bi bi-copy"></i>
+                                        </button>
+                                        <button class="btn btn-success" id="fileDownloadBtn" disabled>
+                                            <i class="bi bi-download"></i> 下载译文
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
     </div>
 
     <!-- Toast 预留-->

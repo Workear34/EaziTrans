@@ -6,6 +6,7 @@ import * as bootstrap from 'bootstrap'
 
 import { settings, loadSettings } from './settings.js';
 import { createProvider, resolveEndpointUrl } from './api/index.js';
+import { initFileTab } from './file-tab.js';
 import {
   showToast,
   setButtonLoading,
@@ -125,3 +126,4 @@ initThemeListener(settings);
 bindEvents();
 initCharCount();
 updateTranslateBtnState();
+initFileTab();

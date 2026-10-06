@@ -66,12 +66,19 @@ export function initThemeListener(settings) {
   });
 }
 
-// 译文复制
-export function copyResult() {
-  const text = document.getElementById('targetText').value;
+// 复制任意文本到剪贴板
+export function copyText(text, okMessage = '已复制') {
   navigator.clipboard.writeText(text)
-    .then(() => showToast('已复制译文'))
+    .then(() => showToast(okMessage))
     .catch(() => showToast('复制失败'));
+}
+
+// 译文复制：targetId 指定译文所在 textarea，默认文本翻译页的 targetText，
+// 文件翻译页可传 'fileResult'。注意 textarea 会把 CRLF 规范化为 LF，
+// 需要逐字节保真的场景请直接用 copyText() 传入原始字符串。
+export function copyResult(targetId = 'targetText') {
+  const target = document.getElementById(targetId);
+  copyText(target ? target.value : '', '已复制译文');
 }
 
 // 文本字数统计

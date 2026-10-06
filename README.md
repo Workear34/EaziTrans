@@ -12,7 +12,7 @@ https://workear34.github.io/EaziTrans/
 
 **2. 请保管好您的 API 密钥，目前项目使用并不安全的 localStorage 存储密钥，后续会改进密钥存储方式。**
 
-**3. 由于本人水平和时间有限，目前代码大量依赖 OpenCode 辅助创作，因此代码质量较低。计划未来会逐步减少 AI 代码。**
+**3. 由于本人水平和时间有限，目前代码大量依赖 AI Agent 辅助创作，因此代码质量较低。计划未来会逐步减少 AI 生成的代码。**
 
 ## 特点
 
@@ -25,7 +25,7 @@ https://workear34.github.io/EaziTrans/
 
 ## 使用技术
 
-- OpenCode 辅助创作
+- AI Agent 辅助创作
 - Bootstrap
 - Bootstrap Icons
 - Vite
