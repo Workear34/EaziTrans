@@ -1,53 +1,53 @@
-// Import all of Bootstrap’s CSS
-@import "bootstrap/scss/bootstrap";
+// Bootstrap 6 改用 Sass 模块系统：@import 已被移除，必须使用 @use。
+// 命名空间 bs 用于调用 Bootstrap 的 mixin（如 bs.media-breakpoint-up）。
+@use "bootstrap/scss/bootstrap" as bs;
 
-// Update the import directory to point to it's location within node_modules
-$bootstrap-icons-font-dir: "bootstrap-icons/font/fonts";
+// Bootstrap Icons：字体目录改用 @use ... with 配置，
+// 取代 v5 里「先赋变量、再 @import」的写法。
+@use "bootstrap-icons/font/bootstrap-icons" with (
+  $bootstrap-icons-font-dir: "bootstrap-icons/font/fonts"
+);
 
-// Import the Sass files as usual
-@import "bootstrap-icons/font/bootstrap-icons";
-
-// 翻译输入/输出文本框：无边框、无 focus 光晕、固定大小
+// 翻译输入/输出文本框：无边框、无 focus 光晕、固定大小。
+// v6 的 .form-control 完全由 --control-* 令牌驱动，覆盖令牌即可。
+// 注意：本文件的样式不在 Bootstrap 的 @layer 中，按 CSS 级联层规则天然优先于组件样式。
 .translation-area {
-  --bs-border-width: 0;
-  --bs-border-radius: 0;
+  --control-border-width: 0;
+  --control-border-radius: 0;
+  --control-box-shadow: none;
   padding: 0;
   resize: none;
 
-  &:focus {
-    border-color: inherit;
+  &:focus,
+  &:focus-visible,
+  &:focus-within {
     outline: 0;
-    box-shadow: none;
   }
 }
 
 // 原文与译文面板：通过内边距让分隔线与文字保持对称间距
 .translation-pane {
-  padding-bottom: var(--bs-card-spacer-y);
-  @include media-breakpoint-up(md) {
+  padding-bottom: var(--card-spacer-y);
+  @include bs.media-breakpoint-up(md) {
     padding-bottom: 0;
-    padding-right: var(--bs-card-spacer-x);
+    padding-right: var(--card-spacer-x);
   }
 }
 
 // 原文与译文之间的分隔线：移动端为水平线，md 及以上为竖线
 .text-divider {
-  border-top: 1px solid var(--bs-border-color-translucent);
-  padding-top: var(--bs-card-spacer-y);
+  border-top: 1px solid var(--border-color-translucent);
+  padding-top: var(--card-spacer-y);
 
-  @include media-breakpoint-up(md) {
+  @include bs.media-breakpoint-up(md) {
     border-top: 0;
-    border-left: 1px solid var(--bs-border-color-translucent);
+    border-left: 1px solid var(--border-color-translucent);
     padding-top: 0;
-    padding-left: var(--bs-card-spacer-x);
+    padding-left: var(--card-spacer-x);
   }
 }
 
-// Bootstrap 未提供该工具类：flex 子项需要它才能收缩到内容宽度以下，
-// 否则过长的文件名会把整行撑破
-.min-w-0 {
-  min-width: 0;
-}
+// 说明：v5 里自定义的 .min-w-0 已删除——Bootstrap 6 内置了 .min-w-0 工具类。
 
 // 文件 tab 的预览区共用固定高度，保证拖拽区、原文预览与译文框上下严格对齐。
 // 18rem 与文本翻译 tab 中 rows=12 的 textarea 实际高度一致。
@@ -64,9 +64,9 @@ $bootstrap-icons-font-dir: "bootstrap-icons/font/fonts";
 
 // 文件拖拽选择区：虚线框，悬停或拖入文件时高亮（is-dragging 由 JS 添加）
 .file-drop-zone {
-  border: 2px dashed var(--bs-border-color);
-  border-radius: var(--bs-border-radius-lg);
-  padding: 2.5rem 1rem;
+  border: 2px dashed var(--border-color);
+  border-radius: var(--radius-5);
+  padding: var(--spacer-11) var(--spacer-5);
   text-align: center;
   cursor: pointer;
   transition: border-color .15s ease-in-out, background-color .15s ease-in-out;
@@ -74,17 +74,17 @@ $bootstrap-icons-font-dir: "bootstrap-icons/font/fonts";
   > .bi {
     display: block;
     font-size: 2rem;
-    color: var(--bs-secondary-color);
+    color: var(--fg-3);
   }
 
   &:hover,
   &:focus-visible {
-    border-color: var(--bs-primary);
-    background-color: var(--bs-tertiary-bg);
+    border-color: var(--primary-base);
+    background-color: var(--bg-3);
   }
 
   &.is-dragging {
-    border-color: var(--bs-primary);
-    background-color: var(--bs-primary-bg-subtle);
+    border-color: var(--primary-base);
+    background-color: var(--primary-bg-subtle);
   }
 }

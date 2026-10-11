@@ -8,53 +8,62 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <!-- v6 的响应式导航改用原生 <dialog class="drawer">，展开阈值由 lg:navbar-expand 提供
+         （容器查询，作用于 navbar 自身宽度），不再使用 collapse + navbar-collapse -->
+    <nav class="navbar lg:navbar-expand bg-3">
         <div class="container-fluid">
             <a class="navbar-brand" href="index.html">EaziTrans 翻译</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar"
-                aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="btn btn-icon navbar-toggler" type="button" data-bs-toggle="drawer" data-bs-target="#navbar"
+                aria-controls="navbar" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbar">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="index.html">
-                            <i class="bi bi-translate"></i> 翻译
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="settings.html">
-                            <i class="bi bi-gear"></i> 设置
-                        </a>
-                    </li>
-                </ul>
-            </div>
+            <dialog class="drawer drawer-end" id="navbar" aria-label="主导航">
+                <div class="drawer-header">
+                    <span class="drawer-title">导航</span>
+                    <button type="button" class="btn-close" data-bs-dismiss="drawer" aria-label="Close"></button>
+                </div>
+                <div class="drawer-body">
+                    <!-- lg:ms-auto：收起时（抽屉内为纵向排列）导航占满宽度，展开后在导航栏内靠右 -->
+                    <ul class="navbar-nav lg:ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="index.html">
+                                <i class="bi bi-translate"></i> 翻译
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="settings.html">
+                                <i class="bi bi-gear"></i> 设置
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </dialog>
         </div>
     </nav>
 
     <div class="container">
-        <ul class="nav nav-pills mt-4" id="pills-tab" role="tablist">
+        <ul class="nav nav-pills mt-7" id="pills-tab" role="tablist">
             <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="pills-text-translation-tab" data-bs-toggle="pill"
+                <button class="nav-link active" id="pills-text-translation-tab" data-bs-toggle="tab"
                     data-bs-target="#pills-text-translation" type="button" role="tab"
                     aria-controls="pills-text-translation" aria-selected="true">文本翻译</button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="pills-file-translation-tab" data-bs-toggle="pill"
+                <button class="nav-link" id="pills-file-translation-tab" data-bs-toggle="tab"
                     data-bs-target="#pills-file-translation" type="button" role="tab"
                     aria-controls="pills-file-translation" aria-selected="false">文件翻译</button>
             </li>
         </ul>
         <div class="tab-content" id="pills-tabContent">
-            <div class="tab-pane fade show active" id="pills-text-translation" role="tabpanel"
+            <div class="tab-pane active" id="pills-text-translation" role="tabpanel"
                 aria-labelledby="pills-text-translation-tab" tabindex="0">
-                <div class="mt-2">
+                <div class="mt-3">
                     <div class="card shadow">
                         <!-- 顶部语言选择 -->
                         <div class="card-header">
-                            <div class="row align-items-center g-2">
+                            <div class="row align-items-center g-3">
                                 <div class="col">
-                                    <select class="form-select" id="sourceLang">
+                                    <select class="form-control" id="sourceLang">
                                         <option value="auto">自动检测</option>
                                         <option value="zh-hans">简体中文</option>
                                         <option value="zh-hant">繁体中文</option>
@@ -78,13 +87,13 @@
                                 </div>
 
                                 <div class="col-auto">
-                                    <button class="btn btn-primary" id="swapBtn" title="交换语言">
+                                    <button class="btn-solid theme-primary" id="swapBtn" title="交换语言">
                                         <i class="bi bi-arrow-left-right"></i>
                                     </button>
                                 </div>
 
                                 <div class="col">
-                                    <select class="form-select" id="targetLang">
+                                    <select class="form-control" id="targetLang">
                                         <option value="zh-hans">简体中文</option>
                                         <option value="zh-hant">繁体中文</option>
                                         <option value="en">英语</option>
@@ -110,30 +119,30 @@
 
                         <!-- 文本区域 -->
                         <div class="card-body position-relative">
-                            <div class="row g-2 align-items-stretch">
+                            <div class="row g-3 align-items-stretch">
                                 <!-- 原文 -->
-                                <div class="col-md-6 d-flex flex-column translation-pane">
+                                <div class="md:col-6 d-flex flex-column translation-pane">
                                     <textarea class="form-control translation-area" id="sourceText" rows="12"
                                         placeholder="请输入要翻译的文本"></textarea>
                                     <div class="d-flex justify-content-between">
-                                        <div class="text-body-secondary align-self-center">
+                                        <div class="fg-secondary align-self-center">
                                             共 <span id="textCount">0</span> 个字符
                                         </div>
-                                        <button class="btn btn-primary align-self-end" id="translateBtn">
+                                        <button class="btn-solid theme-primary align-self-end" id="translateBtn">
                                             <i class="bi bi-translate"></i>
                                         </button>
                                     </div>
                                 </div>
 
                                 <!-- 译文 -->
-                                <div class="col-md-6 d-flex flex-column text-divider">
+                                <div class="md:col-6 d-flex flex-column text-divider">
                                     <textarea class="form-control translation-area" id="targetText" rows="12"
                                         placeholder="翻译结果将显示在这里" readonly=""></textarea>
                                     <div class="d-flex justify-content-between">
-                                        <div class="text-body-secondary align-self-center">
+                                        <div class="fg-secondary align-self-center">
                                             共 <span id="targetCharCount">0</span> 个字符
                                         </div>
-                                        <button class="btn btn-outline-secondary align-self-end" id="copyBtn">
+                                        <button class="btn-outline theme-secondary align-self-end" id="copyBtn">
                                             <i class="bi bi-copy"></i>
                                         </button>
                                     </div>
@@ -143,15 +152,15 @@
                     </div>
                 </div>
             </div>
-            <div class="tab-pane fade" id="pills-file-translation" role="tabpanel"
+            <div class="tab-pane" id="pills-file-translation" role="tabpanel"
                 aria-labelledby="pills-file-translation-tab" tabindex="0">
-                <div class="mt-2">
+                <div class="mt-3">
                     <div class="card shadow">
                         <!-- 顶部语言选择 -->
                         <div class="card-header">
-                            <div class="row align-items-center g-2">
+                            <div class="row align-items-center g-3">
                                 <div class="col">
-                                    <select class="form-select" id="fileSourceLang">
+                                    <select class="form-control" id="fileSourceLang">
                                         <option value="auto">自动检测</option>
                                         <option value="zh-hans">简体中文</option>
                                         <option value="zh-hant">繁体中文</option>
@@ -175,13 +184,13 @@
                                 </div>
 
                                 <div class="col-auto">
-                                    <button class="btn btn-primary" id="fileSwapBtn" title="交换语言">
+                                    <button class="btn-solid theme-primary" id="fileSwapBtn" title="交换语言">
                                         <i class="bi bi-arrow-left-right"></i>
                                     </button>
                                 </div>
 
                                 <div class="col">
-                                    <select class="form-select" id="fileTargetLang">
+                                    <select class="form-control" id="fileTargetLang">
                                         <option value="zh-hans">简体中文</option>
                                         <option value="zh-hant">繁体中文</option>
                                         <option value="en">英语</option>
@@ -206,9 +215,9 @@
                         </div>
 
                         <div class="card-body position-relative">
-                            <div class="row g-2 align-items-stretch">
+                            <div class="row g-3 align-items-stretch">
                                 <!-- 左：文件选择 -->
-                                <div class="col-md-6 d-flex flex-column translation-pane">
+                                <div class="md:col-6 d-flex flex-column translation-pane">
                                     <!-- 隐藏的文件选择 input，由拖拽区点击触发 -->
                                     <input type="file" id="fileInput" class="d-none"
                                         accept=".txt,.text,.md,.markdown,.srt,.lrc,.vtt,.ass,.ssa,.log">
@@ -219,7 +228,7 @@
                                         role="button" tabindex="0" aria-describedby="fileFormatHint">
                                         <i class="bi bi-cloud-arrow-up"></i>
                                         <div class="fw-semibold">点击选择文件，或将文件拖拽到此处</div>
-                                        <div id="fileFormatHint" class="small text-body-secondary">
+                                        <div id="fileFormatHint" class="small fg-secondary">
                                             支持纯文本格式：TXT、MD、SRT、LRC、VTT、ASS、SSA、LOG
                                         </div>
                                     </div>
@@ -229,17 +238,17 @@
                                         id="fileSourcePreview" rows="12" placeholder="文件内容将显示在这里"
                                         readonly></textarea>
 
-                                    <div id="fileSelectedInfo" class="d-none mt-2">
-                                        <div class="d-flex flex-wrap align-items-center gap-2">
-                                            <i class="bi bi-file-earmark-text fs-4 text-body-secondary"></i>
+                                    <div id="fileSelectedInfo" class="d-none mt-3">
+                                        <div class="d-flex flex-wrap align-items-center gap-3">
+                                            <i class="bi bi-file-earmark-text fs-xl fg-secondary"></i>
                                             <div class="flex-grow-1 min-w-0">
                                                 <div id="fileName" class="fw-semibold text-break"></div>
-                                                <div id="fileSize" class="small text-body-secondary"></div>
+                                                <div id="fileSize" class="small fg-secondary"></div>
                                             </div>
                                             <!-- 选项由 file/decode.js 的 ENCODINGS 生成，避免与解码逻辑脱节 -->
-                                            <select class="form-select form-select-sm w-auto" id="fileEncoding"
+                                            <select class="form-control form-control-sm w-auto" id="fileEncoding"
                                                 title="文件编码" aria-label="文件编码"></select>
-                                            <button class="btn btn-outline-secondary btn-sm" id="fileClearBtn"
+                                            <button class="btn-outline theme-secondary btn-sm" id="fileClearBtn"
                                                 title="移除文件">
                                                 <i class="bi bi-x-lg"></i>
                                             </button>
@@ -247,24 +256,24 @@
                                     </div>
 
                                     <!-- 翻译进度：紧跟文件信息，让进度与正在翻译的文件相邻 -->
-                                    <div id="fileProgressWrap" class="mt-3 d-none">
+                                    <div id="fileProgressWrap" class="mt-5 d-none">
                                         <div class="progress">
                                             <div id="fileProgressBar" class="progress-bar" role="progressbar"
                                                 style="width: 0%" aria-valuenow="0" aria-valuemin="0"
                                                 aria-valuemax="100"></div>
                                         </div>
-                                        <div id="fileStatus" class="small text-body-secondary mt-1"></div>
+                                        <div id="fileStatus" class="small fg-secondary mt-1"></div>
                                     </div>
 
                                     <!-- 字数统计与操作按钮：mt-auto 让它贴住面板底部，与右侧译文栏的按钮行对齐 -->
                                     <div class="d-flex justify-content-between align-items-center mt-auto">
-                                        <div class="text-body-secondary">
+                                        <div class="fg-secondary">
                                             共 <span id="fileCharCount">0</span> 个字符
                                         </div>
-                                        <div class="d-flex gap-2">
-                                            <button class="btn btn-outline-secondary d-none" id="fileCancelBtn">取消
+                                        <div class="d-flex gap-3">
+                                            <button class="btn-outline theme-secondary d-none" id="fileCancelBtn">取消
                                             </button>
-                                            <button class="btn btn-primary" id="fileTranslateBtn" disabled>
+                                            <button class="btn-solid theme-primary" id="fileTranslateBtn" disabled>
                                                 <i class="bi bi-translate"></i>
                                             </button>
                                         </div>
@@ -272,19 +281,19 @@
                                 </div>
 
                                 <!-- 右：译文预览 -->
-                                <div class="col-md-6 d-flex flex-column text-divider">
+                                <div class="md:col-6 d-flex flex-column text-divider">
                                     <textarea class="form-control translation-area w-100 file-result-area"
                                         id="fileResult" rows="12" placeholder="译文将显示在这里"
                                         readonly=""></textarea>
-                                    <div class="d-flex justify-content-between align-items-center mt-2">
-                                        <div class="text-body-secondary">
+                                    <div class="d-flex justify-content-between align-items-center mt-3">
+                                        <div class="fg-secondary">
                                             共 <span id="fileResultCharCount">0</span> 个字符
                                         </div>
-                                        <div class="d-flex gap-2">
-                                            <button class="btn btn-outline-secondary" id="fileCopyBtn" disabled>
+                                        <div class="d-flex gap-3">
+                                            <button class="btn-outline theme-secondary" id="fileCopyBtn" disabled>
                                                 <i class="bi bi-copy"></i>
                                             </button>
-                                            <button class="btn btn-success" id="fileDownloadBtn" disabled>
+                                            <button class="btn-solid theme-success" id="fileDownloadBtn" disabled>
                                                 <i class="bi bi-download"></i> 下载译文
                                             </button>
                                         </div>
@@ -300,15 +309,15 @@
     </div>
 
     <!-- Toast 预留-->
-    <div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3">
-        <div id="toast" class="toast align-items-center bg-primary-subtle text-primary-emphasis border-primary-subtle" role="alert" aria-live="assertive"
+    <div class="toast-container position-fixed top-0 start-50 translate-middle-x p-5">
+        <div id="toast" class="toast bg-subtle-primary fg-emphasis-primary border-subtle-primary" role="alert" aria-live="assertive"
             aria-atomic="true">
             <div class="d-flex">
                 <div class="toast-body">
                     <i class="bi bi-info-circle m-auto"></i>
                     <span id="toastMessage"></span>
                 </div>
-                <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"
+                <button type="button" class="btn-close me-3 m-auto" data-bs-dismiss="toast"
                     aria-label="Close"></button>
             </div>
         </div>

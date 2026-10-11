@@ -8,82 +8,90 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <!-- v6 的响应式导航改用原生 <dialog class="drawer">，展开阈值由 lg:navbar-expand 提供 -->
+    <nav class="navbar lg:navbar-expand bg-3">
         <div class="container-fluid">
             <a class="navbar-brand" href="index.html">EaziTrans 翻译</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar"
-                aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="btn btn-icon navbar-toggler" type="button" data-bs-toggle="drawer" data-bs-target="#navbar"
+                aria-controls="navbar" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbar">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="index.html">
-                            <i class="bi bi-translate"></i> 翻译
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="settings.html">
-                            <i class="bi bi-gear active"></i> 设置
-                        </a>
-                    </li>
-                </ul>
-            </div>
+            <dialog class="drawer drawer-end" id="navbar" aria-label="主导航">
+                <div class="drawer-header">
+                    <span class="drawer-title">导航</span>
+                    <button type="button" class="btn-close" data-bs-dismiss="drawer" aria-label="Close"></button>
+                </div>
+                <div class="drawer-body">
+                    <!-- lg:ms-auto：收起时（抽屉内为纵向排列）导航占满宽度，展开后在导航栏内靠右 -->
+                    <ul class="navbar-nav lg:ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="index.html">
+                                <i class="bi bi-translate"></i> 翻译
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="settings.html">
+                                <i class="bi bi-gear"></i> 设置
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </dialog>
         </div>
     </nav>
 
-    <div class="container mt-4">
-        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+    <div class="container mt-7">
+        <ul class="nav nav-pills mb-5" id="pills-tab" role="tablist">
             <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="pills-api-tab" data-bs-toggle="pill" data-bs-target="#pills-api"
+                <button class="nav-link active" id="pills-api-tab" data-bs-toggle="tab" data-bs-target="#pills-api"
                     type="button" role="tab" aria-controls="pills-api" aria-selected="true">翻译 API</button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="pills-ui-control-tab" data-bs-toggle="pill" data-bs-target="#pills-ui-control"
+                <button class="nav-link" id="pills-ui-control-tab" data-bs-toggle="tab" data-bs-target="#pills-ui-control"
                     type="button" role="tab" aria-controls="pills-ui-control" aria-selected="false">界面和交互</button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="pills-about-tab" data-bs-toggle="pill" data-bs-target="#pills-about"
+                <button class="nav-link" id="pills-about-tab" data-bs-toggle="tab" data-bs-target="#pills-about"
                     type="button" role="tab" aria-controls="pills-about" aria-selected="false">关于</button>
             </li>
         </ul>
         <div class="tab-content" id="pills-tabContent">
-            <div class="tab-pane fade show active" id="pills-api" role="tabpanel" aria-labelledby="pills-api-tab"
+            <div class="tab-pane active" id="pills-api" role="tabpanel" aria-labelledby="pills-api-tab"
                 tabindex="0">
                 <form>
-                    <div class="mb-3">
+                    <div class="mb-5">
                         <label class="form-label">提供商（兼容）</label>
-                        <select class="form-select" id="provider">
+                        <select class="form-control" id="provider">
                             <option value="openai">OpenAI (Chat Completions API)</option>
                             <option value="openai-responses">OpenAI (Responses API)</option>
                             <option value="claude">Anthropic Claude</option>
                         </select>
                         <div class="form-text">选择要使用的提供商</div>
                     </div>
-                    <div class="mb-3">
+                    <div class="mb-5">
                         <label class="form-label">API 地址</label>
                         <input class="form-control" type="text" id="apiUrl" placeholder="https://api.deepseek.com">
                         <div class="form-text">输入提供商的 API 基础地址（如 https://api.deepseek.com），也可填完整端点地址，<b>此选项为必填项</b>
                         </div>
                     </div>
 
-                    <div class="mb-3">
+                    <div class="mb-5">
                         <label class="form-label">API 密钥</label>
                         <input class="form-control" type="password" id="apiKey" placeholder="请输入 API 密钥">
                         <div class="form-text">输入提供商提供给你的 API 密钥，<b>此选项为必填项；LocalStorage 存储并不安全，请务必保管好您的 API 密钥</b>
                         </div>
                     </div>
 
-                    <div class="mb-3">
+                    <div class="mb-5">
                         <label class="form-label">模型选择</label>
                         <input class="form-control" type="text" id="model" placeholder="请输入模型名称">
                         <div class="form-text">输入要使用的模型名称</div>
                     </div>
 
-                    <div class="mb-3">
+                    <div class="mb-5">
                         <div class="d-flex justify-content-between align-items-center">
                             <label class="form-label mb-0">System Prompt</label>
-                            <button type="button" class="btn btn-sm btn-outline-secondary"
+                            <button type="button" class="btn-outline theme-secondary btn-sm"
                                 id="resetSystemPromptBtn">恢复默认</button>
                         </div>
                         <textarea class="form-control" id="systemPrompt" rows="8" placeholder="设置系统提示词...">你是专业的翻译引擎。把用户提供的文本从{source_lang}翻译成{target_lang}，只输出译文本身，不要输出解释、注释、原文或任何多余内容。
@@ -109,10 +117,10 @@
                         <div class="form-text">系统提示词，用于设定 AI 的翻译角色与规则。<b>不了解其作用请勿修改</b>。占位符：{source_lang}、{target_lang}</div>
                     </div>
 
-                    <div class="mb-3">
+                    <div class="mb-5">
                         <div class="d-flex justify-content-between align-items-center">
                             <label class="form-label mb-0">User Prompt</label>
-                            <button type="button" class="btn btn-sm btn-outline-secondary"
+                            <button type="button" class="btn-outline theme-secondary btn-sm"
                                 id="resetPromptTemplateBtn">恢复默认</button>
                         </div>
                         <textarea class="form-control" id="promptTemplate" rows="6" placeholder="设置翻译提示模板...">把下面的{source_lang}内容翻译成{target_lang}：
@@ -125,54 +133,57 @@
                     </div>
                 </form>
             </div>
-            <div class="tab-pane fade" id="pills-ui-control" role="tabpanel" aria-labelledby="pills-ui-control-tab"
+            <div class="tab-pane" id="pills-ui-control" role="tabpanel" aria-labelledby="pills-ui-control-tab"
                 tabindex="0">
                 <form>
-                    <div class="mb-3">
+                    <div class="mb-5">
                         <label class="form-label">主题设置</label>
-                        <select class="form-select" id="theme" aria-label="选择一个主题">
+                        <select class="form-control" id="theme" aria-label="选择一个主题">
                             <option value="auto">跟随系统</option>
                             <option value="light">浅色</option>
                             <option value="dark">深色</option>
                         </select>
                     </div>
 
-                    <div class="mb-3">
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" role="switch" id="autoTranslate" checked>
-                            <label class="form-check-label" for="autoTranslate">自动翻译</label>
+                    <div class="mb-5">
+                        <!-- v6 的开关：.form-field 包住 .switch（内含无 class 的 input）与同级 label -->
+                        <div class="form-field">
+                            <div class="switch">
+                                <input type="checkbox" role="switch" id="autoTranslate" checked>
+                            </div>
+                            <label for="autoTranslate">自动翻译</label>
                         </div>
                         <div class="form-text">开启后，输入文本或切换语言 1 秒后将自动触发翻翻译</div>
                     </div>
 
-                    <div class="mb-3">
+                    <div class="mb-5">
                         <label class="form-label">文件翻译分块方式</label>
-                        <select class="form-select" id="fileChunkMode">
+                        <select class="form-control" id="fileChunkMode">
                             <option value="auto">按字数分块</option>
                             <option value="whole">不分块（整份文件一次翻译）</option>
                         </select>
                         <div class="form-text">分块后每块单独请求，能显示逐块进度，也不容易超出模型上下文上限</div>
                     </div>
 
-                    <div class="mb-3">
+                    <div class="mb-5">
                         <label class="form-label">每块字数上限</label>
                         <input class="form-control" type="number" id="fileChunkChars" min="200" max="20000" step="100">
                         <div class="form-text">单块最多包含的字符数，可接受范围 200–20000。数值越大请求越少、速度越快，但越容易超出模型上下文</div>
                     </div>
 
-                    <div class="alert alert-warning d-none" id="fileChunkWarning">
+                    <div class="alert theme-warning d-none" id="fileChunkWarning">
                         <b>已选择不分块</b>：整份文件会作为一次请求发送。大文件会明显变慢，而且很容易超出模型的上下文上限导致翻译失败。除非文件很小，否则建议改用「按字数分块」。
                     </div>
 
-                    <div class="mb-3">
-                        <button type="button" class="btn btn-outline-danger" id="resetSettingsBtn">
+                    <div class="mb-5">
+                        <button type="button" class="btn-outline theme-danger" id="resetSettingsBtn">
                             <i class="bi bi-arrow-counterclockwise"></i> 重置所有设置
                         </button>
                         <div class="form-text">将所有设置恢复为默认值（包括 API 地址与 API 密钥），此操作无法撤销</div>
                     </div>
                 </form>
             </div>
-            <div class="tab-pane fade" id="pills-about" role="tabpanel" aria-labelledby="pills-about-tab"
+            <div class="tab-pane" id="pills-about" role="tabpanel" aria-labelledby="pills-about-tab"
                 tabindex="0">
                 <div>
                     <h2>EaziTrans 翻译</h2>
@@ -203,35 +214,31 @@
 
 
 
-    <!-- 重置确认对话框 -->
-    <div class="modal fade" id="resetModal" tabindex="-1" aria-labelledby="resetModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="resetModalLabel">确认重置所有设置？</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    此操作将清除全部设置（包括 API 地址与 API 密钥）并恢复为默认值，无法撤销。
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-danger" id="confirmResetBtn">确认重置</button>
-                </div>
-            </div>
+    <!-- 重置确认对话框：v6 改为原生 <dialog>，不再需要 modal-dialog / modal-content 外层 -->
+    <dialog class="dialog" id="resetDialog" aria-labelledby="resetDialogLabel">
+        <div class="dialog-header">
+            <h5 class="dialog-title" id="resetDialogLabel">确认重置所有设置？</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="dialog" aria-label="Close"></button>
         </div>
-    </div>
+        <div class="dialog-body">
+            此操作将清除全部设置（包括 API 地址与 API 密钥）并恢复为默认值，无法撤销。
+        </div>
+        <div class="dialog-footer">
+            <button type="button" class="btn-solid theme-secondary" data-bs-dismiss="dialog">取消</button>
+            <button type="button" class="btn-solid theme-danger" id="confirmResetBtn">确认重置</button>
+        </div>
+    </dialog>
 
     <!-- Toast 预留-->
-    <div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3">
-        <div id="toast" class="toast align-items-center bg-primary-subtle text-primary-emphasis border-primary-subtle" role="alert" aria-live="assertive"
+    <div class="toast-container position-fixed top-0 start-50 translate-middle-x p-5">
+        <div id="toast" class="toast bg-subtle-primary fg-emphasis-primary border-subtle-primary" role="alert" aria-live="assertive"
             aria-atomic="true">
             <div class="d-flex">
                 <div class="toast-body">
                     <i class="bi bi-info-circle m-auto"></i>
                     <span id="toastMessage"></span>
                 </div>
-                <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"
+                <button type="button" class="btn-close me-3 m-auto" data-bs-dismiss="toast"
                     aria-label="Close"></button>
             </div>
         </div>
