@@ -13,7 +13,8 @@ import {
   applyTheme,
   initThemeListener,
   copyResult,
-  initCharCount
+  initCharCount,
+  refreshCharCount
 } from './ui.js';
 
 // 导入提供商适配器（触发注册）
@@ -56,6 +57,7 @@ function swapLanguages() {
   const tmpText = sourceText.value;
   sourceText.value = targetText.value;
   targetText.value = tmpText;
+  refreshCharCount('sourceText', 'targetText');
   updateTranslateBtnState();
 }
 
@@ -82,12 +84,14 @@ async function translate() {
   const tgtLang = document.getElementById('targetLang').value;
   if (srcLang === tgtLang) {
     document.getElementById('targetText').value = srcText;
+    refreshCharCount('targetText');
     return;
   }
 
   const translateBtn = document.getElementById('translateBtn');
   setButtonLoading(translateBtn, true);
   document.getElementById('targetText').value = '';
+  refreshCharCount('targetText');
 
   try {
     const provider = createProvider(settings.provider);
@@ -107,6 +111,7 @@ async function translate() {
 
     for await (const chunk of provider.stream(res)) {
       document.getElementById('targetText').value += chunk;
+      refreshCharCount('targetText');
     }
   } catch (e) {
     // 控制台输出错误

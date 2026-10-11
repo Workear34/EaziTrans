@@ -26,7 +26,8 @@ export function initFileTab() {
     'fileSourceLang', 'fileTargetLang', 'fileSwapBtn', 'fileInput', 'fileDropZone',
     'fileSelectedInfo', 'fileSourcePreview', 'fileName', 'fileSize', 'fileEncoding', 'fileCharCount',
     'fileClearBtn', 'fileTranslateBtn', 'fileCancelBtn', 'fileProgressWrap',
-    'fileProgressBar', 'fileStatus', 'fileResult', 'fileCopyBtn', 'fileDownloadBtn'
+    'fileProgressBar', 'fileStatus', 'fileResult', 'fileResultCharCount',
+    'fileCopyBtn', 'fileDownloadBtn'
   ]) {
     el[id] = document.getElementById(id);
   }
@@ -100,6 +101,12 @@ function bindEvents() {
 
 const show = (element, visible) => element.classList.toggle('d-none', !visible);
 
+// 写入译文预览并同步字数：直接赋值不会触发 input 事件，计数器得手动更新
+function setFileResult(text) {
+  el.fileResult.value = text;
+  el.fileResultCharCount.textContent = text.length.toLocaleString('en-US');
+}
+
 /** 读取文件、按所选编码解码、解析出可翻译片段 */
 async function loadFile(file) {
   const ext = getExtension(file.name);
@@ -144,7 +151,7 @@ async function loadFile(file) {
   el.fileSize.textContent = `${formatSize(file.size)} · ${parsed.segments.length} 段 · ${text.length} 字符`;
   el.fileCharCount.textContent = text.length.toLocaleString('en-US');
   el.fileSourcePreview.value = text;
-  el.fileResult.value = '';
+  setFileResult('');
   state.output = '';
 
   show(el.fileDropZone, false);
@@ -164,7 +171,7 @@ function showLoadFailure(file, message) {
   el.fileSize.textContent = message;
   el.fileCharCount.textContent = '—';
   el.fileSourcePreview.value = '';
-  el.fileResult.value = '';
+  setFileResult('');
   state.output = '';
   state.parsed = null;
 
@@ -191,7 +198,7 @@ function resetFile() {
   state.parsed = null;
   state.output = '';
   el.fileInput.value = '';
-  el.fileResult.value = '';
+  setFileResult('');
   el.fileSourcePreview.value = '';
   el.fileName.textContent = '';
   el.fileSize.textContent = '';
@@ -253,7 +260,7 @@ async function translateFile() {
   el.fileDownloadBtn.disabled = true;
   show(el.fileProgressWrap, true);
   setProgress(0, parsed.segments.length, whole ? '正在翻译整份文件…' : '准备中…');
-  el.fileResult.value = '';
+  setFileResult('');
   state.output = '';
 
   try {
@@ -271,7 +278,7 @@ async function translateFile() {
     // 权威副本存进 state：textarea 会把 CRLF 规范化为 LF，
     // 预览可以接受，但复制和下载必须用这份原始字符串才能保住原文件的换行风格
     state.output = output;
-    el.fileResult.value = output;
+    setFileResult(output);
     el.fileStatus.textContent = `完成：${parsed.segments.length} 段已翻译`;
     el.fileCopyBtn.disabled = false;
     el.fileDownloadBtn.disabled = false;

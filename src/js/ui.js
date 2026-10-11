@@ -81,12 +81,32 @@ export function copyResult(targetId = 'targetText') {
   copyText(target ? target.value : '', '已复制译文');
 }
 
-// 文本字数统计
-export function initCharCount() {
-  const sourceText = document.getElementById('sourceText');
-  const counter = document.getElementById('textCount');
+// 字数统计：textareaId → 刷新函数，供 refreshCharCount 按 id 触发
+const charCountUpdaters = new Map();
 
-  const update = () => { counter.textContent = sourceText.value.length; };
-  sourceText.addEventListener('input', update);
+/**
+ * 把文本框与它的「共 N 个字符」计数器绑定。
+ * @param {string} textareaId 文本框 id
+ * @param {string} counterId 计数器 span 的 id
+ */
+function bindCharCount(textareaId, counterId) {
+  const textarea = document.getElementById(textareaId);
+  const counter = document.getElementById(counterId);
+  if (!textarea || !counter) return;
+
+  const update = () => { counter.textContent = textarea.value.length; };
+  textarea.addEventListener('input', update);
   update();   // 页面加载时立即算一次初始值，这样刷新后也能看到计数
+  charCountUpdaters.set(textareaId, update);
+}
+
+// 程序化赋值（如流式追加译文）不会触发 input 事件，需要在这些地方手动刷新
+export function refreshCharCount(...textareaIds) {
+  for (const id of textareaIds) charCountUpdaters.get(id)?.();
+}
+
+// 文本翻译页：原文与译文各一个计数器
+export function initCharCount() {
+  bindCharCount('sourceText', 'textCount');
+  bindCharCount('targetText', 'targetCharCount');
 }
