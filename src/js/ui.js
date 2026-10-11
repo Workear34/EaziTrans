@@ -1,7 +1,7 @@
 import * as bootstrap from 'bootstrap';
 
 const toastBody = document.getElementById('toastMessage');
-const toast = new bootstrap.Toast(document.getElementById('toast'), { delay: 2000 });
+const toast = new bootstrap.Toast(document.getElementById('toast'), { delay: 3000 });
 
 // 模态框函数
 export function showToast(msg, type = 'info') {
