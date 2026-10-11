@@ -47,7 +47,7 @@ https://workear34.github.io/EaziTrans/
 
 - [ ] IndexDB 实现翻译历史记录
 
-- [ ] File API 文档翻译
+- [x] File API 文档翻译
 
 ## 许可协议
 
