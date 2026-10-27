@@ -1,8 +1,7 @@
 // Import our custom CSS
 import '../scss/styles.scss'
 
-// Import all of Bootstrap’s JS
-import * as bootstrap from 'bootstrap'
+// Bootstrap 的组件与数据 API 由 ui.js 统一按需注册（Tab、Drawer、Toast、Dialog）
 
 import { settings, loadSettings } from './settings.js';
 import { createProvider, resolveEndpointUrl } from './api/index.js';
