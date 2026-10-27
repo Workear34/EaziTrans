@@ -8,6 +8,17 @@
   $bootstrap-icons-font-dir: "bootstrap-icons/font/fonts"
 );
 
+// 临时覆盖 Bootstrap 6 默认常驻的滚动条预留位：页面常态不预留，
+// 打开 Dialog/Drawer 锁定页面滚动时再预留，避免弹窗开合造成横向跳动。
+:root,
+:host {
+  scrollbar-gutter: auto;
+}
+
+:root.dialog-open {
+  scrollbar-gutter: stable;
+}
+
 // 翻译输入/输出文本框：无边框、无 focus 光晕、固定大小。
 // v6 的 .form-control 完全由 --control-* 令牌驱动，覆盖令牌即可。
 // 注意：本文件的样式不在 Bootstrap 的 @layer 中，按 CSS 级联层规则天然优先于组件样式。
