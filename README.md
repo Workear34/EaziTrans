@@ -18,7 +18,7 @@ https://workear34.github.io/EaziTrans/
 
 **2. 请保管好您的 API 密钥，目前项目使用并不安全的 localStorage 存储密钥，后续会改进密钥存储方式。**
 
-**3. 由于本人水平和时间有限，目前代码大量依赖 AI Agent 辅助创作，因此代码质量较低。计划未来会逐步减少 AI 生成的代码。**
+**3. 由于本人水平和时间有限，目前代码大量依赖 AI Agent 辅助创作，因此代码质量较低，还请谅解。**
 
 ## 特点
 
@@ -54,6 +54,9 @@ https://workear34.github.io/EaziTrans/
 - [ ] IndexDB 实现翻译历史记录
 
 - [x] File API 文档翻译
+  
+- [ ] 减少 AI 生成低质量代码比例
+- [ ] UI 库更新为 Bootstrap v6
 
 ## 许可协议
 
