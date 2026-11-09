@@ -2,7 +2,7 @@
 import '../scss/styles.scss'
 
 import { settings, loadSettings, saveSettings, resetSettings, DEFAULT_SETTINGS, clampFileChunkChars } from './settings.js';
-import { showToast, applyTheme, initThemeListener, Modal } from './ui.js';
+import { showToast, applyTheme, initThemeListener, Dialog } from './ui.js';
 
 // 项目版本
 document.getElementById('version').textContent = `${__APP_VERSION__}`;
@@ -49,7 +49,7 @@ function collectAndSave() {
 }
 
 // 重置确认对话框
-const resetModal = new Modal(document.getElementById('resetModal'));
+const resetDialog = new Dialog(document.getElementById('resetDialog'));
 const resetBtn = document.getElementById('resetSettingsBtn');
 const confirmResetBtn = document.getElementById('confirmResetBtn');
 
@@ -111,9 +111,9 @@ function bindEvents() {
   });
 
   // 重置所有设置
-  resetBtn.addEventListener('click', () => resetModal.show());
+  resetBtn.addEventListener('click', () => resetDialog.show());
   confirmResetBtn.addEventListener('click', () => {
-    resetModal.hide();
+    resetDialog.hide();
     resetForm();
   });
 
