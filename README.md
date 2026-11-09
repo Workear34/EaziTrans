@@ -2,6 +2,12 @@
 
 一个基于大模型的 AI 翻译界面实现。
 
+[![版本](https://img.shields.io/github/package-json/v/Workear34/EaziTrans?label=version&color=2ea44f)](https://github.com/Workear34/EaziTrans/releases)
+[![许可证](https://img.shields.io/github/license/Workear34/EaziTrans?color=blue)](LICENSE)
+[![部署](https://img.shields.io/github/actions/workflow/status/Workear34/EaziTrans/deploy.yml?label=deploy)](https://github.com/Workear34/EaziTrans/actions/workflows/deploy.yml)
+[![最近提交](https://img.shields.io/github/last-commit/Workear34/EaziTrans?label=last%20commit)](https://github.com/Workear34/EaziTrans/commits/main)
+[![在线体验](https://img.shields.io/badge/%E5%9C%A8%E7%BA%BF%E4%BD%93%E9%AA%8C-GitHub%20Pages-2ea44f?logo=githubpages&logoColor=white)](https://workear34.github.io/EaziTrans/)
+
 ## 在线体验
 
 https://workear34.github.io/EaziTrans/
