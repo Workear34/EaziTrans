@@ -4,8 +4,12 @@ import '../scss/styles.scss'
 import { settings, loadSettings, saveSettings, resetSettings, DEFAULT_SETTINGS, clampFileChunkChars } from './settings.js';
 import { showToast, applyTheme, initThemeListener, Modal } from './ui.js';
 
-// 项目版本
-document.getElementById('version').textContent = `${__APP_VERSION__}`;
+// 项目版本：v0.4.0-4（43e0cc1 · 2026-11-09）
+// 版本号取自最近的 tag，-N 为距该 tag 的提交数；git 信息缺失时自动省略
+const versionSuffix = __GIT_COUNT__ && __GIT_COUNT__ !== '0' ? `-${__GIT_COUNT__}` : '';
+const gitInfo = [__GIT_COMMIT__, __GIT_DATE__].filter(Boolean).join(' · ');
+document.getElementById('version').textContent =
+    `${__APP_VERSION__}${versionSuffix}${gitInfo ? `（${gitInfo}）` : ''}`;
 
 // 将已加载的设置填充到表单
 function initSettingsForm() {
