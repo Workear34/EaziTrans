@@ -13,10 +13,13 @@ npm run preview  # 预览生产构建
 ```
 
 ## 版本发布
-当用户要求发布版本时，按以下顺序执行：
-1. 更新 `package.json` 中的 `"version"` 字段。
+版本号以 git tag 为准，关于页显示形如 `v0.4.0-4（43e0cc1 · 2026-11-09）`（tag + 距该 tag 的提交数 + 提交 ID + 提交日期），发布流程由 AI 自动执行：
+1. 更新 `package.json` 中的 `"version"` 字段（需与 tag 一致，仅作构建兜底）。
 2. 更新 `CHANGELOG.md`，在顶部按 `## <版本号> <日期>` 格式新增条目。
 3. 打上对应版本号的 git tag（如 `v0.4.0`）。
+4. 推送代码与 tag：`git push origin main --tags`。
+
+注意：只推代码不打 tag 时，关于页会继续显示上一个 tag 的版本，提交数递增；`package.json` 与 tag 不一致时以 tag 为准。
 
 ## Commit 规范
 - 提交信息使用 `<类型>: <中文说明>` 格式。
@@ -44,7 +47,7 @@ settings.html        — 设置页 UI 布局
 ## 架构要点
 - **双入口**：`index.html` → `src/js/main.js`（翻译页），`settings.html` → `src/js/settings-page.js`（设置页）。两页共用 `settings.js`、`ui.js` 与 `api/` 模块。
 - **模块化**：`main.js` 仅负责翻译页编排，具体逻辑委托给各模块。`api/index.js` 定义 `Provider` 基类（`buildRequest` + `async *stream` + `static endpointPath`），各适配器继承后注册到工厂。
-- **构建配置**：`vite.config.js` 通过 `define` 注入全局常量 `__APP_VERSION__`（读取自 `package.json`），并通过 `rollupOptions.input` 配置多页构建（`index.html` + `settings.html`）。
+- **构建配置**：`vite.config.js` 通过 `define` 注入 `__APP_VERSION__`、`__GIT_COUNT__`、`__GIT_COMMIT__`、`__GIT_DATE__`（分别由 `git describe --tags --long`、`git rev-parse --short`、`git log -1 --format=%cs` 读取，git 不可用时自动降级），并通过 `rollupOptions.input` 配置多页构建（`index.html` + `settings.html`）；CI 的 checkout 需 `fetch-depth: 0` 才能取到 tag。
 - **依赖**：`bootstrap`（固定 `6.0.0-alpha.1`）、`bootstrap-icons`、`@floating-ui/dom`；Vite 处理 ESM 导入。Bootstrap 6 为纯 ESM，且不再需要 `@popperjs/core`（已由 `@floating-ui/dom` 取代）。
 
 ## 关键实现细节
