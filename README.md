@@ -2,6 +2,12 @@
 
 一个基于大模型的 AI 翻译界面实现。
 
+[![版本](https://img.shields.io/github/package-json/v/Workear34/EaziTrans?label=version&color=2ea44f)](https://github.com/Workear34/EaziTrans/releases)
+[![许可证](https://img.shields.io/github/license/Workear34/EaziTrans?color=blue)](LICENSE)
+[![部署](https://img.shields.io/github/actions/workflow/status/Workear34/EaziTrans/deploy.yml?label=deploy)](https://github.com/Workear34/EaziTrans/actions/workflows/deploy.yml)
+[![最近提交](https://img.shields.io/github/last-commit/Workear34/EaziTrans?label=last%20commit)](https://github.com/Workear34/EaziTrans/commits/main)
+[![在线体验](https://img.shields.io/badge/%E5%9C%A8%E7%BA%BF%E4%BD%93%E9%AA%8C-GitHub%20Pages-2ea44f?logo=githubpages&logoColor=white)](https://workear34.github.io/EaziTrans/)
+
 ## 在线体验
 
 https://workear34.github.io/EaziTrans/
@@ -14,7 +20,7 @@ https://workear34.github.io/EaziTrans/
 
 **2. 请保管好您的 API 密钥，目前项目使用并不安全的 localStorage 存储密钥，后续会改进密钥存储方式。**
 
-**3. 由于本人水平和时间有限，目前代码大量依赖 AI Agent 辅助创作，因此代码质量较低。计划未来会逐步减少 AI 生成的代码。**
+**3. 由于本人水平和时间有限，目前代码大量依赖 AI Agent 辅助创作，因此代码质量较低，还请谅解。**
 
 ## 特点
 
@@ -129,6 +135,9 @@ npm ci
 - [ ] IndexDB 实现翻译历史记录
 
 - [x] File API 文档翻译
+  
+- [ ] 减少 AI 生成低质量代码比例
+- [ ] UI 库更新为 Bootstrap v6
 
 ## 许可协议
 
