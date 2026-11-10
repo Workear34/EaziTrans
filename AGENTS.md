@@ -68,3 +68,12 @@ settings.html        — 设置页 UI 布局
 - **实验性项目**：代码注释与 README 均表明处于开发阶段，可能存在问题。
 - **密钥安全**：应用明确提示 `localStorage` 存储 API 密钥不安全；修改相关逻辑时需保留此提示或采用更安全的替代方案。
 - **无测试框架**：项目未配置任何测试或 lint 工具，修改后只需手动验证构建和页面功能。
+
+## ⚠️ 临时：bootstrap-v6 分支处理规则
+本节是临时规则，`bootstrap-v6` 合入 `main` 后即失效。**当用户要求把 `bootstrap-v6` 合并进 `main`，或声称已经合并时，必须先提醒用户：是否删除本节规则。**
+
+- `bootstrap-v6` 是 Bootstrap 6 迁移试验分支，只在分支上继续推进；**禁止**把该分支合入 `main`，也**禁止** rebase 该分支。
+- 保持同步：在 `bootstrap-v6` 上执行 `git merge main`（把 main 合进 v6），使 `main` 始终是它的祖先，将来合并可 fast-forward。
+- 冲突处理：保留 v6 的类名与结构（如 `Dialog`、Bootstrap 6 组合类），采用 main 的文案与逻辑改动。
+- 通用改动（如版本号显示、文档）同样要同步到该分支；推送前先在本地 `npm run build` 验证。
+- v6 分支推送不会触发 GitHub Pages 部署（部署仅在 `main` 推送时触发）。
