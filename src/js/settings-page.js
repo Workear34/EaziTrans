@@ -1,6 +1,7 @@
 // Import our custom CSS
 import '../scss/styles.scss'
 
+import Range from 'bootstrap/js/dist/range.js'
 import { settings, loadSettings, saveSettings, resetSettings, DEFAULT_SETTINGS, clampFileChunkChars } from './settings.js';
 import { showToast, applyTheme, initThemeListener, Dialog } from './ui.js';
 
@@ -22,10 +23,26 @@ function initSettingsForm() {
   document.getElementById('autoTranslate').checked = settings.autoTranslate;
   document.getElementById('fileChunkMode').value = settings.fileChunkMode;
   document.getElementById('fileChunkChars').value = settings.fileChunkChars;
+  syncChunkRange();
   document.getElementById('model').value = settings.model;
 
   syncChunkControls();
   applyTheme(settings.theme);
+}
+
+// 同步 Range 组件的数值气泡，并桥接 Sass 源码与插件写入的填充令牌
+function syncChunkRange() {
+  const input = document.getElementById('fileChunkChars');
+  const wrapper = input.closest('.form-range');
+  const range = Range.getOrCreateInstance(wrapper);
+
+  range.update();
+  syncChunkRangeFill(wrapper);
+}
+
+function syncChunkRangeFill(wrapper = document.getElementById('fileChunkChars').closest('.form-range')) {
+  const fill = wrapper.style.getPropertyValue('--bs-range-fill') || '0';
+  wrapper.style.setProperty('--range-fill', fill);
 }
 
 // 分块方式与字数互相影响：选「不分块」时字数输入框失效并给出警告
@@ -102,6 +119,8 @@ function bindEvents() {
       if (id === 'fileChunkMode') syncChunkControls();
     });
   }
+
+  document.getElementById('fileChunkChars').addEventListener('input', () => syncChunkRangeFill());
 
   // API 地址失焦时校验 URL 格式
   document.getElementById('apiUrl').addEventListener('blur', () => {

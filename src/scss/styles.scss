@@ -73,6 +73,25 @@
   height: auto;
 }
 
+// Range 数值气泡只在交互时显示，端点刻度与滑块拇指中心对齐。
+.form-range {
+  .form-range-bubble {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .15s ease-in-out, visibility .15s ease-in-out;
+  }
+
+  &:hover .form-range-bubble,
+  &:focus-within .form-range-bubble {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .form-range-ticks {
+    padding-inline: calc(var(--range-thumb-width) * .5);
+  }
+}
+
 // 文件拖拽选择区：虚线框，悬停或拖入文件时高亮（is-dragging 由 JS 添加）
 .file-drop-zone {
   border: 2px dashed var(--border-color);

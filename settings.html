@@ -47,8 +47,9 @@
                     type="button" role="tab" aria-controls="pills-api" aria-selected="true">翻译 API</button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="pills-ui-control-tab" data-bs-toggle="tab" data-bs-target="#pills-ui-control"
-                    type="button" role="tab" aria-controls="pills-ui-control" aria-selected="false">界面和交互</button>
+                <button class="nav-link" id="pills-ui-control-tab" data-bs-toggle="tab"
+                    data-bs-target="#pills-ui-control" type="button" role="tab" aria-controls="pills-ui-control"
+                    aria-selected="false">界面和交互</button>
             </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="pills-about-tab" data-bs-toggle="tab" data-bs-target="#pills-about"
@@ -56,8 +57,7 @@
             </li>
         </ul>
         <div class="tab-content" id="pills-tabContent">
-            <div class="tab-pane active" id="pills-api" role="tabpanel" aria-labelledby="pills-api-tab"
-                tabindex="0">
+            <div class="tab-pane active" id="pills-api" role="tabpanel" aria-labelledby="pills-api-tab" tabindex="0">
                 <form>
                     <div class="mb-5">
                         <label class="form-label">API 格式</label>
@@ -114,7 +114,8 @@
 - Markdown 强调标记：**粗体**、*斜体*、_斜体_
 
 输入可能是字幕、歌词、Markdown 文档或普通文本的片段。若原文不完整或不成句，按上下文推断后翻译，不要输出「无法翻译」之类的占位说明。</textarea>
-                        <div class="form-text">系统提示词，用于设定 AI 的翻译角色与规则。<b>不了解其作用请勿修改</b>。占位符：{source_lang}、{target_lang}</div>
+                        <div class="form-text">系统提示词，用于设定 AI 的翻译角色与规则。<b>不了解其作用请勿修改</b>。占位符：{source_lang}、{target_lang}
+                        </div>
                     </div>
 
                     <div class="mb-5">
@@ -129,7 +130,8 @@
 
 只输出译文本身，不要输出解释或原文。
 若上面的内容带有编号，译文必须保留完全相同的编号与顺序。</textarea>
-                        <div class="form-text">用户提示词，其中 {text} 会替换为待翻译文本。<b>不了解其作用请勿修改</b>。占位符：{source_lang}、{target_lang}、{text}</div>
+                        <div class="form-text">用户提示词，其中 {text}
+                            会替换为待翻译文本。<b>不了解其作用请勿修改</b>。占位符：{source_lang}、{target_lang}、{text}</div>
                     </div>
                 </form>
             </div>
@@ -166,9 +168,16 @@
                     </div>
 
                     <div class="mb-5">
-                        <label class="form-label">每块字数上限</label>
-                        <input class="form-control" type="number" id="fileChunkChars" min="200" max="20000" step="100">
+                        <label for="fileChunkChars" class="form-label">每块字数上限</label>
+                        <div class="form-range" data-bs-bubble>
+                            <input type="range" class="form-range-input" list="fileChunkCharsList" id="fileChunkChars" min="200" max="20000"
+                                step="100">
+                        </div>
                         <div class="form-text">单块最多包含的字符数，可接受范围 200–20000。数值越大请求越少、速度越快，但越容易超出模型上下文</div>
+                        <datalist id="fileChunkCharsList">
+                            <option value="200" label="200"></option>
+                            <option value="20000" label="20,000"></option>
+                        </datalist>
                     </div>
 
                     <div class="alert theme-warning d-none" id="fileChunkWarning">
@@ -183,8 +192,7 @@
                     </div>
                 </form>
             </div>
-            <div class="tab-pane" id="pills-about" role="tabpanel" aria-labelledby="pills-about-tab"
-                tabindex="0">
+            <div class="tab-pane" id="pills-about" role="tabpanel" aria-labelledby="pills-about-tab" tabindex="0">
                 <div>
                     <h2>EaziTrans 翻译</h2>
                     <p>By Workear</p>
@@ -231,15 +239,14 @@
 
     <!-- Toast 预留-->
     <div class="toast-container position-fixed top-0 start-50 translate-middle-x p-5">
-        <div id="toast" class="toast bg-subtle-primary fg-emphasis-primary border-subtle-primary" role="alert" aria-live="assertive"
-            aria-atomic="true">
+        <div id="toast" class="toast bg-subtle-primary fg-emphasis-primary border-subtle-primary" role="alert"
+            aria-live="assertive" aria-atomic="true">
             <div class="d-flex">
                 <div class="toast-body">
                     <i class="bi bi-info-circle m-auto"></i>
                     <span id="toastMessage"></span>
                 </div>
-                <button type="button" class="btn-close me-3 m-auto" data-bs-dismiss="toast"
-                    aria-label="Close"></button>
+                <button type="button" class="btn-close me-3 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
         </div>
     </div>
