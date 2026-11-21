@@ -28,9 +28,10 @@ function initSettingsForm() {
   applyTheme(settings.theme);
 }
 
-// 分块方式与字数互相影响：选「不分块」时字数输入框失效并给出警告
+// 分块方式与字数互相影响：选「不分块」时隐藏字数上限（该设置无效）并给出警告
 function syncChunkControls() {
   const whole = document.getElementById('fileChunkMode').value === 'whole';
+  document.getElementById('chunkCharsGroup').classList.toggle('d-none', whole);
   document.getElementById('fileChunkChars').disabled = whole;
   document.getElementById('fileChunkWarning').classList.toggle('d-none', !whole);
 }

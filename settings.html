@@ -154,7 +154,7 @@
                         <div class="form-text">按字数分块：把文件切成不超过上限的若干段，逐段请求并显示进度；不分块：整份文件作为一次请求发送</div>
                     </div>
 
-                    <div class="mb-3">
+                    <div class="mb-3" id="chunkCharsGroup">
                         <label class="form-label">每块字数上限</label>
                         <input class="form-control" type="number" id="fileChunkChars" min="200" max="20000" step="100">
                         <div class="form-text">单块最多包含的字符数，可接受范围 200–20000。数值越大请求越少、速度越快，但越容易超出模型上下文</div>
