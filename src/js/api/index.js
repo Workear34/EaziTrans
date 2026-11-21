@@ -28,7 +28,7 @@ export function createProvider(name) {
 }
 
 // 将用户配置的 API 基础地址解析为提供商的实际端点地址。
-// 兼容两种填法：基础地址（如 https://api.deepseek.com）或完整端点地址（已含路径则原样返回）。
+// 兼容两种填法：基础地址（如 https://api.example.com）或完整端点地址（已含路径则原样返回）。
 export function resolveEndpointUrl(baseUrl, path) {
   const trimmed = String(baseUrl || '').trim().replace(/\/+$/, '');
   return trimmed.endsWith(path) ? trimmed : trimmed + path;
