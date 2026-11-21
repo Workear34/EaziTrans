@@ -1,9 +1,21 @@
-import * as bootstrap from 'bootstrap';
+// Bootstrap 6 只提供 ESM，且不再有 window.bootstrap 全局对象。
+// 这里按需导入组件，避免 `import * as bootstrap from 'bootstrap'` 把
+// Datepicker / Combobox / Tooltip 等未用到的组件（及其 vanilla-calendar-pro
+// 与 @floating-ui/dom 依赖）一并打进产物。
+//
+// 导入模块本身即完成数据 API 注册（v6 用模块顶层副作用取代了 v5 的
+// defineJQueryPlugin，无需再手动初始化）：
+//   tab.js    → data-bs-toggle="tab"（注意：v6 已不支持 v5 的 "pill"）
+//   drawer.js → data-bs-toggle="drawer" / data-bs-dismiss="drawer"（响应式导航抽屉）
+import 'bootstrap/js/dist/tab.js';
+import 'bootstrap/js/dist/drawer.js';
+import Toast from 'bootstrap/js/dist/toast.js';
+import BootstrapDialog from 'bootstrap/js/dist/dialog.js';
 
 const toastBody = document.getElementById('toastMessage');
-const toast = new bootstrap.Toast(document.getElementById('toast'), { delay: 3000 });
+const toast = new Toast(document.getElementById('toast'), { delay: 3000 });
 
-// 模态框函数
+// Toast 提示函数
 export function showToast(msg, type = 'info') {
   // 已显示时忽略新的提示指令，避免频繁弹出
   if (toast.isShown()) return;
@@ -11,23 +23,24 @@ export function showToast(msg, type = 'info') {
   toast.show();
 }
 
-// 通用模态框封装
-export class Modal {
+// 通用对话框封装（v5 的 Modal 在 v6 更名为 Dialog，底层是原生 <dialog> 元素）
+export class Dialog {
   constructor(element) {
-    this.modal = new bootstrap.Modal(element);
+    this.dialog = BootstrapDialog.getOrCreateInstance(element);
   }
 
   show() {
-    this.modal.show();
+    return this.dialog.show();
   }
 
   hide() {
-    this.modal.hide();
+    return this.dialog.hide();
   }
 }
 
 // 按钮加载状态：显示时替换为 spinner 并禁用，隐藏时恢复原内容
-const SPINNER_HTML = '<span class="spinner-border spinner-border-sm" aria-hidden="true"></span><span class="visually-hidden" role="status">Loading...</span>';
+// 注意：v6 中 spinner-border-sm 更名为 spinner-sm
+const SPINNER_HTML = '<span class="spinner-border spinner-sm" aria-hidden="true"></span><span class="visually-hidden" role="status">Loading...</span>';
 
 export function setButtonLoading(button, show = true) {
   if (show) {

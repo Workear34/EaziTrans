@@ -1,8 +1,9 @@
 // Import our custom CSS
 import '../scss/styles.scss'
 
+import Range from 'bootstrap/js/dist/range.js'
 import { settings, loadSettings, saveSettings, resetSettings, DEFAULT_SETTINGS, clampFileChunkChars } from './settings.js';
-import { showToast, applyTheme, initThemeListener, Modal } from './ui.js';
+import { showToast, applyTheme, initThemeListener, Dialog } from './ui.js';
 
 // 项目版本：v0.4.0-4（43e0cc1 · 2026-11-09）
 // 版本号取自最近的 tag，-N 为距该 tag 的提交数；git 信息缺失时自动省略
@@ -22,10 +23,26 @@ function initSettingsForm() {
   document.getElementById('autoTranslate').checked = settings.autoTranslate;
   document.getElementById('fileChunkMode').value = settings.fileChunkMode;
   document.getElementById('fileChunkChars').value = settings.fileChunkChars;
+  syncChunkRange();
   document.getElementById('model').value = settings.model;
 
   syncChunkControls();
   applyTheme(settings.theme);
+}
+
+// 同步 Range 组件的数值气泡，并桥接 Sass 源码与插件写入的填充令牌
+function syncChunkRange() {
+  const input = document.getElementById('fileChunkChars');
+  const wrapper = input.closest('.form-range');
+  const range = Range.getOrCreateInstance(wrapper);
+
+  range.update();
+  syncChunkRangeFill(wrapper);
+}
+
+function syncChunkRangeFill(wrapper = document.getElementById('fileChunkChars').closest('.form-range')) {
+  const fill = wrapper.style.getPropertyValue('--bs-range-fill') || '0';
+  wrapper.style.setProperty('--range-fill', fill);
 }
 
 // 分块方式与字数互相影响：选「不分块」时字数输入框失效并给出警告
@@ -53,7 +70,7 @@ function collectAndSave() {
 }
 
 // 重置确认对话框
-const resetModal = new Modal(document.getElementById('resetModal'));
+const resetDialog = new Dialog(document.getElementById('resetDialog'));
 const resetBtn = document.getElementById('resetSettingsBtn');
 const confirmResetBtn = document.getElementById('confirmResetBtn');
 
@@ -103,6 +120,8 @@ function bindEvents() {
     });
   }
 
+  document.getElementById('fileChunkChars').addEventListener('input', () => syncChunkRangeFill());
+
   // API 地址失焦时校验 URL 格式
   document.getElementById('apiUrl').addEventListener('blur', () => {
     const apiUrl = document.getElementById('apiUrl').value.trim();
@@ -115,9 +134,9 @@ function bindEvents() {
   });
 
   // 重置所有设置
-  resetBtn.addEventListener('click', () => resetModal.show());
+  resetBtn.addEventListener('click', () => resetDialog.show());
   confirmResetBtn.addEventListener('click', () => {
-    resetModal.hide();
+    resetDialog.hide();
     resetForm();
   });
 
