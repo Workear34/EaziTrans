@@ -45,11 +45,14 @@ function syncChunkRangeFill(wrapper = document.getElementById('fileChunkChars').
   wrapper.style.setProperty('--range-fill', fill);
 }
 
-// 分块方式与字数互相影响：选「不分块」时字数输入框失效并给出警告
+// 分块方式与字数互相影响：选「不分块」时隐藏字数上限（该设置无效）并给出警告
 function syncChunkControls() {
   const whole = document.getElementById('fileChunkMode').value === 'whole';
+  document.getElementById('chunkCharsGroup').classList.toggle('d-none', whole);
   document.getElementById('fileChunkChars').disabled = whole;
   document.getElementById('fileChunkWarning').classList.toggle('d-none', !whole);
+  // 从隐藏切回可见时气泡宽度为 0，重新同步一次数值气泡位置
+  if (!whole) syncChunkRange();
 }
 
 // 收集当前表单值并保存

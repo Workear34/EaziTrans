@@ -167,7 +167,7 @@
                         <div class="form-text">按字数分块：把文件切成不超过上限的若干段，逐段请求并显示进度；不分块：整份文件作为一次请求发送</div>
                     </div>
 
-                    <div class="mb-5">
+                    <div class="mb-5" id="chunkCharsGroup">
                         <label for="fileChunkChars" class="form-label">每块字数上限</label>
                         <div class="form-range" data-bs-bubble>
                             <input type="range" class="form-range-input" list="fileChunkCharsList" id="fileChunkChars" min="200" max="20000"
