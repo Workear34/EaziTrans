@@ -23,3 +23,9 @@ dist-ssr
 *.sln
 *.sw?
 .superpowers/
+
+# 本地 skills 工具目录（skills CLI 安装，不纳入版本控制）
+/.agents/
+/.claude/
+/agent/
+/skills-lock.json
