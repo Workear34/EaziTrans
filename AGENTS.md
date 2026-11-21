@@ -58,7 +58,7 @@ settings.html        — 设置页 UI 布局
 - **设置持久化**：`settings.js` 管理所有配置（API 地址、密钥、模型、System Prompt、User Prompt、主题、提供商），通过 `localStorage` 读写，新增 `provider` key。
 - **设置自动保存**：`settings-page.js` 监听表单各控件的 `input`/`change` 事件，改动即调用 `saveSettings()` 写入 localStorage，无保存按钮；`apiUrl` 失焦时校验 URL 格式。
 - **提供商架构**：`createProvider(name)` 工厂函数返回对应实例，新增提供商只需新建 `api/xxx.js` 实现 `Provider` 接口并注册。当前支持 `openai`、`openai-responses` 和 `claude`。
-- **端点地址解析**：`resolveEndpointUrl(baseUrl, path)` 将用户配置的 API 基础地址（如 `https://api.deepseek.com`）与提供商 `endpointPath`（`/chat/completions`、`/responses`、`/v1/messages`）拼接为实际请求地址；末尾斜杠归一化，若地址已含完整路径则原样使用。
+- **端点地址解析**：`resolveEndpointUrl(baseUrl, path)` 将用户配置的 API 基础地址（如 `https://api.example.com`）与提供商 `endpointPath`（`/chat/completions`、`/responses`、`/v1/messages`）拼接为实际请求地址；末尾斜杠归一化，若地址已含完整路径则原样使用。
 - **流式翻译**：`translate()` 函数调用 `provider.buildRequest()` 构建请求 → `resolveEndpointUrl()` 解析端点 → `fetch` → `provider.stream()` 流式读取并实时填充译文文本框。
 - **OpenAI 适配器**：构建 Chat Completions 请求体；附加 `thinking: { type: 'disabled' }` 显式关闭思考模式（DeepSeek v4 默认开启）；SSE 解析 `data:` 行 + `[DONE]` 结束。
 - **OpenAI Responses 适配器**：构建 Responses API 请求体（顶层 `instructions`、`input` 数组、`stream: true`、`reasoning: { effort: 'none' }` 关闭思考模式）；SSE 解析 `event:` + `data:` 配对，提取 `response.output_text.delta` 的 `delta`，`response.completed` 结束。
